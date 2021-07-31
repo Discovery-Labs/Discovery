@@ -3,5 +3,15 @@
   "private": true,
   "devDependencies": {
     "lerna": "^4.0.0"
-  }
+  },
+  "scripts": {
+    "bootstrap": "yarn install; lerna bootstrap;",
+    "start": "lerna run start --parallel",
+    "start:user": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope user --stream dev",
+    "build:user": "node -r ./dotenv.config.js node_modules/.bin/lerna run --scope user --stream build",
+    "run:build:user": "lerna run start --scope user"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }
