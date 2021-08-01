@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",
+    "@discovery-decrypted/schemas": "1.0.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "framer-motion": "^4",
