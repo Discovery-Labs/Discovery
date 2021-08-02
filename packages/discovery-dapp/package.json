@@ -17,6 +17,7 @@
     "@openzeppelin/contracts": "^4.2.0",
     "axios": "^0.21.1",
     "chai": "^4.3.4",
+    "dotenv": "^10.0.0",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.3",
     "framer-motion": "^4",
@@ -30,6 +31,7 @@
     "web3modal": "^1.9.3"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.4",
     "eslint": "7.32.0",
     "eslint-config-next": "11.0.1"
   }

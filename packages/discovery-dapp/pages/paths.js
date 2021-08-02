@@ -9,42 +9,42 @@ import Web3Modal from "web3modal";
 const Paths = () => {
   const [address, setAddress] = useState();
   useEffect(() => {
-    async function fetchUser() {
-      const web3Modal = new Web3Modal();
-      const connection = await web3Modal.connect();
-      const provider = new ethers.providers.Web3Provider(connection);
-      const signer = provider.getSigner();
-      const userAddress = await signer.getAddress();
-      setAddress(userAddress);
-      setEventListeners(provider);
-
-      console.log("Account:", userAddress);
-    }
-
-    function setEventListeners(provider) {
-      // Subscribe to accounts change
-      provider.on("accountsChanged", (accounts) => {
-        console.log(accounts);
-      });
-
-      // Subscribe to chainId change
-      provider.on("chainChanged", (chainId) => {
-        console.log(chainId);
-      });
-
-      // Subscribe to provider connection
-      provider.on("connect", (info) => {
-        console.log(info);
-      });
-
-      // Subscribe to provider disconnection
-      provider.on("disconnect", (error) => {
-        console.log(error);
-      });
-    }
-
     fetchUser();
   }, []);
+
+  async function fetchUser() {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const userAddress = await signer.getAddress();
+    setAddress(userAddress);
+    setEventListeners(provider);
+
+    console.log("Account:", userAddress);
+  }
+
+  function setEventListeners(provider) {
+    // Subscribe to accounts change
+    provider.on("accountsChanged", (accounts) => {
+      console.log(accounts);
+    });
+
+    // Subscribe to chainId change
+    provider.on("chainChanged", (chainId) => {
+      console.log(chainId);
+    });
+
+    // Subscribe to provider connection
+    provider.on("connect", (info) => {
+      console.log(info);
+    });
+
+    // Subscribe to provider disconnection
+    provider.on("disconnect", (error) => {
+      console.log(error);
+    });
+  }
 
   return (
     <PageTransition>
