@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
 import Header from "../components/header";
 import MobileNavigation from "../components/mobile-navigation";
@@ -16,7 +16,9 @@ function App({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <Header />
-      <Component {...pageProps} />
+      <Box as="main" pt={{ base: 16, md: 32 }} pb={{ base: 24, md: 16 }}>
+        <Component {...pageProps} />
+      </Box>{" "}
       <MobileNavigation />
     </ChakraProvider>
   );
