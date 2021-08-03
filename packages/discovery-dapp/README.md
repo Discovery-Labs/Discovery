@@ -35,6 +35,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Test Contracts (Mumbai)
 
-NFTStore: 0xE429c3885BAa6b5b5ab2b2795467c803A04E6Cb4
-DiscoveryMergeNFT: 0x7BfAE155fa6A54f6fc09519652e681C2e1Ba54b6
-QuestCompleteNFT: 0xA75B2928457A78A9BEB9e0ABd447554D11798A10
+- NFTStore: 0xE429c3885BAa6b5b5ab2b2795467c803A04E6Cb4
+- DiscoveryMergeNFT: 0x7BfAE155fa6A54f6fc09519652e681C2e1Ba54b6
+- QuestCompleteNFT: 0xA75B2928457A78A9BEB9e0ABd447554D11798A10
