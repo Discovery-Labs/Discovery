@@ -1,11 +1,11 @@
 {
-  "name": "shared",
+  "name": "@discovery-decrypted/schemas",
   "version": "0.0.1",
-  "description": "> TODO: description",
-  "author": "aeither <36173828+aeither@users.noreply.github.com>",
+  "description": "JSON Schema definitions for Discovery",
+  "main": "index.js",
+  "author": "Cali93 <armut.cumaali@gmail.com>",
   "homepage": "https://github.com/Discovery-Labs/Discovery#readme",
   "license": "ISC",
-  "main": "src/index.js",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -13,6 +13,9 @@
   "files": [
     "lib"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Discovery-Labs/Discovery.git"
