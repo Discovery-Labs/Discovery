@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",
-    "@discovery-decrypted/schemas": "1.0.0",
+    "@discovery-decrypted/schemas": "0.0.1",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
