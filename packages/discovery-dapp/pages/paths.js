@@ -85,32 +85,32 @@ const Paths = ({ categories }) => {
     const signer = provider.getSigner();
     const userAddress = await signer.getAddress();
     setAddress(userAddress);
-    setEventListeners(provider);
+    // setEventListeners(provider);
     setContracts(signer);
     console.log("Account:", userAddress);
   }
 
-  function setEventListeners(provider) {
-    // Subscribe to accounts change
-    provider.on("accountsChanged", (accounts) => {
-      console.log(accounts);
-    });
+  // function setEventListeners(provider) {
+  //   // Subscribe to accounts change
+  //   provider.on("accountsChanged", (accounts) => {
+  //     console.log(accounts);
+  //   });
 
-    // Subscribe to chainId change
-    provider.on("chainChanged", (chainId) => {
-      console.log(chainId);
-    });
+  //   // Subscribe to chainId change
+  //   provider.on("chainChanged", (chainId) => {
+  //     console.log(chainId);
+  //   });
 
-    // Subscribe to provider connection
-    provider.on("connect", (info) => {
-      console.log(info);
-    });
+  //   // Subscribe to provider connection
+  //   provider.on("connect", (info) => {
+  //     console.log(info);
+  //   });
 
-    // Subscribe to provider disconnection
-    provider.on("disconnect", (error) => {
-      console.log(error);
-    });
-  }
+  //   // Subscribe to provider disconnection
+  //   provider.on("disconnect", (error) => {
+  //     console.log(error);
+  //   });
+  // }
 
   function setContracts(signer) {
     // Assign contract
