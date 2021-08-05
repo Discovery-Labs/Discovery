@@ -23,7 +23,7 @@ const NETWORK_CONFIGS: Record<AppNetwork, ConfigURLs> = {
     verificationsServer: 'https://verifications-clay.3boxlabs.com',
   },
   'testnet-clay': {
-    ceramic: 'https://ceramic-private-clay.3boxlabs.com',
+    ceramic: 'https://ceramic-clay.3boxlabs.com',
     connectNetwork: 'testnet-clay',
     verificationsServer: 'https://verifications-clay.3boxlabs.com',
   },
