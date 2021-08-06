@@ -1,4 +1,4 @@
-const CourseSchema = {
+export const CourseSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Course',
   description: 'A course covers a specific topic within a project or an ecosystem',
@@ -13,9 +13,6 @@ const CourseSchema = {
       type: 'string',
       format: 'date-time',
       maxLength: 30,
-    },
-    courseId: {
-      type: 'string'
     },
     files: {
       type: 'array',
