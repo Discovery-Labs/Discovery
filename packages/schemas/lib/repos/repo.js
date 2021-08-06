@@ -1,4 +1,4 @@
-export const RepoSchema = {
+const RepoSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Project',
   type: 'object',
@@ -31,4 +31,8 @@ export const RepoSchema = {
       }
     }
   }
+}
+
+module.exports = {
+  RepoSchema
 }
