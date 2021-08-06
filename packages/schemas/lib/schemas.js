@@ -8,14 +8,12 @@ const { RepoSchema } = require('./repos/repo');
 const { ReposSchema } = require('./repos/repos');
 
 module.exports = {
-    schemas: {
-        discovery: {
-            courses: CoursesSchema,
-            course: CourseSchema,
-            projects: ProjectsSchema,
-            project: ProjectSchema,
-            repos: ReposSchema,
-            repo: RepoSchema,
-        }
+    discovery: {
+        courses: CoursesSchema,
+        course: CourseSchema,
+        projects: ProjectsSchema,
+        project: ProjectSchema,
+        repos: ReposSchema,
+        repo: RepoSchema,
     }
 };
