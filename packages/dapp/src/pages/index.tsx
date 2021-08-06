@@ -1,224 +1,224 @@
-import { Anchor, Box, Heading, Spinner, Text, TextInput } from 'grommet'
-import Head from 'next/head'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import type { FormEvent } from 'react'
+import React from 'react'
+import {
+  VStack,
+  HStack,
+  Text,
+  Heading,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  useColorModeValue,
+  SimpleGrid,
+  Button,
+} from '@chakra-ui/react'
+import PageTransition from '../components/page-transitions'
+import Section from '../components/section'
+import { ethers } from 'ethers'
+import { useEffect, useState } from 'react'
+import Web3Modal from 'web3modal'
 
-import backgroundImage from '../images/home-background.jpg'
-import linkIcon from '../images/icons/home-link.svg'
-import metaverseIcon from '../images/icons/home-metaverse.svg'
-import profileIcon from '../images/icons/home-profile.svg'
-import verifyIcon from '../images/icons/home-verify.svg'
-import searchIcon from '../images/icons/search.svg'
-import footerDiscordIcon from '../images/icons/social-discord.svg'
-import footerGithubIcon from '../images/icons/social-github.svg'
-import footerTwitterIcon from '../images/icons/social-twitter.svg'
+import ContentCard from '../components/content-card'
 
-import Navbar from '../components/Navbar'
-import OpenGraphMeta from '../components/OpenGraphMeta'
-import { BRAND_COLOR } from '../theme'
-import { withMediaQuery } from '../components/media-query/with-media-query'
+import NFTStore from '../../abis/NFTStore.json'
+import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
+import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
-import { Input } from '@chakra-ui/react'
+const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
+const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
+const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
 
-const ResponsiveHeading = withMediaQuery(Heading)
-const ResponsiveText = withMediaQuery(Text)
-const ResponsiveTextInput = withMediaQuery(TextInput)
-const ResponsiveBox = withMediaQuery(Box)
+export function getStaticProps() {
+  const categories = [
+    {
+      category: 'polygon',
+      id: '1',
+      title: 'Course How to Do X',
+      description: 'For 1 cup of uncooked quinoa,',
+      image: '/abstract.png',
+      link: 'https://google.com',
+    },
+    {
+      category: 'polygon',
+      id: '1',
+      title: 'Course How to Do X',
+      description: 'For 1 cup of uncooked quinoa,',
+      image: '/abstract.png',
+      link: 'https://google.com',
+    },
+    {
+      category: 'polygon',
+      id: '1',
+      title: 'Course How to Do X',
+      description: 'For 1 cup of uncooked quinoa,',
+      image: '/abstract.png',
+      link: 'https://google.com',
+    },
+  ]
 
-export default function Home() {
-  const router = useRouter()
-  const [loading, setLoading] = useState<boolean>(false)
-  const [focus, setFocus] = useState<boolean>(false)
-  const [value, setValue] = useState<string>('')
+  return {
+    props: {
+      categories,
+    },
+    revalidate: 600,
+  }
+}
 
-  function onSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setLoading(true)
-    void router.push(`/${value}`)
+interface Cards {
+  categories: [{
+    category: string
+    id: number
+    title: string
+    description: string
+    image: string
+    link: string
+  }]
+}
+
+const Paths = (props: Cards) => {
+  const [address, setAddress] = useState('')
+  const [storeContract, setStoreContract] = useState({})
+  const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
+  const [questNFTContract, setQuestNFTContract] = useState({})
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
+  async function fetchUser() {
+    const web3Modal = new Web3Modal()
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner()
+    const userAddress = await signer.getAddress()
+    setAddress(userAddress)
+    // setEventListeners(provider);
+    setContracts(signer)
+    console.log('Account:', userAddress)
   }
 
-  const inputIcon = loading ? (
-    <Spinner />
-  ) : (
-    <Box margin={{ left: 'small' }}>
-      <Image alt="" src={searchIcon as StaticImageData} height={24} width={24} />
-    </Box>
-  )
+  function setContracts(signer: ethers.providers.JsonRpcSigner) {
+    // Assign contract
+    const storeContract = new ethers.Contract(NFTStoreAddress, NFTStore, signer)
+    const discoveryMergeNFTContract = new ethers.Contract(
+      DiscoveryMergeNFTAddress,
+      DiscoveryMergeNFT,
+      signer
+    )
+    const questNFTContract = new ethers.Contract(QuestCompleteNFTAddress, QuestCompleteNFT, signer)
+    setStoreContract(storeContract)
+    setDiscoveryMergeNFTContract(discoveryMergeNFTContract)
+    setQuestNFTContract(questNFTContract)
+  }
+
+  async function getOwner() {
+    return storeContract
+  }
 
   return (
-    <ResponsiveBox
-      direction="row"
-      align="center"
-      style={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundImage: `url(${backgroundImage.src})`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'bottom right',
-      }}
-      mediaQuery={{
-        'padding-bottom': ['60%', '20%', '0px'],
-        'background-size': ['90%', 'inherit', 'inherit'],
-      }}>
-      <Box
-        style={{
-          display: 'flex',
-          minHeight: '100vh',
-          flexDirection: 'column',
-          maxWidth: '1536px',
-        }}
-        fill="horizontal">
-        <Head>
-          <title>Self.ID</title>
-          <OpenGraphMeta />
-        </Head>
-        
-        <Box flex>
-          <Box alignSelf="center" pad="small">
-            <Box align="center" margin={{ top: '6%' }}>
-              A profile 100% owned by you Be your self
-              <form
-                onSubmit={onSubmit}
-                style={{
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                }}>
-                <Input
-                  disabled={loading}
-                  icon={inputIcon}
-                  id="did"
-                  onChange={(event) => setValue(event.target.value)}
-                  onBlur={() => setFocus(false)}
-                  onFocus={() => setFocus(true)}
-                  placeholder="Search by DID or blockchain address"
-                  style={{
-                    borderWidth: 0,
-                    borderRadius: 30,
-                    padding: 18,
-                    paddingLeft: 60,
-                    boxShadow: `0 2px 20px ${focus ? BRAND_COLOR : 'rgba(0,0,0,0.5)'}`,
-                    width: '100%',
-                  }}
-                  value={value}
-                />
-              </form>
-            </Box>
-          </Box>
-          <ResponsiveBox
-            alignSelf="center"
-            margin={'medium'}
-            style={{ backgroundColor: 'rgba(255,255,255,0.8)' }}>
-            <Box direction="row">
-              <Box direction="row" pad="medium" width="300px">
-                <Box flex={false} margin="small">
-                  <Image
-                    alt="profile"
-                    src={profileIcon as StaticImageData}
-                    width={27}
-                    height={30}
-                  />
-                </Box>
-                <Box>
-                  <Text color="brand" size="large" weight={600}>
-                    Create a public profile
-                  </Text>
-                </Box>
-              </Box>
-              <Box direction="row" pad="medium" width="300px">
-                <Box flex={false} margin="small">
-                  <Image alt="link" src={linkIcon as StaticImageData} width={36} height={23} />
-                </Box>
-                <Box>
-                  <Text color="brand" size="large" weight={600}>
-                    Link crypto wallets from many chains
-                  </Text>
-                </Box>
-              </Box>
-            </Box>
-            <Box direction="row">
-              <Box direction="row" pad="medium" width="300px">
-                <Box flex={false} margin="small">
-                  <Image alt="verify" src={verifyIcon as StaticImageData} width={27} height={30} />
-                </Box>
-                <Box>
-                  <Text color="brand" size="large" weight={600}>
-                    Verify your social accounts
-                  </Text>
-                </Box>
-              </Box>
-              <Box direction="row" pad="medium" width="300px">
-                <Box flex={false} margin="small">
-                  <Image
-                    alt="metaverse"
-                    src={metaverseIcon as StaticImageData}
-                    width={32}
-                    height={32}
-                  />
-                </Box>
-                <Box>
-                  <Text color="brand" size="large" weight={600}>
-                    Use it across the Web3 metaverse
-                  </Text>
-                </Box>
-              </Box>
-            </Box>
-          </ResponsiveBox>
-        </Box>
-        <Box direction="row" pad="medium">
-          <Box
-            direction={'row'}
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.8)',
-              fontSize: 0,
-              lineHeight: 0,
-              padding: '0.2rem 0.6rem 0 0.2rem',
-            }}>
-            <Anchor href="https://github.com/ceramicstudio/self.id" style={{ padding: '6px' }}>
-              <Image alt="GitHub" src={footerGithubIcon as StaticImageData} />
-            </Anchor>
-            <Anchor href="https://discord.gg/TPmE2rdNWK" style={{ padding: '6px' }}>
-              <Image alt="Discord" src={footerDiscordIcon as StaticImageData} />
-            </Anchor>
-            <Anchor href="https://twitter.com/mySelfID" style={{ padding: '6px' }}>
-              <Image alt="Twitter" src={footerTwitterIcon as StaticImageData} />
-            </Anchor>
-            {/* <Anchor color="text" href="#" label="About" margin={{ left: 'medium', right: 'small' }} />
-        <Anchor
-          color="text"
-          href="#"
-          label="Integration"
-          margin={{ left: 'small', right: 'medium' }}
-        /> */}
-            <Text margin={{ left: 'medium' }}>
-              Powered by{' '}
-              <Anchor
-                color="text"
-                href="https://github.com/ceramicstudio/3id-connect"
-                label="3ID DID"
-                style={{ textDecoration: 'underline' }}
-              />
-              ,{' '}
-              <Anchor
-                color="text"
-                href="https://www.ceramic.network"
-                label="Ceramic Network"
-                style={{ textDecoration: 'underline' }}
-              />
-              , and{' '}
-              <Anchor
-                color="text"
-                href="https://idx.xyz"
-                label="IDX"
-                style={{ textDecoration: 'underline' }}
-              />
+    <PageTransition>
+      <VStack spacing={8}>
+        <Section>
+          <VStack>
+            <Text
+              fontSize={['m', 'l']}
+              color={useColorModeValue('gray.800', 'gray.600')}
+              maxW="lg"
+              textAlign="center">
+              Connected with: {address}
             </Text>
-          </Box>
-        </Box>
-      </Box>
-    </ResponsiveBox>
+            <Heading as="h1">Paths</Heading>
+            <Text
+              fontSize={['xl', '2xl']}
+              color={useColorModeValue('gray.500', 'gray.200')}
+              maxW="lg"
+              textAlign="center">
+              Discovery paths categories: social entertainment, video, virtual reality, art &
+              collectibles
+            </Text>
+            <Button onClick={getOwner}>Click</Button>
+          </VStack>
+        </Section>
+        <Section>
+          <Tabs variant="soft-rounded" colorScheme="blue" align="center" w="100%">
+            <TabList display="flex" flexWrap="wrap">
+              <Tab
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.500', 'gray.500')}
+                _selected={{
+                  color: useColorModeValue('gray.100', 'gray.800'),
+                  bg: useColorModeValue('gray.900', 'gray.100'),
+                }}
+                mr={2}
+                mt={2}>
+                <HStack spacing={1}>
+                  <Text>Polygon</Text>
+                </HStack>
+              </Tab>
+              <Tab
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.600', 'gray.500')}
+                _selected={{
+                  color: 'green.800',
+                  bg: 'green.100',
+                }}
+                mr={2}
+                mt={2}>
+                <HStack spacing={1}>
+                  <Text>Ethereum</Text>
+                </HStack>
+              </Tab>
+              <Tab
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.600', 'gray.500')}
+                _selected={{
+                  color: 'red.800',
+                  bg: 'red.100',
+                }}
+                mr={2}
+                mt={2}
+                s>
+                <HStack spacing={1}>
+                  <Text>The Graph</Text>
+                </HStack>
+              </Tab>
+              <Tab
+                bg={useColorModeValue('gray.100', 'gray.800')}
+                color={useColorModeValue('gray.600', 'gray.500')}
+                _selected={{
+                  color: 'blue.800',
+                  bg: 'blue.100',
+                }}
+                mr={2}
+                mt={2}>
+                <HStack spacing={1}>
+                  <Text>Bitcoin</Text>
+                </HStack>
+              </Tab>
+            </TabList>
+            <TabPanels>
+              <TabPanel px={0}>
+                <SimpleGrid columns={[1, 2]} spacing={4} mt={8}>
+                  {props.categories
+                    .filter((el) => el.category === 'polygon')
+                    .map((el) => (
+                      <ContentCard
+                        key={el.id}
+                        name={el.title}
+                        description={el.description}
+                        image={el.image}
+                        link={el.link}
+                      />
+                    ))}
+                </SimpleGrid>
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
+        </Section>
+      </VStack>
+    </PageTransition>
   )
 }
+
+export default Paths
