@@ -27,11 +27,12 @@ exports.RepoSchema = {
         $ref: "#/components/schemas/CeramicDocId"
       }
     },
-    definitions: {
-      CeramicStreamId: {
-        type: 'string',
-        pattern: '^ceramic://.+(\\\\?version=.+)?',
-        maxLength: 150,
-      },
+  },
+  definitions: {
+    CeramicStreamId: {
+      type: 'string',
+      pattern: '^ceramic://.+(\\\\?version=.+)?',
+      maxLength: 150,
     },
-  }
+  },
+}
