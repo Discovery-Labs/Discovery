@@ -12,6 +12,7 @@ import {
   useColorModeValue,
   SimpleGrid,
   Button,
+  Flex,
 } from '@chakra-ui/react'
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
@@ -25,9 +26,15 @@ import NFTStore from '../../abis/NFTStore.json'
 import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
 import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
+import { InfoIcon } from '@chakra-ui/icons'
+import { Popover } from '../components/Popover'
+
+
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
 const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
+
+const PROJECTS_POPOVER_TEXT = <p>Click on the projects to see more details about it.<br /> Also, there are filters to explore projects according to certain titles and technologies.</p>
 
 export function getStaticProps() {
   const categories = [
@@ -66,14 +73,16 @@ export function getStaticProps() {
 }
 
 interface Cards {
-  categories: [{
-    category: string
-    id: number
-    title: string
-    description: string
-    image: string
-    link: string
-  }]
+  categories: [
+    {
+      category: string
+      id: number
+      title: string
+      description: string
+      image: string
+      link: string
+    }
+  ]
 }
 
 const Paths = (props: Cards) => {
@@ -128,7 +137,13 @@ const Paths = (props: Cards) => {
               textAlign="center">
               Connected with: {address}
             </Text>
-            <Heading as="h1">Paths</Heading>
+            <Heading fontSize="10vw" bgGradient="linear(to-l, #7928CA, #FF0080)" bgClip="text">
+              Paths
+            </Heading>
+            <Popover
+              popoverTextElement={PROJECTS_POPOVER_TEXT}
+              buttonContent={<InfoIcon boxSize={5} color="green.400" />}
+            />
             <Text
               fontSize={['xl', '2xl']}
               color={useColorModeValue('gray.500', 'gray.200')}

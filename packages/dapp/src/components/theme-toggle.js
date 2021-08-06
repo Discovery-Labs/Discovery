@@ -6,7 +6,7 @@ import MobileMenuButton from "./mobile-menu-button";
 
 const ThemeToggle = ({ mobile }) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const [play] = useSound("/switch.mp3", {
+  const [play] = useSound("switch.mp3", {
     volume: 0.05,
     sprite: {
       on: [0, 300],
