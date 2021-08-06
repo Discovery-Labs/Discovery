@@ -4,7 +4,7 @@ exports.ProjectSchema = {
   type: 'object',
   properties: {
     // "id": {
-    //   "$ref": "#/components/schemas/CeramicDocId"
+    //   "$ref": "#/definitions/schemas/CeramicDocId"
     // },
     name: {
       type: "string"
@@ -39,19 +39,19 @@ exports.ProjectSchema = {
     categories: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/CeramicDocId"
+        $ref: "#/definitions/schemas/CeramicDocId"
       }
     },
     repos: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/CeramicDocId"
+        $ref: "#/definitions/schemas/CeramicDocId"
       }
     },
     peerProjects: {
       type: "array",
       items: {
-        $ref: "#/components/schemas/CeramicDocId"
+        $ref: "#/definitions/schemas/CeramicDocId"
       }
     }
   },
