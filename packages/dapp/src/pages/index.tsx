@@ -13,11 +13,16 @@ import {
   SimpleGrid,
   Button,
   Flex,
+  InputGroup,
+  InputLeftElement,
+  Input,
 } from '@chakra-ui/react'
+import { Search2Icon, SettingsIcon } from '@chakra-ui/icons'
+
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
 import { ethers } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ChangeEvent, useCallback } from 'react'
 import Web3Modal from 'web3modal'
 
 import ContentCard from '../components/content-card'
@@ -29,12 +34,11 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
 
-
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
 const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
 
-const PROJECTS_POPOVER_TEXT = <p>Click on the projects to see more details about it.<br /> Also, there are filters to explore projects according to certain titles and technologies.</p>
+
 
 export function getStaticProps() {
   const categories = [
@@ -95,6 +99,25 @@ const Paths = (props: Cards) => {
     fetchUser()
   }, [])
 
+  const PROJECTS_POPOVER_TEXT = (
+    <p>
+      Click on the projects to see more details about it.
+      <br /> Also, there are filters to explore projects according to certain titles and technologies.
+    </p>
+  )
+  
+  const inputCss = {
+    '&:hover': { borderColor: 'initial' },
+  }
+  
+  const inputGroupCss = {
+    margin: '0 !important',
+  }
+  
+  const handleTitleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    console.log(event.target.value)
+  }, [])
+  
   async function fetchUser() {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
@@ -124,10 +147,24 @@ const Paths = (props: Cards) => {
   async function getOwner() {
     return storeContract
   }
-
   return (
     <PageTransition>
       <VStack spacing={8}>
+        <Section>
+          <VStack>
+            <InputGroup flex={1} css={inputGroupCss}>
+              <InputLeftElement pointerEvents="none">
+                <Search2Icon color="gray.300" />
+              </InputLeftElement>
+              <Input
+                css={inputCss}
+                type="text"
+                onChange={handleTitleInputChange}
+                placeholder="Search for project title"
+              />
+            </InputGroup>
+          </VStack>
+        </Section>
         <Section>
           <VStack>
             <Text
