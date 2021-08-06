@@ -17,7 +17,7 @@ export default function EditProfilePage() {
         <title>My profile | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      <Navbar />
+      
       <Box alignSelf="center" margin="large" pad="medium" width="large">
         <EditProfileScreen />
       </Box>

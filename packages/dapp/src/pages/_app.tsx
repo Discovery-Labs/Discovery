@@ -5,10 +5,12 @@ import NextApp, { AppInitialProps } from 'next/app'
 import Head from 'next/head'
 import { Toaster } from 'react-hot-toast'
 import { createGlobalStyle } from 'styled-components'
+import { Box, ChakraProvider } from "@chakra-ui/react";
+import Header from '../components/header'
 
-const GlobalStyle = createGlobalStyle`   
+const GlobalStyle = createGlobalStyle`
   @font-face {
-    font-family: Segment;       
+    font-family: Segment;
     font-style: normal;
     font-weight: 400;
     font-display: fallback;
@@ -18,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
       url('/fonts/Segment-Regular.woff') format('woff');
   }
   @font-face {
-    font-family: Segment;       
+    font-family: Segment;
     font-style: normal;
     font-weight: 500;
     font-display: fallback;
@@ -28,7 +30,7 @@ const GlobalStyle = createGlobalStyle`
       url('/fonts/Segment-Medium.woff') format('woff');
   }
   @font-face {
-    font-family: Segment;       
+    font-family: Segment;
     font-style: normal;
     font-weight: 600;
     font-display: fallback;
@@ -53,16 +55,21 @@ export default class App extends NextApp<AppInitialProps> {
     return (
       <MultiauthProvider providers={[{ key: 'ethereum', connectors }]} theme={theme}>
         <StateProvider>
-          <Grommet full theme={theme}>
-            <GlobalStyle />
-            <Head>
-              <link rel="icon" href="/favicon.ico" />
-              <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-              <meta name="fortmatic-site-verification" content="4keQaoARYXbW4snM" />
-            </Head>
-            <Component {...pageProps} />
-            <Toaster />
-          </Grommet>
+          <ChakraProvider>
+            <Header />
+            <Grommet full theme={theme}>
+              <GlobalStyle />
+              <Head>
+                <link rel="icon" href="/favicon.ico" />
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="fortmatic-site-verification" content="4keQaoARYXbW4snM" />
+              </Head>
+              <Box as="main" pt={{ base: 16, md: 32 }} pb={{ base: 24, md: 16 }}>
+                <Component {...pageProps} />
+              </Box>{' '}
+              <Toaster />
+            </Grommet>
+          </ChakraProvider>
         </StateProvider>
       </MultiauthProvider>
     )

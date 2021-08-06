@@ -18,7 +18,7 @@ export default function SocialAccountsPage() {
         <title>My social accounts | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      <Navbar />
+      
       <Box alignSelf="center" margin="large" pad="medium" width="large">
         <SocialAccountsScreen />
       </Box>

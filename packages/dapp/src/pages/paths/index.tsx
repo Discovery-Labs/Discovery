@@ -116,7 +116,7 @@ const Paths = ({ categories }: { categories: Category[] }) => {
 
   return (
     <Layout>
-      <Navbar />
+      
       <Box>
         <Text color={useColorModeValue('gray.800', 'gray.600')} textAlign="center">
           Connected with: {address}

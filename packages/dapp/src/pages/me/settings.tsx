@@ -17,7 +17,7 @@ export default function SettingsPage() {
         <title>Settings | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      <Navbar />
+      
       <Box alignSelf="center" margin="large" pad="medium" width="large">
         <SettingsScreen />
       </Box>

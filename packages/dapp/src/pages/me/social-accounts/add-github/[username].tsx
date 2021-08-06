@@ -18,7 +18,7 @@ export default function AddGitHubAccountPage() {
         <title>Add GitHub account | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      <Navbar />
+      
       <Box alignSelf="center" margin="large" pad="medium" width="large">
         <AddGitHubAccountScreen />
       </Box>

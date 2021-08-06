@@ -172,7 +172,7 @@ function NoProfile({ id, support }: NoProfileProps) {
       <Head>
         <title>No profile | self.ID</title>
       </Head>
-      <Navbar />
+      
       <Header />
       <Box alignSelf="center" width="large">
         <Box direction="row" flex>
@@ -322,7 +322,7 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
         {metaDescription}
         {metaImage}
       </Head>
-      <Navbar />
+      
       <Header url={getImageURL(profile.background, { height: 310, width: 2000 })} />
       <Box alignSelf="center" width="large" pad="medium">
         <Box direction="row" flex>

@@ -20,6 +20,8 @@ import OpenGraphMeta from '../components/OpenGraphMeta'
 import { BRAND_COLOR } from '../theme'
 import { withMediaQuery } from '../components/media-query/with-media-query'
 
+import { Input } from '@chakra-ui/react'
+
 const ResponsiveHeading = withMediaQuery(Heading)
 const ResponsiveText = withMediaQuery(Text)
 const ResponsiveTextInput = withMediaQuery(TextInput)
@@ -72,25 +74,11 @@ export default function Home() {
           <title>Self.ID</title>
           <OpenGraphMeta />
         </Head>
-        <Navbar />
+        
         <Box flex>
           <Box alignSelf="center" pad="small">
             <Box align="center" margin={{ top: '6%' }}>
-              <ResponsiveText
-                weight={500}
-                mediaQuery={{
-                  'font-size': ['4vw', '2vw', '1.5vw'],
-                }}>
-                A profile 100% owned by you
-              </ResponsiveText>
-              <ResponsiveHeading
-                mediaQuery={{
-                  'margin-top': ['2rem', '2rem', '3rem'],
-                  // 'margin-bottom': ['65px'],
-                  'font-size': ['17vw', '14vw', '13rem'],
-                }}>
-                Be your self
-              </ResponsiveHeading>
+              A profile 100% owned by you Be your self
               <form
                 onSubmit={onSubmit}
                 style={{
@@ -99,32 +87,24 @@ export default function Home() {
                   flexDirection: 'row',
                   justifyContent: 'center',
                 }}>
-                <ResponsiveBox
-                  mediaQuery={{
-                    width: ['100%', '30em'],
-                    padding: ['0.3rem', '0'],
-                    'margin-top': ['0vh', '1vh', '0px'],
-                    'margin-bottom': ['5vh', '2vh', '0px'],
-                  }}>
-                  <ResponsiveTextInput
-                    disabled={loading}
-                    icon={inputIcon}
-                    id="did"
-                    onChange={(event) => setValue(event.target.value)}
-                    onBlur={() => setFocus(false)}
-                    onFocus={() => setFocus(true)}
-                    placeholder="Search by DID or blockchain address"
-                    style={{
-                      borderWidth: 0,
-                      borderRadius: 30,
-                      padding: 18,
-                      paddingLeft: 60,
-                      boxShadow: `0 2px 20px ${focus ? BRAND_COLOR : 'rgba(0,0,0,0.5)'}`,
-                      width: '100%',
-                    }}
-                    value={value}
-                  />
-                </ResponsiveBox>
+                <Input
+                  disabled={loading}
+                  icon={inputIcon}
+                  id="did"
+                  onChange={(event) => setValue(event.target.value)}
+                  onBlur={() => setFocus(false)}
+                  onFocus={() => setFocus(true)}
+                  placeholder="Search by DID or blockchain address"
+                  style={{
+                    borderWidth: 0,
+                    borderRadius: 30,
+                    padding: 18,
+                    paddingLeft: 60,
+                    boxShadow: `0 2px 20px ${focus ? BRAND_COLOR : 'rgba(0,0,0,0.5)'}`,
+                    width: '100%',
+                  }}
+                  value={value}
+                />
               </form>
             </Box>
           </Box>

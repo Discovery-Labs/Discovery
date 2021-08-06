@@ -18,7 +18,7 @@ export default function AddTwitterAccountPage() {
         <title>Add Twitter account | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      <Navbar />
+      
       <Box alignSelf="center" margin="large" pad="medium" width="large">
         <AddTwitterAccountScreen />
       </Box>
