@@ -7,7 +7,7 @@ const { ProjectsSchema } = require('./projects/projects-schema');
 const { RepoSchema } = require('./repos/repo');
 const { ReposSchema } = require('./repos/repos');
 
-module.exports = {
+exports.schemas = {
     discovery: {
         courses: CoursesSchema,
         course: CourseSchema,

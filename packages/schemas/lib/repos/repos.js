@@ -1,4 +1,4 @@
-const ReposSchema = {
+exports.ReposSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Repos',
   type: 'object',
@@ -25,8 +25,4 @@ const ReposSchema = {
       maxLength: 150,
     },
   },
-}
-
-module.exports = {
-  ReposSchema
 }

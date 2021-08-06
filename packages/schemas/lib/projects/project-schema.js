@@ -1,4 +1,4 @@
-const ProjectSchema = {
+exports.ProjectSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Project',
   type: 'object',
@@ -55,8 +55,4 @@ const ProjectSchema = {
       }
     }
   },
-}
-
-module.exports = {
-  ProjectSchema
 }

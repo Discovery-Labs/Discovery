@@ -1,4 +1,4 @@
-const CourseSchema = {
+exports.CourseSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Course',
   description: 'A course covers a specific topic within a project or an ecosystem',
@@ -46,8 +46,4 @@ const CourseSchema = {
       }
     },
   },
-}
-
-module.exports = {
-  CourseSchema
 }
