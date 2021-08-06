@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "lint": "next lint",
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start"
