@@ -1,9 +1,10 @@
-import { Box } from 'grommet'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-import Layout from '../../../components/Layout'
-import Navbar from '../../../components/Navbar'
+import { VStack } from '@chakra-ui/react'
+import PageTransition from '../../../components/page-transitions'
+import Section from '../../../components/section'
+
 import OpenGraphMeta from '../../../components/OpenGraphMeta'
 
 const SocialAccountsScreen = dynamic(
@@ -13,15 +14,17 @@ const SocialAccountsScreen = dynamic(
 
 export default function SocialAccountsPage() {
   return (
-    <Layout>
+    <PageTransition>
       <Head>
         <title>My social accounts | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      
-      <Box alignSelf="center" margin="large" pad="medium" width="large">
-        <SocialAccountsScreen />
-      </Box>
-    </Layout>
+
+      <VStack spacing={8}>
+        <Section>
+          <SocialAccountsScreen />
+        </Section>
+      </VStack>
+    </PageTransition>
   )
 }

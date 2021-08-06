@@ -8,8 +8,10 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 
-import Layout from '../components/Layout'
-import Navbar from '../components/Navbar'
+import { VStack } from '@chakra-ui/react'
+import PageTransition from '../components/page-transitions'
+import Section from '../components/section'
+
 import AvatarPlaceholder from '../components/AvatarPlaceholder'
 import { GITHUB_HOST, TWITTER_HOST, getImageSrc } from '../sdk'
 import type { Dimensions } from '../sdk'
@@ -20,6 +22,8 @@ import githubIcon from '../images/icons/social-github.svg'
 import twitterIcon from '../images/icons/social-twitter.svg'
 import { BRAND_COLOR, PLACEHOLDER_COLOR } from '../theme'
 import { isEthereumAddress, isSupportedDid } from '../utils'
+
+import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
 
 const ETH_CHAIN_ID = `@eip155:1`
 
@@ -137,15 +141,15 @@ const AvatarContainer = styled.div`
   margin-top: -78px;
 `
 
-const Avatar = styled.div<{ url: string }>`
-  width: 146px;
-  height: 146px;
-  border-radius: 78px;
-  background-size: cover;
-  ${(props) => css`
-    background-image: url(${props.url});
-  `}
-`
+// const Avatar = styled.div<{ url: string }>`
+//   width: 146px;
+//   height: 146px;
+//   border-radius: 78px;
+//   background-size: cover;
+//   ${(props) => css`
+//     background-image: url(${props.url});
+//   `}
+// `
 
 const Name = styled.h1`
   color: ${BRAND_COLOR};
@@ -168,11 +172,11 @@ function NoProfile({ id, support }: NoProfileProps) {
   ) : null
 
   return (
-    <Layout>
+    <PageTransition>
       <Head>
         <title>No profile | self.ID</title>
       </Head>
-      
+
       <Header />
       <Box alignSelf="center" width="large">
         <Box direction="row" flex>
@@ -183,7 +187,7 @@ function NoProfile({ id, support }: NoProfileProps) {
         </Box>
         <Name>No profile</Name>
       </Box>
-    </Layout>
+    </PageTransition>
   )
 }
 
@@ -268,7 +272,8 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
   )
 
   const avatarURL = getImageURL(profile.image, { height: 150, width: 150 })
-  const avatar = avatarURL ? <Avatar url={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
+  // const avatar = avatarURL ? <Avatar url={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
+  const avatar = avatarURL ? <Avatar src={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
 
   let socialContainer = null
   if (socialAccounts.length) {
@@ -313,7 +318,7 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
   }
 
   return (
-    <Layout>
+    <PageTransition>
       <Head>
         <title>{name} | Self.ID</title>
         <meta name="twitter:site" content="@mySelfID" />
@@ -322,25 +327,25 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
         {metaDescription}
         {metaImage}
       </Head>
-      
+
       <Header url={getImageURL(profile.background, { height: 310, width: 2000 })} />
-      <Box alignSelf="center" width="large" pad="medium">
-        <Box direction="row" flex>
-          <AvatarContainer>{avatar}</AvatarContainer>
-          <Box align="end" flex>
-            <ConnectSettingsButton did={id} />
-          </Box>
-        </Box>
-        <Name>
-          {name}
-          {profile.emoji ? ` ${profile.emoji}` : null}
-        </Name>
-        <Text color="neutral-4">{id}</Text>
-        {description}
-        {linksContainer}
-        {locationContainer}
-        {socialContainer}
-      </Box>
-    </Layout>
+      <VStack spacing={8}>
+        <Section>
+        {avatar}
+            <Box align="end" flex>
+              <ConnectSettingsButton did={id} />
+            </Box>
+          <Name>
+            {name}
+            {profile.emoji ? ` ${profile.emoji}` : null}
+          </Name>
+          <Text color="neutral-4">{id}</Text>
+          {description}
+          {linksContainer}
+          {locationContainer}
+          {socialContainer}
+        </Section>
+      </VStack>
+    </PageTransition>
   )
 }

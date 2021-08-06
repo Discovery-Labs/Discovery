@@ -1,9 +1,10 @@
-import { Box } from 'grommet'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-import Layout from '../../../../components/Layout'
-import Navbar from '../../../../components/Navbar'
+import { VStack } from '@chakra-ui/react'
+import PageTransition from '../../../../components/page-transitions'
+import Section from '../../../../components/section'
+
 import OpenGraphMeta from '../../../../components/OpenGraphMeta'
 
 const AddTwitterAccountScreen = dynamic(
@@ -13,15 +14,16 @@ const AddTwitterAccountScreen = dynamic(
 
 export default function AddTwitterAccountPage() {
   return (
-    <Layout>
+    <PageTransition>
       <Head>
         <title>Add Twitter account | Self.ID</title>
         <OpenGraphMeta />
       </Head>
-      
-      <Box alignSelf="center" margin="large" pad="medium" width="large">
-        <AddTwitterAccountScreen />
-      </Box>
-    </Layout>
+      <VStack spacing={8}>
+        <Section>
+          <AddTwitterAccountScreen />
+        </Section>
+      </VStack>
+    </PageTransition>
   )
 }
