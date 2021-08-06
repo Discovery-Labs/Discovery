@@ -3,32 +3,35 @@ exports.RepoSchema = {
   title: 'Project',
   type: 'object',
   properties: {
-    type: "object",
-    properties: {
-      id: {
+    id: {
+      $ref: "#/components/schemas/CeramicDocId"
+    },
+    repo_url: {
+      type: "string"
+    },
+    title: {
+      type: "string"
+    },
+    description: {
+      type: "string"
+    },
+    files: {
+      type: "array",
+      items: {
         $ref: "#/components/schemas/CeramicDocId"
-      },
-      repo_url: {
-        type: "string"
-      },
-      title: {
-        type: "string"
-      },
-      description: {
-        type: "string"
-      },
-      files: {
-        type: "array",
-        items: {
-          $ref: "#/components/schemas/CeramicDocId"
-        }
-      },
-      authors: {
-        type: "array",
-        items: {
-          $ref: "#/components/schemas/CeramicDocId"
-        }
       }
-    }
+    },
+    authors: {
+      type: "array",
+      items: {
+        $ref: "#/components/schemas/CeramicDocId"
+      }
+    },
+    definitions: {
+      CeramicStreamId: {
+        type: 'string',
+        pattern: '^ceramic://.+(\\\\?version=.+)?',
+        maxLength: 150,
+      },
+    },
   }
-}

@@ -55,4 +55,11 @@ exports.ProjectSchema = {
       }
     }
   },
+  definitions: {
+    CeramicStreamId: {
+      type: 'string',
+      pattern: '^ceramic://.+(\\\\?version=.+)?',
+      maxLength: 150,
+    },
+  },
 }
