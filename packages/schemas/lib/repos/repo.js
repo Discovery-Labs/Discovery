@@ -4,7 +4,7 @@ exports.RepoSchema = {
   type: 'object',
   properties: {
     id: {
-      $ref: "#/definitions/schemas/CeramicDocId"
+      $ref: "#/definitions/CeramicStreamId"
     },
     repo_url: {
       type: "string"
@@ -18,13 +18,13 @@ exports.RepoSchema = {
     files: {
       type: "array",
       items: {
-        $ref: "#/definitions/schemas/CeramicDocId"
+        $ref: "#/definitions/CeramicStreamId"
       }
     },
     authors: {
       type: "array",
       items: {
-        $ref: "#/definitions/schemas/CeramicDocId"
+        $ref: "#/definitions/CeramicStreamId"
       }
     },
   },

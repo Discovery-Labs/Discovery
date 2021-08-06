@@ -7,7 +7,7 @@ exports.ReposSchema = {
     title: 'RepoItem',
     properties: {
       id: {
-        $ref: "#/definitions/schemas/CeramicDocId"
+        $ref: "#/definitions/CeramicStreamId"
       },
       title: {
         type: "string",
