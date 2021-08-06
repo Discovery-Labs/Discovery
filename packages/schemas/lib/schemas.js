@@ -13,7 +13,7 @@ exports.schemas = {
         course: CourseSchema,
         projects: ProjectsSchema,
         project: ProjectSchema,
-        repos: ReposSchema,
-        repo: RepoSchema,
+        // repos: ReposSchema,
+        // repo: RepoSchema,
     }
 };
