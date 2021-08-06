@@ -1,6 +1,6 @@
 {
   "name": "shared",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "> TODO: description",
   "author": "aeither <36173828+aeither@users.noreply.github.com>",
   "homepage": "https://github.com/Discovery-Labs/Discovery#readme",
@@ -22,5 +22,6 @@
   },
   "bugs": {
     "url": "https://github.com/Discovery-Labs/Discovery/issues"
-  }
+  },
+  "gitHead": "65a26fa9276315c951c7d4bd1fcfa92b4be74ea2"
 }

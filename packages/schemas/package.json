@@ -1,6 +1,6 @@
 {
   "name": "@discovery-decrypted/schemas",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "JSON Schema definitions for Discovery",
   "main": "index.js",
   "author": "Cali93 <armut.cumaali@gmail.com>",
@@ -25,5 +25,6 @@
   },
   "bugs": {
     "url": "https://github.com/Discovery-Labs/Discovery/issues"
-  }
+  },
+  "gitHead": "65a26fa9276315c951c7d4bd1fcfa92b4be74ea2"
 }
