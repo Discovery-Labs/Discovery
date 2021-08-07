@@ -12,12 +12,11 @@ import {
   useColorModeValue,
   SimpleGrid,
   Button,
-  Flex,
   InputGroup,
   InputLeftElement,
   Input,
 } from '@chakra-ui/react'
-import { Search2Icon, SettingsIcon } from '@chakra-ui/icons'
+import { Search2Icon } from '@chakra-ui/icons'
 
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
@@ -33,9 +32,7 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
-// import DisplayDID from '../../client/components/DisplayDID'
-import { useKnownDIDsData } from '../client/hooks'
-import { KnownDIDData } from '../client/env'
+
 import dynamic from 'next/dynamic'
 
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
@@ -94,14 +91,15 @@ interface Cards {
 }
 
 const Paths = (props: Cards) => {
-  const [address, setAddress] = useState()
+  // const [address, setAddress] = useState()
 
   const [storeContract, setStoreContract] = useState({})
   const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
   const [questNFTContract, setQuestNFTContract] = useState({})
 
+  console.log(discoveryMergeNFTContract, questNFTContract)
   useEffect(() => {
-    fetchUser()
+    void fetchUser()
   }, [])
 
   const PROJECTS_POPOVER_TEXT = (
@@ -126,7 +124,9 @@ const Paths = (props: Cards) => {
 
   async function fetchUser() {
     const web3Modal = new Web3Modal()
-    const connection = await web3Modal.connect()
+    const connection = (await web3Modal.connect()) as
+      | ethers.providers.ExternalProvider
+      | ethers.providers.JsonRpcFetchFunc
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
     // const userAddress = await signer.getAddress()
@@ -150,7 +150,7 @@ const Paths = (props: Cards) => {
     setQuestNFTContract(questNFTContract)
   }
 
-  async function getOwner() {
+  function getOwner() {
     return storeContract
   }
   return (
