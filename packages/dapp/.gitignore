@@ -38,3 +38,6 @@ yarn-error.log*
 
 # Ceramic
 .pinning.store
+
+# IPFS
+/ipfs
