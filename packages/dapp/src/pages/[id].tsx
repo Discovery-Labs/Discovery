@@ -1,6 +1,6 @@
 import { getLegacy3BoxProfileAsBasicProfile, isCaip10, isDid } from '@ceramicstudio/idx'
 import type { AlsoKnownAsAccount, BasicProfile, ImageSources } from '@ceramicstudio/idx-constants'
-import { Anchor, Box, Paragraph, Text } from 'grommet'
+// import { Anchor, Box, Paragraph, Text } from 'grommet'
 import type { GetServerSideProps } from 'next'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
@@ -8,7 +8,6 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 
-import { VStack } from '@chakra-ui/react'
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
 
@@ -23,15 +22,17 @@ import twitterIcon from '../images/icons/social-twitter.svg'
 import { BRAND_COLOR, PLACEHOLDER_COLOR } from '../theme'
 import { isEthereumAddress, isSupportedDid } from '../utils'
 
-import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
-
+import { Box, Grid, Heading, HStack, Link, Text, VStack, Badge } from '@chakra-ui/react'
+import SocialCard from '../components/social-card'
 const ETH_CHAIN_ID = `@eip155:1`
 
 export function getImageURL(
   sources: ImageSources | undefined,
   dimensions: Dimensions
 ): string | undefined {
-  return sources ? getImageSrc(sources, dimensions) : undefined
+  return sources
+    ? getImageSrc(sources, dimensions)
+    : 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JhZGllbnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60'
 }
 
 const ConnectSettingsButton = dynamic(() => import('../client/components/ConnectSettingsButton'), {
@@ -141,15 +142,15 @@ const AvatarContainer = styled.div`
   margin-top: -78px;
 `
 
-// const Avatar = styled.div<{ url: string }>`
-//   width: 146px;
-//   height: 146px;
-//   border-radius: 78px;
-//   background-size: cover;
-//   ${(props) => css`
-//     background-image: url(${props.url});
-//   `}
-// `
+const Avatar = styled.div<{ url: string }>`
+  width: 146px;
+  height: 146px;
+  border-radius: 78px;
+  background-size: cover;
+  ${(props) => css`
+    background-image: url(${props.url});
+  `}
+`
 
 const Name = styled.h1`
   color: ${BRAND_COLOR};
@@ -164,7 +165,7 @@ type NoProfileProps = {
 
 function NoProfile({ id, support }: NoProfileProps) {
   const edit = canEditProfile(support) ? (
-    <Box flex>
+    <Box>
       <Box alignSelf="end" margin="medium" width="150px">
         <ConnectSettingsButton did={id} />
       </Box>
@@ -179,7 +180,7 @@ function NoProfile({ id, support }: NoProfileProps) {
 
       <Header />
       <Box alignSelf="center" width="large">
-        <Box direction="row" flex>
+        <Box direction="row">
           <AvatarContainer>
             <AvatarPlaceholder did={id} size={146} />
           </AvatarContainer>
@@ -203,24 +204,20 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
 
   const name = profile.name ?? '(no name)'
 
-  const description = profile.description ? (
-    <Paragraph color="neutral-1" fill>
-      {profile.description}
-    </Paragraph>
-  ) : null
+  const description = profile.description ? <Text>{profile.description}</Text> : null
 
   const link = profile.url ? (
-    <Anchor href={profile.url} label={profile.url} margin={{ left: 'small' }} target="_blank" />
+    <Link href={profile.url} label={profile.url} margin={{ left: 'small' }} target="_blank" />
   ) : null
   const linksContainer = link ? (
-    <Box direction="row" margin={{ vertical: 'small' }}>
-      <Image alt="Link" src={linkIcon as StaticImageData} />
+    <Box p="8">
       {link}
+      <Image alt="Link" src={linkIcon as StaticImageData} />
     </Box>
   ) : null
 
   const location = profile.homeLocation ? (
-    <Box direction="row" flex={false} margin={{ left: 'medium' }}>
+    <Box direction="row" margin={{ left: 'medium' }}>
       <Image alt="Home location" src={locationIcon} />
       <Text color="neutral-4" margin={{ left: 'small' }}>
         {profile.homeLocation}
@@ -228,7 +225,7 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
     </Box>
   ) : null
   const country = profile.residenceCountry ? (
-    <Box direction="row" flex={false} margin={{ left: 'medium' }}>
+    <Box direction="row" margin={{ left: 'medium' }}>
       <Image alt="Residence country" src={countryIcon} />
       <Text color="neutral-4" margin={{ left: 'small' }}>
         {profile.residenceCountry}
@@ -237,10 +234,10 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
   ) : null
   const locationContainer =
     location || country ? (
-      <Box justify="end" direction="row" margin={{ vertical: 'small' }}>
+      <HStack spacing="8">
         {location}
         {country}
-      </Box>
+      </HStack>
     ) : null
 
   const socialTitle = profile.name ? `${profile.name} on Self.ID` : 'Self.ID'
@@ -272,8 +269,8 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
   )
 
   const avatarURL = getImageURL(profile.image, { height: 150, width: 150 })
-  // const avatar = avatarURL ? <Avatar url={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
-  const avatar = avatarURL ? <Avatar src={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
+  const avatar = avatarURL ? <Avatar url={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
+  // const avatar = avatarURL ? <Avatar src={avatarURL} /> : <AvatarPlaceholder did={id} size={146} />
 
   let socialContainer = null
   if (socialAccounts.length) {
@@ -290,30 +287,21 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
           </Box>
         ) : null
       return (
-        <Box
-          key={host + a.id}
-          border={{ color: 'neutral-5' }}
-          direction="row"
-          margin={{ top: 'small' }}
-          pad="small"
-          round="small">
-          {image}
-          <Anchor href={`${a.protocol}://${host}/${a.id}`}>{a.id}</Anchor>
-        </Box>
+        <SocialCard key={a.id} name={a.id} image={image} link={`${a.protocol}://${host}/${a.id}`} />
       )
     })
     socialContainer = (
-      <Box margin={{ top: 'large' }}>
-        <Box direction="row">
-          <Box flex>
-            <Text size="medium" weight="bold">
+      <>
+        <VStack justify="center" p="6">
+          <Box d="flex" alignItems="baseline">
+            <Heading as="h2" size="xl" px="2">
               Social
-            </Text>
+            </Heading>
+            <ConnectEditSocialAccountsButton did={id} />
           </Box>
-          <ConnectEditSocialAccountsButton did={id} />
-        </Box>
+        </VStack>
         {socialItems}
-      </Box>
+      </>
     )
   }
 
@@ -328,22 +316,38 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
         {metaImage}
       </Head>
 
-      <Header url={getImageURL(profile.background, { height: 310, width: 2000 })} />
-      <VStack spacing={8}>
+      <VStack spacing={8} alignItems="center">
         <Section>
-          {avatar}
-          <Box align="end" flex>
+          {/* <Box pos="absolute">
+            <Header url={getImageURL(profile.background, { height: 310, width: 2000 })}></Header>
+          </Box> */}
+          <HStack spacing={8} justify="center" pt="-20">
+            <Box bg="white" color="gray.900" rounded="full" p={1}>
+              {avatar}
+            </Box>
+          </HStack>
+          <Box align="center" pt="6">
+            <Heading as="h2" size="xl" color="pink.400">
+              {name}
+              {profile.emoji ? ` ${profile.emoji}` : null}
+            </Heading>
+          </Box>
+          <Box align="center" pt="2" fontSize="md" color="gray.500">
+            <Text color="neutral-4" align="center">
+              {id}
+            </Text>
+          </Box>
+          <Box align="center" pt="6">
             <ConnectSettingsButton did={id} />
           </Box>
-          <Name>
-            {name}
-            {profile.emoji ? ` ${profile.emoji}` : null}
-          </Name>
-          <Text color="neutral-4">{id}</Text>
-          {description}
-          {linksContainer}
-          {locationContainer}
-          {socialContainer}
+          <Box align="center" pt="2">
+            {description}
+            <HStack justify="space-between" p="8">
+              {linksContainer}
+              {locationContainer}
+            </HStack>
+            {socialContainer}
+          </Box>
         </Section>
       </VStack>
     </PageTransition>
