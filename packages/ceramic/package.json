@@ -1,6 +1,6 @@
 {
   "name": "@discovery-decrypted/ceramic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "ceramic client utility functions",
   "author": "Cali93 <armut.cumaali@gmail.com>",
   "homepage": "https://github.com/Discovery-Labs/Discovery#readme",
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build" : "tsc"
+    "build": "tsc"
   },
   "bugs": {
     "url": "https://github.com/Discovery-Labs/Discovery/issues"

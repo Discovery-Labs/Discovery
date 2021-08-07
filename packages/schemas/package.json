@@ -1,6 +1,6 @@
 {
   "name": "@discovery-decrypted/schemas",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "JSON Schema definitions for Discovery",
   "main": "lib/schemas.js",
   "author": "Cali93 <armut.cumaali@gmail.com>",
@@ -22,7 +22,7 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "build" : "tsc"
+    "build": "tsc"
   },
   "bugs": {
     "url": "https://github.com/Discovery-Labs/Discovery/issues"
