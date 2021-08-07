@@ -10,13 +10,13 @@ import { fromString, toString } from 'uint8arrays'
 import { randomBytes } from '@stablelib/random'
 import { schemas } from '@discovery-decrypted/schemas/lib/schemas.js';
 
-export async function makeCeramicClient() {
+export async function makeCeramicClient(config) {
   // The seed must be provided as an environment variable
   if (!process.env.CERAMIC_SEED){
     process.env.CERAMIC_SEED = toString(randomBytes(32), 'base16');
   }
   // Connect to the local Ceramic node
-  const ceramic = new CeramicClient.default(process.env.CERAMIC_API_URL)
+  const ceramic = new CeramicClient.default(config)
   // Authenticate the Ceramic instance with the provider
   const keyDidResolver = KeyDidResolver.default.getResolver()
   const threeIdResolver = ThreeIdResolver.default.getResolver(ceramic)
