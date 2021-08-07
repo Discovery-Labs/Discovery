@@ -1,4 +1,4 @@
-exports.CourseSchema = {
+export const CourseSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Course',
   description: 'A course covers a specific topic within a project or an ecosystem',

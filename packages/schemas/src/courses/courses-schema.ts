@@ -1,19 +1,20 @@
-exports.ReposSchema = {
+export const CoursesSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Repos',
-  type: "array",
+  title: 'Courses',
+  type: 'array',
   items: {
-    type: "object",
-    title: 'RepoItem',
+    type: 'object',
+    title: 'CourseItem',
     properties: {
       id: {
-        $ref: "#/definitions/CeramicStreamId"
+        $ref: '#/definitions/CeramicStreamId',
       },
-      title: {
-        type: "string",
-        maxLength: 150,
+      name: {
+        type: 'string',
+        title: 'name',
+        maxLength: 100,
       },
-    }
+    },
   },
   definitions: {
     CeramicStreamId: {

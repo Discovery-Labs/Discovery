@@ -1,19 +1,13 @@
-exports.ProjectsSchema = {
+export const Contributors = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Projects',
+  title: 'Contributors',
   type: 'array',
-  title: 'projects',
   items: {
     type: 'object',
-    title: 'ProjectItem',
+    title: 'ContributorItem',
     properties: {
       id: {
         $ref: '#/definitions/CeramicStreamId',
-      },
-      name: {
-        type: 'string',
-        title: 'name',
-        maxLength: 100,
       },
     },
   },

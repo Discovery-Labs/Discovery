@@ -1,4 +1,4 @@
-exports.RepoSchema = {
+export const RepoSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Repo',
   type: 'object',
