@@ -1,6 +1,6 @@
 exports.RepoSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Project',
+  title: 'Repo',
   type: 'object',
   properties: {
     id: {

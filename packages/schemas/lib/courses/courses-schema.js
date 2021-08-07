@@ -2,7 +2,6 @@ exports.CoursesSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
   title: 'Courses',
   type: 'array',
-  title: 'courses',
   items: {
     type: 'object',
     title: 'CourseItem',
