@@ -281,11 +281,11 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
       const host = a.host ?? ''
       const image =
         host === GITHUB_HOST ? (
-          <Box margin={{ right: 'small' }} justify="center">
+          <Box margin={{ right: 'small' }} justify="center" key={a.id}>
             <Image alt="GitHub" src={githubIcon as StaticImageData} />
           </Box>
         ) : host === TWITTER_HOST ? (
-          <Box margin={{ right: 'small' }} justify="center">
+          <Box margin={{ right: 'small' }} justify="center" key={a.id}>
             <Image alt="Twitter" src={twitterIcon as StaticImageData} />
           </Box>
         ) : null
@@ -331,10 +331,10 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
       <Header url={getImageURL(profile.background, { height: 310, width: 2000 })} />
       <VStack spacing={8}>
         <Section>
-        {avatar}
-            <Box align="end" flex>
-              <ConnectSettingsButton did={id} />
-            </Box>
+          {avatar}
+          <Box align="end" flex>
+            <ConnectSettingsButton did={id} />
+          </Box>
           <Name>
             {name}
             {profile.emoji ? ` ${profile.emoji}` : null}

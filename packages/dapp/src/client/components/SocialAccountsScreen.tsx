@@ -85,16 +85,16 @@ function DisplayAccounts({ accounts, removeAccount, removingAccount, type }: Dis
   const items = accounts.map((a) => {
     const removingButton =
       removingAccount === a ? (
-        <Box direction="row" gap="small" justify="center">
+        <Box direction="row" gap="small" justify="center" key={a.id}>
           <Text color="neutral-4">Removing...</Text>
           <Spinner size="xsmall" />
         </Box>
       ) : removingAccount === null ? (
-        <Anchor color="neutral-4" onClick={() => removeAccount(a)}>
+        <Anchor color="neutral-4" onClick={() => removeAccount(a)} key={a.id}>
           Remove
         </Anchor>
       ) : (
-        <Spinner size="xsmall" />
+        <Spinner size="xsmall" key={a.id} />
       )
 
     return (

@@ -33,13 +33,17 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
+// import DisplayDID from '../../client/components/DisplayDID'
+import { useKnownDIDsData } from '../client/hooks'
+import { KnownDIDData } from '../client/env'
+import dynamic from 'next/dynamic'
 
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
 const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
-
-
-
+const DisplayDID = dynamic(() => import('../client/components/DisplayDID'), {
+  ssr: false,
+})
 export function getStaticProps() {
   const categories = [
     {
@@ -52,17 +56,17 @@ export function getStaticProps() {
     },
     {
       category: 'polygon',
-      id: '1',
+      id: '2',
       title: 'Course How to Do X',
-      description: 'For 1 cup of uncooked quinoa,',
+      description: 'For 2 cup of uncooked quinoa,',
       image: '/abstract.png',
       link: 'https://google.com',
     },
     {
       category: 'polygon',
-      id: '1',
+      id: '3',
       title: 'Course How to Do X',
-      description: 'For 1 cup of uncooked quinoa,',
+      description: 'For 3 cup of uncooked quinoa,',
       image: '/abstract.png',
       link: 'https://google.com',
     },
@@ -90,7 +94,8 @@ interface Cards {
 }
 
 const Paths = (props: Cards) => {
-  const [address, setAddress] = useState('')
+  const [address, setAddress] = useState()
+
   const [storeContract, setStoreContract] = useState({})
   const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
   const [questNFTContract, setQuestNFTContract] = useState({})
@@ -100,34 +105,35 @@ const Paths = (props: Cards) => {
   }, [])
 
   const PROJECTS_POPOVER_TEXT = (
-    <p>
+    <span>
       Click on the projects to see more details about it.
-      <br /> Also, there are filters to explore projects according to certain titles and technologies.
-    </p>
+      <br /> Also, there are filters to explore projects according to certain titles and
+      technologies.
+    </span>
   )
-  
+
   const inputCss = {
     '&:hover': { borderColor: 'initial' },
   }
-  
+
   const inputGroupCss = {
     margin: '0 !important',
   }
-  
+
   const handleTitleInputChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     console.log(event.target.value)
   }, [])
-  
+
   async function fetchUser() {
     const web3Modal = new Web3Modal()
     const connection = await web3Modal.connect()
     const provider = new ethers.providers.Web3Provider(connection)
     const signer = provider.getSigner()
-    const userAddress = await signer.getAddress()
-    setAddress(userAddress)
+    // const userAddress = await signer.getAddress()
+    // setAddress(userAddress)
     // setEventListeners(provider);
     setContracts(signer)
-    console.log('Account:', userAddress)
+    // console.log('Account:', userAddress)
   }
 
   function setContracts(signer: ethers.providers.JsonRpcSigner) {
@@ -152,6 +158,7 @@ const Paths = (props: Cards) => {
       <VStack spacing={8}>
         <Section>
           <VStack>
+            <DisplayDID />
             <InputGroup flex={1} css={inputGroupCss}>
               <InputLeftElement pointerEvents="none">
                 <Search2Icon color="gray.300" />
@@ -167,13 +174,6 @@ const Paths = (props: Cards) => {
         </Section>
         <Section>
           <VStack>
-            <Text
-              fontSize={['m', 'l']}
-              color={useColorModeValue('gray.800', 'gray.600')}
-              maxW="lg"
-              textAlign="center">
-              Connected with: {address}
-            </Text>
             <Heading fontSize="10vw" bgGradient="linear(to-l, #7928CA, #FF0080)" bgClip="text">
               Paths
             </Heading>
@@ -229,8 +229,7 @@ const Paths = (props: Cards) => {
                   bg: 'red.100',
                 }}
                 mr={2}
-                mt={2}
-                s>
+                mt={2}>
                 <HStack spacing={1}>
                   <Text>The Graph</Text>
                 </HStack>
