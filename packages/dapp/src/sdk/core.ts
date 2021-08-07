@@ -4,6 +4,7 @@ import { IDX } from '@ceramicstudio/idx'
 import type { AlsoKnownAs, BasicProfile } from '@ceramicstudio/idx-constants'
 import { Resolver } from 'did-resolver'
 import KeyDidResolver from 'key-did-resolver'
+import { makeCeramicClient } from '@discovery-decrypted/ceramic'
 import { getConfig } from './config'
 import type { AppNetwork, ConfigURLs } from './config'
 
