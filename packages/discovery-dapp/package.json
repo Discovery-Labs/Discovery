@@ -1,6 +1,6 @@
 {
   "name": "discovery-dapp-legacy",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.5",
-    "@discovery-decrypted/schemas": "^0.1.12",
+    "@discovery-decrypted/schemas": "^0.1.13",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
