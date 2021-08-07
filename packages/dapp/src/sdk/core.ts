@@ -1,10 +1,10 @@
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver'
 import Ceramic from '@ceramicnetwork/http-client'
 import { IDX } from '@ceramicstudio/idx'
-import type { AlsoKnownAs, BasicProfile } from '@ceramicstudio/idx-constants'
+import type { AlsoKnownAs, BasicProfile, CryptoAccounts } from '@ceramicstudio/idx-constants'
 import { Resolver } from 'did-resolver'
 import KeyDidResolver from 'key-did-resolver'
-import { makeCeramicClient } from '@discovery-decrypted/ceramic'
+import { makeCeramicClient } from '@discovery-decrypted/ceramic/lib/ceramic/src/ceramic'
 import { getConfig } from './config'
 import type { AppNetwork, ConfigURLs } from './config'
 
@@ -40,11 +40,28 @@ export class Core {
     return this._resolver
   }
 
+  async bootstrapCeramicApp(): Promise<{
+    ceramic: Ceramic
+    idx: IDX
+    aliases: Record<string, string>
+  }> {
+    return makeCeramicClient()
+  }
+
   async getAlsoKnownAs(id: string): Promise<AlsoKnownAs | null> {
     try {
       return await this._idx.get<AlsoKnownAs>('alsoKnownAs', id)
     } catch (err) {
       console.warn('Failed to load AKA accounts', id, err)
+      return null
+    }
+  }
+
+  async getCryptoAccounts(id: string): Promise<CryptoAccounts | null> {
+    try {
+      return await this._idx.get<CryptoAccounts>('cryptoAccounts', id)
+    } catch (err) {
+      console.warn('Failed to load Crypto accounts', id, err)
       return null
     }
   }
