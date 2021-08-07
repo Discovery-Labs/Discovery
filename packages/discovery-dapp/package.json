@@ -1,5 +1,5 @@
 {
-  "name": "discovery-dapp",
+  "name": "discovery-dapp-legacy",
   "version": "0.1.12",
   "private": true,
   "scripts": {
