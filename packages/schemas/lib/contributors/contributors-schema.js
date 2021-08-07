@@ -1,21 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Contributors = void 0;
 exports.Contributors = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Contributors',
-  type: 'array',
-  items: {
-    type: 'object',
-    title: 'ContributorItem',
-    properties: {
-      id: {
-        $ref: '#/definitions/CeramicStreamId',
-      },
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    title: 'Contributors',
+    type: 'array',
+    items: {
+        type: 'object',
+        title: 'ContributorItem',
+        properties: {
+            id: {
+                $ref: '#/definitions/CeramicStreamId',
+            },
+        },
     },
-  },
-  definitions: {
-    CeramicStreamId: {
-      type: 'string',
-      pattern: '^ceramic://.+(\\\\?version=.+)?',
-      maxLength: 150,
+    definitions: {
+        CeramicStreamId: {
+            type: 'string',
+            pattern: '^ceramic://.+(\\\\?version=.+)?',
+            maxLength: 150,
+        },
     },
-  },
-}
+};

@@ -8,18 +8,19 @@ import { IDX } from '@ceramicstudio/idx'
 import { createDefinition, publishSchema } from '@ceramicstudio/idx-tools'
 import { fromString, toString } from 'uint8arrays'
 import { randomBytes } from '@stablelib/random'
-import { schemas } from '@discovery-decrypted/schemas/lib/schemas.js';
+import { schemas } from '../../schemas/src/schemas';
+import { CreateCeramicDocumentInput } from './types'
 
-export async function makeCeramicClient(config) {
+export async function makeCeramicClient() {
   // The seed must be provided as an environment variable
   if (!process.env.CERAMIC_SEED){
     process.env.CERAMIC_SEED = toString(randomBytes(32), 'base16');
   }
   // Connect to the local Ceramic node
-  const ceramic = new CeramicClient.default(config)
+  const ceramic = new CeramicClient(process.env.CERAMIC_API_URL)
   // Authenticate the Ceramic instance with the provider
-  const keyDidResolver = KeyDidResolver.default.getResolver()
-  const threeIdResolver = ThreeIdResolver.default.getResolver(ceramic)
+  const keyDidResolver = KeyDidResolver.getResolver()
+  const threeIdResolver = ThreeIdResolver.getResolver(ceramic)
   const resolverRegistry = {
     ...threeIdResolver,
     ...keyDidResolver,
@@ -32,7 +33,7 @@ export async function makeCeramicClient(config) {
   await ceramic.setDID(did)
 
   // Publish all the schemas and create their definitions referenced by an alias
-  const aliases = {};
+  const aliases = {} as Record<string, string>;
   for (let [schemaName, schema] of Object.entries(schemas.discovery)) {
     const publishedSchema = await publishSchema(ceramic, { content: schema, name: schemaName })
     const createdDefinition = await createDefinition(ceramic, {
@@ -47,14 +48,18 @@ export async function makeCeramicClient(config) {
   return { ceramic, idx, aliases };
 }
 
-export async function createCeramicDocument(data, family, schema) {
+export async function createCeramicDocument({ data, family, schema }: CreateCeramicDocumentInput) {
   try {
     const { ceramic } = await makeCeramicClient();
+    if (!ceramic){
+      return null;
+    }
     const doc = await TileDocument.create(ceramic,
       data,
       {
-        controllers: [ceramic.did.id],
+        controllers: ceramic?.did?.id ? [ceramic?.did?.id] : [],
         family,
+        schema
       }
     )
     const streamId = doc.id.toString()
@@ -64,7 +69,7 @@ export async function createCeramicDocument(data, family, schema) {
   }
 }
 
-export async function readCeramicRecord(alias, DID_OR_CAIP10_ID) {
+export async function readCeramicRecord(alias: string, DID_OR_CAIP10_ID?: string) {
   try {
     const { idx } = await makeCeramicClient();
     return await idx.get(alias, DID_OR_CAIP10_ID)
@@ -73,7 +78,7 @@ export async function readCeramicRecord(alias, DID_OR_CAIP10_ID) {
   }
 }
 
-export async function getCeramicAlias(alias) {
+export async function getCeramicAlias(alias: string) {
   try {
     const { idx } = await makeCeramicClient();
     return await idx.get(alias) // uses authenticated DID

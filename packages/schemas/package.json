@@ -21,10 +21,14 @@
     "url": "git+https://github.com/Discovery-Labs/Discovery.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "build" : "tsc"
   },
   "bugs": {
     "url": "https://github.com/Discovery-Labs/Discovery/issues"
   },
-  "gitHead": "278c5381b3ac8939811449d39993c291ea4ff3b0"
+  "gitHead": "278c5381b3ac8939811449d39993c291ea4ff3b0",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  }
 }
