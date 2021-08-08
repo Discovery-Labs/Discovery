@@ -15,6 +15,9 @@ import {
   InputGroup,
   InputLeftElement,
   Input,
+  useBreakpointValue,
+  IconProps,
+  Icon,
 } from '@chakra-ui/react'
 import { Search2Icon } from '@chakra-ui/icons'
 
@@ -32,7 +35,6 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
-
 import dynamic from 'next/dynamic'
 
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
@@ -104,9 +106,8 @@ const Paths = (props: Cards) => {
 
   const PROJECTS_POPOVER_TEXT = (
     <span>
-      Click on the projects to see more details about it.
-      <br /> Also, there are filters to explore projects according to certain titles and
-      technologies.
+      Click on the courses to see more details about it.
+      <br />
     </span>
   )
 
@@ -150,46 +151,36 @@ const Paths = (props: Cards) => {
     setQuestNFTContract(questNFTContract)
   }
 
-  function getOwner() {
-    return storeContract
-  }
   return (
     <PageTransition>
       <VStack spacing={8}>
+
         <Section>
           <VStack>
-            <DisplayDID />
-            <InputGroup flex={1} css={inputGroupCss}>
-              <InputLeftElement pointerEvents="none">
-                <Search2Icon color="gray.300" />
-              </InputLeftElement>
-              <Input
-                css={inputCss}
-                type="text"
-                onChange={handleTitleInputChange}
-                placeholder="Search for project title"
+            <HStack align="start">
+              <Heading
+                fontWeight="bold"
+                mb={4}
+                fontSize="6xl"
+                // bgGradient="linear(to-l, #7928CA, #FF0080)"
+                // bgClip="text"
+              >
+                Paths
+              </Heading>
+              <Popover
+                popoverTextElement={PROJECTS_POPOVER_TEXT}
+                buttonContent={<InfoIcon boxSize={3} color="green.400" />}
               />
-            </InputGroup>
-          </VStack>
-        </Section>
-        <Section>
-          <VStack>
-            <Heading fontSize="10vw" bgGradient="linear(to-l, #7928CA, #FF0080)" bgClip="text">
-              Paths
-            </Heading>
-            <Popover
-              popoverTextElement={PROJECTS_POPOVER_TEXT}
-              buttonContent={<InfoIcon boxSize={5} color="green.400" />}
-            />
+            </HStack>
+
             <Text
               fontSize={['xl', '2xl']}
-              color={useColorModeValue('gray.500', 'gray.200')}
+              color={useColorModeValue('gray.700', 'gray.200')}
               maxW="lg"
               textAlign="center">
               Discovery paths categories: social entertainment, video, virtual reality, art &
               collectibles
             </Text>
-            <Button onClick={getOwner}>Click</Button>
           </VStack>
         </Section>
         <Section>
@@ -267,9 +258,46 @@ const Paths = (props: Cards) => {
             </TabPanels>
           </Tabs>
         </Section>
+        <Section>
+          <VStack>
+            <DisplayDID />
+            <InputGroup flex={1} css={inputGroupCss}>
+              <InputLeftElement pointerEvents="none">
+                <Search2Icon color="gray.300" />
+              </InputLeftElement>
+              <Input
+                css={inputCss}
+                type="text"
+                onChange={handleTitleInputChange}
+                placeholder="Search for project title"
+              />
+            </InputGroup>
+          </VStack>
+        </Section>
+        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
       </VStack>
     </PageTransition>
   )
 }
 
+export const Blur = (props: IconProps) => {
+  return (
+    <Icon
+      width={useBreakpointValue({ base: '100%', md: '70vw', lg: '60vw' })}
+      zIndex={useBreakpointValue({ base: -1, md: -1, lg: -1 })}
+      height="560px"
+      viewBox="0 0 528 560"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}>
+      <circle cx="71" cy="61" r="111" fill="#F56565" />
+      <circle cx="244" cy="106" r="139" fill="#ED64A6" />
+      <circle cy="291" r="139" fill="#ED64A6" />
+      <circle cx="80.5" cy="189.5" r="101.5" fill="#ED8936" />
+      <circle cx="196.5" cy="317.5" r="101.5" fill="#ECC94B" />
+      <circle cx="70.5" cy="458.5" r="101.5" fill="#48BB78" />
+      <circle cx="426.5" cy="-0.5" r="101.5" fill="#4299E1" />
+    </Icon>
+  )
+}
 export default Paths
