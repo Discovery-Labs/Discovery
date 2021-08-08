@@ -16,7 +16,7 @@ import NextLink from 'next/link'
 import Container from './container'
 import { useRouter } from 'next/router'
 import ThemeToggle from './theme-toggle'
-import { UserGroup, Code, ChevronDown, LightningBolt } from 'heroicons-react'
+import { UserGroup, Code, ChevronDown, LightningBolt, ViewBoards } from 'heroicons-react'
 import Link from 'next/link'
 import AvatarNavigation from './avatar-navigation'
 import dynamic from 'next/dynamic'
@@ -126,6 +126,18 @@ const Header = () => {
                           color={useColorModeValue('blue.500', 'blue.200')}
                         />
                         <Text>Get Involved</Text>
+                      </HStack>
+                    </MenuItem>
+                  </Link>
+                  <Link href="/dashboard">
+                    <MenuItem>
+                      <HStack>
+                        <Icon
+                          as={ViewBoards}
+                          size={18}
+                          color={useColorModeValue('blue.500', 'blue.200')}
+                        />
+                        <Text>Dashboard</Text>
                       </HStack>
                     </MenuItem>
                   </Link>
