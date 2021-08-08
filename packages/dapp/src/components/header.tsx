@@ -75,10 +75,12 @@ const Header = () => {
         <VStack align="start" spacing={0}>
           <HStack justify="space-between" w="100%" h={16}>
             <HStack>
+              <Box pl={2}>
               <Link href="/">
                 {/* <Image src={logo as StaticImageData} alt="Self.ID" /> */}
                 <Image src={discovery} alt="Discovery" width={133} height={27}/>
               </Link>
+              </Box>
               <NavLink href="/paths" name="Paths" />
               <NavLink href="/getstarted" name="Get Started" />
               <Menu>
@@ -88,7 +90,7 @@ const Header = () => {
                   size="md"
                   px={4}
                   rightIcon={<ChevronDown size={18} />}>
-                  Links
+                  More
                 </MenuButton>
                 <MenuList>
                   <a href="http://google.com/">
