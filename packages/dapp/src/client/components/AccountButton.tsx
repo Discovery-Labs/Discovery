@@ -1,4 +1,5 @@
 import { Avatar, Box, Button, DropButton, Spinner, Text } from 'grommet'
+
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -123,10 +124,10 @@ export default function AccountButton() {
 
   if (auth.id != null) {
     const content = (
-      <Box border={{ color: 'neutral-5' }} margin={{ top: '30px' }} round={{ size: 'small' }}>
+      <Box border={{ color: 'pink' }} margin={{ top: '30px' }} round={{ size: 'small' }}>
         <Box
           align="center"
-          background="neutral-6"
+          background="white"
           gap="small"
           pad="medium"
           round={{ corner: 'top', size: 'small' }}>
@@ -138,19 +139,6 @@ export default function AccountButton() {
           <Text size="medium" truncate weight="bold">
             {displayName}
           </Text>
-          {/* <Button
-            label="Switch identities"
-            onClick={() => router.push('/me/identities')}
-            plain
-            size="small"
-            style={{
-              backgroundColor: 'white',
-              border: '1px solid #A8A8A8',
-              borderRadius: 30,
-              fontSize: '14px',
-              padding: '6px 12px',
-            }}
-          /> */}
         </Box>
         <Box
           background="white"

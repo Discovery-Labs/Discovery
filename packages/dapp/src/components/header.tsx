@@ -22,6 +22,7 @@ import AvatarNavigation from './avatar-navigation'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import logo from '../images/logo.svg'
+import discovery from '../images/discovery.png'
 
 const AccountButton = dynamic(() => import('../client/components/AccountButton'), {
   ssr: false,
@@ -70,15 +71,14 @@ const Header = () => {
       borderBottomWidth="2px"
       borderBottomColor={useColorModeValue('gray.100', 'gray.700')}
       shadow="0 0 10px 0 rgba(0,0,0, 0.035);">
-      <Container>
+      <Box maxW="6xl" mx="auto">
         <VStack align="start" spacing={0}>
           <HStack justify="space-between" w="100%" h={16}>
             <HStack>
               <Link href="/">
-                <Image src={logo as StaticImageData} alt="Self.ID" />
+                {/* <Image src={logo as StaticImageData} alt="Self.ID" /> */}
+                <Image src={discovery} alt="Discovery" width={133} height={27}/>
               </Link>
-            </HStack>
-            <HStack ml={-4} spacing={2}>
               <NavLink href="/paths" name="Paths" />
               <NavLink href="/getstarted" name="Get Started" />
               <Menu>
@@ -136,7 +136,7 @@ const Header = () => {
             </HStack>
           </HStack>
         </VStack>
-      </Container>
+      </Box>
     </Box>
   )
 }
