@@ -1,0 +1,98 @@
+import { RedisOptions } from 'ioredis';
+
+export interface Config {
+  nest: NestConfig;
+  everest: EverestConfig;
+  uniswap: UniswapConfig;
+  brandfetch: BrandFetchConfig;
+  cors: CorsConfig;
+  swagger: SwaggerConfig;
+  graphql: GraphqlConfig;
+  security: SecurityConfig;
+  api: {
+    tracing: boolean;
+    apiKey: string;
+    environment: string;
+    hostname: string;
+    confirmationTokenExpiration: number;
+    port: string;
+    logLevel: string;
+    protocol: any;
+    corsOptions: {
+      credentials: boolean;
+      origin: (origin: any, callback: any) => void;
+    };
+    rateLimits: {
+      sendUserConfirmationEmail: number;
+      sendContactConfirmationEmail: number;
+      wrongLogin: number;
+      register: number;
+    };
+  };
+  apolloServerOptions: {
+    tracing: boolean;
+    introspection: boolean;
+    playground: boolean;
+  };
+  app: {
+    url: string;
+  };
+  redisConfig: RedisOptions;
+  redisAuthConfig: RedisOptions;
+  sessionOptions: {
+    name: string;
+    secret: string;
+    resave: boolean;
+    saveUninitialized: boolean;
+    unset: 'destroy' | 'keep';
+    cookie: {
+      secure: boolean;
+      httpOnly: boolean;
+      sameSite: boolean | 'lax' | 'strict' | 'none';
+      path: string;
+      maxAge: number;
+    };
+  };
+}
+
+export interface NestConfig {
+  port: number;
+}
+
+export interface EverestConfig {
+  apiUrl: string;
+}
+export interface BrandFetchConfig {
+  apiUrl: string;
+  apiKey: string;
+}
+export interface UniswapConfig {
+  apiUrl: {
+    v2: string;
+  };
+}
+
+export interface CorsConfig {
+  enabled: boolean;
+}
+
+export interface SwaggerConfig {
+  enabled: boolean;
+  title: string;
+  description: string;
+  version: string;
+  path: string;
+}
+
+export interface GraphqlConfig {
+  playgroundEnabled: boolean;
+  debug: boolean;
+  schemaDestination: string;
+  sortSchema: boolean;
+}
+
+export interface SecurityConfig {
+  expiresIn: string;
+  refreshIn: string;
+  bcryptSaltOrRound: string | number;
+}

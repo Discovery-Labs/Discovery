@@ -1,0 +1,29 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Query {
+  """Checks if a user confirmation token is valid"""
+  confirmationTokenStatus(input: TokenInput!): Int
+
+  """Gets a user by ID and returns its informations"""
+  getUserById(input: UserDIDInput!): User
+
+  """Gets the currently logged in user"""
+  me: User
+}
+
+input TokenInput {
+  token: String!
+}
+
+type User {
+  confirmed: Boolean!
+  did: String!
+  ethAddresses: [String!]!
+  restricted: Boolean!
+}
+
+input UserDIDInput {
+  userDID: String!
+}
