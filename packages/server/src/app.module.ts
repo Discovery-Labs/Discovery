@@ -15,6 +15,7 @@ import { HealthController } from './core/controllers/health.controller';
 import config from './core/configs/config';
 import { GraphqlConfig } from './core/configs/config.interface';
 import { UserModule } from './entities/User/User.module';
+import { ProjectModule } from './entities/Projects/Project.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { UserModule } from './entities/User/User.module';
     }),
     TerminusModule,
     UserModule,
+    ProjectModule,
   ],
   controllers: [AppController, HealthController],
   providers: [AppService, ConfigService],

@@ -39,6 +39,8 @@ services:
       REDIS_HOST: redis
       REDIS_PASSWORD: ${REDIS_PASSWORD}
       REDIS_PORT: ${REDIS_PORT}
+      CERAMIC_SEED: ${CERAMIC_SEED}
+      CERAMIC_API_URL: ${CERAMIC_API_URL}
     networks:
       - decryptnet
 

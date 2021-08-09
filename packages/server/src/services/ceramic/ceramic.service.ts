@@ -10,10 +10,17 @@ import { fromString, toString } from 'uint8arrays';
 import { randomBytes } from '@stablelib/random';
 import { schemas } from '@discovery-decrypted/schemas';
 import { CreateCeramicDocumentInput } from './types';
+import { Logger } from '@nestjs/common';
 
+export interface CeramicInstanceDependency {
+  ceramic: CeramicClient;
+  idx: IDX;
+  schemasCommitId: Record<string, string>;
+}
 export async function makeCeramicClient() {
   // The seed must be provided as an environment variable
   if (!process.env.CERAMIC_SEED) {
+    Logger.warn('NO CERAMIC SEED, A NEW ONE WILL BE GENERATED');
     process.env.CERAMIC_SEED = toString(randomBytes(32), 'base16');
   }
   // Connect to the local Ceramic node
@@ -36,30 +43,33 @@ export async function makeCeramicClient() {
 
   // Publish all the schemas and create their definitions referenced by an alias
   const aliases = {} as Record<string, string>;
+  const schemasCommitId = {} as Record<string, string>;
+
   for (const [schemaName, schema] of Object.entries(schemas.discovery)) {
     const publishedSchema = await publishSchema(ceramic, {
       content: schema,
       name: schemaName,
     });
+    const publishedSchemaCommitId = publishedSchema.commitId.toUrl();
+    schemasCommitId[schemaName] = publishedSchemaCommitId;
+
     const createdDefinition = await createDefinition(ceramic, {
       name: schemaName,
       description: `Discovery schema for ${schemaName}`,
-      schema: publishedSchema.commitId.toUrl(),
+      schema: publishedSchemaCommitId,
     });
     aliases[schemaName] = createdDefinition.id.toString();
   }
 
   const idx = new IDX({ ceramic, aliases });
-  return { ceramic, idx, aliases };
+  return { ceramic, idx, schemasCommitId };
 }
 
-export async function createCeramicDocument({
-  data,
-  family,
-  schema,
-}: CreateCeramicDocumentInput) {
+export async function createCeramicDocument(
+  { ceramic, idx }: CeramicInstanceDependency,
+  { data, family, schema }: CreateCeramicDocumentInput,
+) {
   try {
-    const { ceramic } = await makeCeramicClient();
     if (!ceramic) {
       return null;
     }
@@ -77,11 +87,11 @@ export async function createCeramicDocument({
 }
 
 export async function readCeramicRecord(
+  { idx }: CeramicInstanceDependency,
   alias: string,
   DID_OR_CAIP10_ID?: string,
 ) {
   try {
-    const { idx } = await makeCeramicClient();
     return await idx.get(alias, DID_OR_CAIP10_ID);
   } catch (error) {
     console.log({ readCeramicRecordError: error });
@@ -89,9 +99,11 @@ export async function readCeramicRecord(
   }
 }
 
-export async function getCeramicAlias(alias: string) {
+export async function getCeramicAlias(
+  { idx }: CeramicInstanceDependency,
+  alias: string,
+) {
   try {
-    const { idx } = await makeCeramicClient();
     return await idx.get(alias); // uses authenticated DID
   } catch (error) {
     console.log({ getCeramicAliasError: error });
