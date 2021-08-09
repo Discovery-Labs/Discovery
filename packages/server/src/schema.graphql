@@ -2,9 +2,39 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateProjectInput {
+  description: String!
+  github: String!
+  name: String!
+}
+
+type Mutation {
+  """Create a new Project in Discovery"""
+  createProject(input: CreateProjectInput!): Project
+}
+
+type Project {
+  categories: [String!]
+  contract_address: String
+  description: String!
+  discord: String
+  github: String!
+  is_featured: Boolean
+  logo: String
+  name: String!
+  peerProjects: [String!]
+  repos: [String!]
+  twitter: String
+  websites: [Website!]
+  whitepaper: String
+}
+
 type Query {
   """Checks if a user confirmation token is valid"""
   confirmationTokenStatus(input: TokenInput!): Int
+
+  """Gets all the projects in Discovery"""
+  getAllProjects: [Project!]
 
   """Gets a user by ID and returns its informations"""
   getUserById(input: UserDIDInput!): User
@@ -26,4 +56,9 @@ type User {
 
 input UserDIDInput {
   userDID: String!
+}
+
+type Website {
+  name: String!
+  url: String!
 }
