@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "description": "Server for services such as Ceramic and Web3 & NFT Storage",
   "author": "Cali93 <armut.cumaali@gmail.com>",
-  "private": false,
+  "private": true,
   "license": "GPL-3.0-or-later",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -104,5 +104,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "gitHead": "2ba1993f2d70de68f42a5f745bb1f7af774fdec0"
 }

@@ -13,7 +13,9 @@ export class GetAllProjectsResolver {
   async getAllProjects(
     @UseCeramicClient() ceramicClient: Ceramic,
   ): Promise<Project[] | null | undefined> {
-    console.log(await ceramicClient.idx.get('projects'));
+    const allDiscoveryProjects = await ceramicClient.idx.get('projects');
+    console.log(allDiscoveryProjects);
+    // const projectsOfUser = ceramicClient.idx.get('project', 'project-1');
     return undefined;
   }
 }

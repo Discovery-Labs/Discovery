@@ -1,13 +1,24 @@
 export const ProjectsSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Projects',
+  title: 'ProjectsList',
   type: 'object',
   properties: {
-    references: {
+    projects: {
       type: 'array',
+      title: 'projects',
       items: {
-        type: 'string',
+        type: 'object',
         title: 'ProjectItem',
+        properties: {
+          id: {
+            $ref: '#/definitions/CeramicStreamId',
+          },
+          name: {
+            type: 'string',
+            title: 'name',
+            maxLength: 100,
+          },
+        },
       },
     },
   },
