@@ -20,11 +20,11 @@ export class MeResolver {
     @Context() ctx: ContextType,
     @UseCeramicClient() ceramicClient: Ceramic,
   ): Promise<User | undefined> {
-    Logger.log('ceramicClient', ceramicClient.idx._aliases);
+    Logger.log('ceramicClient', ceramicClient);
     if (!ctx.req.session.userId || !ceramicClient) {
       return undefined;
     }
-    const user = this.userService.findByDID(ctx.req.session.userId);
+    const user = await this.userService.findByDID(ctx.req.session.userId);
     return user;
   }
 }

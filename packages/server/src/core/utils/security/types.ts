@@ -15,7 +15,7 @@ export interface Context {
 export interface Ceramic {
   ceramic: CeramicClient;
   idx: IDX;
-  aliases: Record<string, string>;
+  schemasCommitId: Record<string, string>;
 }
 
 export interface RateLimitOptionsType {

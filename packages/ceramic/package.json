@@ -1,6 +1,6 @@
 {
   "name": "@discovery-decrypted/ceramic",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "ceramic client utility functions",
   "author": "Cali93 <armut.cumaali@gmail.com>",
   "homepage": "https://github.com/Discovery-Labs/Discovery#readme",
@@ -34,5 +34,6 @@
     "@babel/preset-env": "^7.15.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.3.5"
-  }
+  },
+  "gitHead": "2ba1993f2d70de68f42a5f745bb1f7af774fdec0"
 }

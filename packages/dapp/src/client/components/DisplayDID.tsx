@@ -1,4 +1,4 @@
-import { useColorModeValue, Box, Button, Text } from '@chakra-ui/react'
+import { useColorModeValue, Box, Button } from '@chakra-ui/react'
 import React from 'react'
 import { HiPencilAlt } from 'react-icons/hi'
 import { Card } from '../../components/card/card'

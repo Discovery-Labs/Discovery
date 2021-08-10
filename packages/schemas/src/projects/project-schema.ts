@@ -3,12 +3,6 @@ export const ProjectSchema = {
   title: 'Project',
   type: 'object',
   properties: {
-    // "id": {
-    //   "$ref": "#/definitions/CeramicStreamId"
-    // },
-    name: {
-      type: "string"
-    },
     whitepaper: {
       type: "string"
     },
