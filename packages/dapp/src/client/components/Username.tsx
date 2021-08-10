@@ -1,4 +1,4 @@
-import { useColorModeValue, Box, Button, Text } from '@chakra-ui/react'
+import { Text } from '@chakra-ui/react'
 import React from 'react'
 
 
@@ -24,5 +24,5 @@ export default function Username() {
 
   const name = currentUser && currentUser.profile && currentUser.profile.name
 
-  return <Text>{name || text}</Text>
+  return <Text maxW="350px" isTruncated>{name || text}</Text>
 }
