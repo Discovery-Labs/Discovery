@@ -1,6 +1,6 @@
 {
   "name": "discovery-dapp",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "scripts": {
     "lint": "next lint",
@@ -19,7 +19,7 @@
     "@ceramicstudio/multiauth": "^0.2.3",
     "@chakra-ui/icons": "^1.0.14",
     "@chakra-ui/react": "^1.6.5",
-    "@discovery-decrypted/ceramic": "^0.0.4",
+    "@discovery-decrypted/ceramic": "^0.0.5",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "boring-avatars": "^1.5.8",
