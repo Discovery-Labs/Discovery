@@ -1,10 +1,10 @@
-import { HStack, Text, Wrap, WrapItem, Avatar } from '@chakra-ui/react'
+import { HStack, Text, Link } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 
 import { useEnvState, useKnownDIDsData } from '../hooks'
 import axios from 'axios'
-import { utils } from 'ethers'
-
+import { FiExternalLink } from 'react-icons/fi'
+import { jsx } from '@emotion/react'
 type Item = {
   contract_decimals: number
   contract_ticker_symbol: string
@@ -14,6 +14,23 @@ type Item = {
   quote: number
   quote_rate: number
   type: string
+  contract_name: string
+  nft_data: NFTData[]
+}
+
+type NFTData = {
+  token_id: string
+  token_balance: string
+  token_url: string
+  original_owner: string
+  external_data: {
+    name: string
+    description: null
+    image: string
+    animation_url: string
+    owner: string
+  }
+  owner: string
 }
 
 enum ChainID {
@@ -33,23 +50,19 @@ const instance = axios.create({
 interface API {
   api: string | undefined
 }
-export default function UserBalances(props: API) {
+export default function UserNFTs(props: API) {
   const { auth } = useEnvState()
   const knownDids = useKnownDIDsData()
   const [balances, setBalances] = useState([])
   const currentUser = knownDids && auth.id ? knownDids[auth.id] : null
-
-  function div18(balance: number) {
-    let decBalance = utils.formatUnits(balance, 18)
-    return Number.parseFloat(decBalance).toFixed(2)
-  }
 
   useEffect(() => {
     // Update the document title using the browser API
     console.log('Getting balances for: ', currentUser?.accounts[0].address)
     instance
       .get(
-        `/${ChainID.MumbaiTestnet}/address/${currentUser?.accounts[0].address}/balances_v2/?nft=true&key=${props?.api}`
+        `/1/address/0x75750d0bba74ecb961fa588873a0ef69c54361c1/balances_v2/?nft=true&key=${props?.api}` // Random wallet Used to show 2 NFTs as example
+        // `/${ChainID.MumbaiTestnet}/address/${currentUser?.accounts[0].address}/balances_v2/?nft=true&key=${props?.api}`
       )
       .then(function (response) {
         // handle success
@@ -69,18 +82,17 @@ export default function UserBalances(props: API) {
         <p>Loading..</p>
       ) : (
         balances
-          .filter((el: Item) => el.type === 'cryptocurrency')
+          .filter((el: Item) => el.type === 'nft' && el.balance > 0)
           .map((el: Item, i: number) => (
-            <HStack spacing="6" py="2" key={i}>
-              <Wrap>
-                <WrapItem>
-                  <Avatar bg="whiteAlpha.50" size="xs" name="logo" src={el.logo_url} />{' '}
-                </WrapItem>
-              </Wrap>
-              <Text >
-                {div18(el.balance)} {el.contract_ticker_symbol}
-              </Text>
-            </HStack>
+            <Link href={el.nft_data[0].external_data.image} isExternal>
+              <HStack spacing="6" py="2" key={i}>
+                {JSON.stringify(el)}
+                <FiExternalLink />
+                <Text>
+                  {el.balance} {el.contract_name}
+                </Text>
+              </HStack>
+            </Link>
           ))
       )}
     </Text>
