@@ -1,7 +1,6 @@
 import React from 'react'
 import { HStack, VStack, Text, useColorModeValue, Box, Link } from '@chakra-ui/react'
 import Image from './image'
-import { usePalette } from 'react-palette'
 
 interface Card {
   name: string
@@ -11,8 +10,6 @@ interface Card {
 }
 
 const ContentCard = ({ name, image, link, description }: Card) => {
-  const { data, loading, error } = usePalette(image)
-
   return (
     <Link href={link} isExternal>
       <HStack
@@ -35,20 +32,8 @@ const ContentCard = ({ name, image, link, description }: Card) => {
           overflow="hidden"
           lineHeight={0}
           boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)">
-          <Box
-            bg={data.lightVibrant}
-            position="absolute"
-            top={0}
-            bottom={0}
-            left={0}
-            right={0}
-            opacity={0.25}></Box>
-          <Image
-            src={image ? image : '/'}
-            height={36}
-            width={36}
-            layout="fixed"
-            rounded="md"></Image>
+          <Box position="absolute" top={0} bottom={0} left={0} right={0} opacity={0.25}></Box>
+          <Image src={image ? image : '/'} height={36} width={36} layout="fixed" rounded="md" />
         </Box>
 
         <VStack align="start" justify="flex-start" spacing={1} maxW="lg" h="100%">

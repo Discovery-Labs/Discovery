@@ -22,23 +22,23 @@ import { FiSearch, FiInfo } from 'react-icons/fi'
 
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
-import { ethers } from 'ethers'
+// import { ethers } from 'ethers'
 import { useEffect, useState, ChangeEvent, useCallback } from 'react'
-import Web3Modal from 'web3modal'
+// import Web3Modal from 'web3modal'
 
 import ContentCard from '../components/content-card'
 
-import NFTStore from '../../abis/NFTStore.json'
-import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
-import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
+// import NFTStore from '../../abis/NFTStore.json'
+// import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
+// import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
 import { Popover } from '../components/Popover'
 import { addApolloState, initializeApollo } from '../../lib/apolloClient'
 import { ALL_PROJECTS_QUERY } from '../graphql/projects'
 
-const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
-const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
-const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
+// const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
+// const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
+// const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo()
@@ -104,14 +104,14 @@ interface Cards {
 }
 
 const Paths = (props: Cards) => {
-  const [storeContract, setStoreContract] = useState({})
-  const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
-  const [questNFTContract, setQuestNFTContract] = useState({})
+  // const [storeContract, setStoreContract] = useState({})
+  // const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
+  // const [questNFTContract, setQuestNFTContract] = useState({})
 
-  console.log({ discoveryMergeNFTContract, questNFTContract })
-  useEffect(() => {
-    void fetchUser()
-  }, [])
+  // console.log({ discoveryMergeNFTContract, questNFTContract })
+  // useEffect(() => {
+  //   void fetchUser()
+  // }, [])
 
   const PROJECTS_POPOVER_TEXT = (
     <span>
@@ -132,35 +132,34 @@ const Paths = (props: Cards) => {
     console.log(event.target.value)
   }, [])
 
-  async function fetchUser() {
-    const web3Modal = new Web3Modal()
-    const connection = (await web3Modal.connect()) as
-      | ethers.providers.ExternalProvider
-      | ethers.providers.JsonRpcFetchFunc
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner()
-    // const userAddress = await signer.getAddress()
-    // setAddress(userAddress)
-    // setEventListeners(provider);
-    setContracts(signer)
-    // console.log('Account:', userAddress)
-  }
+  // async function fetchUser() {
+  //   const web3Modal = new Web3Modal()
+  //   const connection = (await web3Modal.connect()) as
+  //     | ethers.providers.ExternalProvider
+  //     | ethers.providers.JsonRpcFetchFunc
+  //   const provider = new ethers.providers.Web3Provider(connection)
+  //   const signer = provider.getSigner()
+  //   // const userAddress = await signer.getAddress()
+  //   // setAddress(userAddress)
+  //   // setEventListeners(provider);
+  //   setContracts(signer)
+  //   // console.log('Account:', userAddress)
+  // }
 
-  function setContracts(signer: ethers.providers.JsonRpcSigner) {
-    // Assign contract
-    const storeContract = new ethers.Contract(NFTStoreAddress, NFTStore, signer)
-    const discoveryMergeNFTContract = new ethers.Contract(
-      DiscoveryMergeNFTAddress,
-      DiscoveryMergeNFT,
-      signer
-    )
-    const questNFTContract = new ethers.Contract(QuestCompleteNFTAddress, QuestCompleteNFT, signer)
-    setStoreContract(storeContract)
-    setDiscoveryMergeNFTContract(discoveryMergeNFTContract)
-    setQuestNFTContract(questNFTContract)
-  }
+  // function setContracts(signer: ethers.providers.JsonRpcSigner) {
+  //   // Assign contract
+  //   const storeContract = new ethers.Contract(NFTStoreAddress, NFTStore, signer)
+  //   const discoveryMergeNFTContract = new ethers.Contract(
+  //     DiscoveryMergeNFTAddress,
+  //     DiscoveryMergeNFT,
+  //     signer
+  //   )
+  //   const questNFTContract = new ethers.Contract(QuestCompleteNFTAddress, QuestCompleteNFT, signer)
+  //   setStoreContract(storeContract)
+  //   setDiscoveryMergeNFTContract(discoveryMergeNFTContract)
+  //   setQuestNFTContract(questNFTContract)
+  // }
 
-  const GRAY_DARK = useColorModeValue('gray.500', 'gray.200')
   const GRAY_DARKER = useColorModeValue('gray.500', 'gray.500')
   const GRAY_LIGHT = useColorModeValue('gray.100', 'gray.800')
   return (
