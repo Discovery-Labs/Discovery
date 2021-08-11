@@ -3,7 +3,14 @@ import { HStack, VStack, Text, useColorModeValue, Box, Link } from '@chakra-ui/r
 import Image from './image'
 import { usePalette } from 'react-palette'
 
-const ContentCard = ({ name, image, link, description }) => {
+interface Card {
+  name: string
+  description: string
+  image: string
+  link?: string
+}
+
+const ContentCard = ({ name, image, link, description }: Card) => {
   const { data, loading, error } = usePalette(image)
 
   return (
@@ -27,7 +34,6 @@ const ContentCard = ({ name, image, link, description }) => {
           position="relative"
           overflow="hidden"
           lineHeight={0}
-          rounded="lg"
           boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)">
           <Box
             bg={data.lightVibrant}
@@ -46,7 +52,7 @@ const ContentCard = ({ name, image, link, description }) => {
         </Box>
 
         <VStack align="start" justify="flex-start" spacing={1} maxW="lg" h="100%">
-          <VStack spacing={0} align="start" flexGrow="1">
+          <VStack spacing={0} align="start">
             <Text fontWeight="bold" fontSize="md" noOfLines={2}>
               {name}
             </Text>

@@ -13,15 +13,12 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import Container from './container'
 import { useRouter } from 'next/router'
 import ThemeToggle from './theme-toggle'
 import { UserGroup, Code, ChevronDown, LightningBolt, ViewBoards } from 'heroicons-react'
 import Link from 'next/link'
-import AvatarNavigation from './avatar-navigation'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import logo from '../images/logo.svg'
 import discovery from '../images/discovery.png'
 
 const AccountButton = dynamic(() => import('../client/components/AccountButton'), {

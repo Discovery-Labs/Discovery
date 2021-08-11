@@ -2,7 +2,7 @@ import React from "react";
 import { Center } from "@chakra-ui/react";
 import Container from "./container";
 
-const Section = (props) => {
+const Section = (props: any) => {
   const { full, children, ...rest } = props;
   return (
     <Center as="section" {...rest} w="100%">
