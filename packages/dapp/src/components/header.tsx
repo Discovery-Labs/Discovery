@@ -15,7 +15,7 @@ import {
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import ThemeToggle from './theme-toggle'
-import { UserGroup, Code, ChevronDown, LightningBolt, ViewBoards } from 'heroicons-react'
+import { FiUsers, FiCode, FiChevronDown, FiZap, FiTablet} from 'react-icons/fi'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
@@ -86,7 +86,7 @@ const Header = () => {
                   variant="ghost"
                   size="md"
                   px={4}
-                  rightIcon={<ChevronDown size={18} />}>
+                  rightIcon={<FiChevronDown size={18} />}>
                   More
                 </MenuButton>
                 <MenuList>
@@ -94,7 +94,7 @@ const Header = () => {
                     <MenuItem>
                       <HStack>
                         <Icon
-                          as={Code}
+                          as={FiCode}
                           size={18}
                           color={useColorModeValue('blue.500', 'blue.200')}
                         />
@@ -106,7 +106,7 @@ const Header = () => {
                     <MenuItem>
                       <HStack>
                         <Icon
-                          as={UserGroup}
+                          as={FiUsers}
                           size={18}
                           color={useColorModeValue('blue.500', 'blue.200')}
                         />
@@ -118,7 +118,7 @@ const Header = () => {
                     <MenuItem>
                       <HStack>
                         <Icon
-                          as={LightningBolt}
+                          as={FiZap}
                           size={18}
                           color={useColorModeValue('blue.500', 'blue.200')}
                         />
@@ -130,7 +130,7 @@ const Header = () => {
                     <MenuItem>
                       <HStack>
                         <Icon
-                          as={ViewBoards}
+                          as={FiTablet}
                           size={18}
                           color={useColorModeValue('blue.500', 'blue.200')}
                         />
