@@ -46,6 +46,9 @@ export class CreateProjectResolver {
     const allProjects = await ceramicClient.idx.get<ProjectsList>('projects');
     console.log(allProjects);
 
-    return createdProject.doc.content;
+    return {
+      id: createdProject.doc.id.toUrl(),
+      ...createdProject.doc.content,
+    };
   }
 }

@@ -4,7 +4,6 @@ import { IDX } from '@ceramicstudio/idx'
 import type { AlsoKnownAs, BasicProfile, CryptoAccounts } from '@ceramicstudio/idx-constants'
 import { Resolver } from 'did-resolver'
 import KeyDidResolver from 'key-did-resolver'
-import { makeCeramicClient } from '@discovery-decrypted/ceramic/lib/ceramic/src/ceramic'
 import { getConfig } from './config'
 import type { AppNetwork, ConfigURLs } from './config'
 
@@ -38,14 +37,6 @@ export class Core {
 
   get resolver(): Resolver {
     return this._resolver
-  }
-
-  async bootstrapCeramicApp(): Promise<{
-    ceramic: Ceramic
-    idx: IDX
-    aliases: Record<string, string>
-  }> {
-    return makeCeramicClient()
   }
 
   async getAlsoKnownAs(id: string): Promise<AlsoKnownAs | null> {

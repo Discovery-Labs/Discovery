@@ -1,18 +1,19 @@
 import { Anchor, Box, Button, Heading, Text } from 'grommet'
 import Link from 'next/link'
 
-import { useEnvState } from '../hooks'
+// import { useEnvState } from '../hooks'
 
 import ConnectedContainer from './ConnectedContainer'
 
 export default function SettingsScreen() {
-  const { self } = useEnvState()
+  // const { self } = useEnvState()
 
   return (
     <ConnectedContainer>
+      {/* <Heading margin={{ horizontal: 'none', vertical: 'small' }}>Public Profile</Heading>
       <Link href={`/${self?.id as string}`} passHref>
         <Anchor color="neutral-4">{self?.id}</Anchor>
-      </Link>
+      </Link> */}
       <Heading margin={{ horizontal: 'none', vertical: 'small' }}>Settings</Heading>
       <Box margin={{ top: 'medium' }}>
         <Box

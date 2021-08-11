@@ -33,16 +33,12 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
 
-import dynamic from 'next/dynamic'
 import { addApolloState, initializeApollo } from '../../lib/apolloClient'
 import { ALL_PROJECTS_QUERY } from '../graphql/projects'
 
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
 const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
-const DisplayDID = dynamic(() => import('../client/components/DisplayDID'), {
-  ssr: false,
-})
 
 export async function getStaticProps() {
   const apolloClient = initializeApollo()
@@ -178,7 +174,6 @@ const Paths = (props: Cards) => {
       <VStack spacing={8}>
         <Section>
           <VStack>
-            <DisplayDID />
             <InputGroup flex={1} css={inputGroupCss}>
               <InputLeftElement pointerEvents="none">
                 <Search2Icon color="gray.300" />

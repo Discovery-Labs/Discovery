@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 
-
 import { VStack } from '@chakra-ui/react'
 import PageTransition from '../../../components/page-transitions'
 import Section from '../../../components/section'

@@ -22,9 +22,13 @@ import twitterIcon from '../images/icons/social-twitter.svg'
 import { BRAND_COLOR, PLACEHOLDER_COLOR } from '../theme'
 import { isEthereumAddress, isSupportedDid } from '../utils'
 
-import { Box, Grid, Heading, HStack, Link, Text, VStack, Badge } from '@chakra-ui/react'
+import { Box, Heading, HStack, Link, Text, VStack } from '@chakra-ui/react'
 import SocialCard from '../components/social-card'
 const ETH_CHAIN_ID = `@eip155:1`
+
+const DisplayDID = dynamic(() => import('../client/components/DisplayDID'), {
+  ssr: false,
+})
 
 export function getImageURL(
   sources: ImageSources | undefined,
@@ -332,6 +336,7 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
               {profile.emoji ? ` ${profile.emoji}` : null}
             </Heading>
           </Box>
+          <DisplayDID />
           <Box align="center" pt="2" fontSize="md" color="gray.500">
             <Text color="neutral-4" align="center">
               {id}
