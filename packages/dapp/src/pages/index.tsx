@@ -36,6 +36,8 @@ import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
 import dynamic from 'next/dynamic'
+import { addApolloState, initializeApollo } from '../../lib/apolloClient'
+import { ALL_PROJECTS_QUERY } from '../graphql/projects'
 
 const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
@@ -43,7 +45,14 @@ const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
 const DisplayDID = dynamic(() => import('../client/components/DisplayDID'), {
   ssr: false,
 })
-export function getStaticProps() {
+
+export async function getStaticProps() {
+  const apolloClient = initializeApollo()
+
+  const projects = await apolloClient.query({
+    query: ALL_PROJECTS_QUERY,
+  })
+
   const categories = [
     {
       category: 'polygon',
@@ -71,12 +80,13 @@ export function getStaticProps() {
     },
   ]
 
-  return {
+  return addApolloState(apolloClient, {
     props: {
       categories,
+      projects: projects.data.getAllProjects,
     },
     revalidate: 600,
-  }
+  })
 }
 
 interface Cards {
@@ -90,16 +100,22 @@ interface Cards {
       link: string
     }
   ]
+  projects: [
+    {
+      name: string
+      description: string
+      github: string
+      color: string
+    }
+  ]
 }
 
 const Paths = (props: Cards) => {
-  // const [address, setAddress] = useState()
-
   const [storeContract, setStoreContract] = useState({})
   const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
   const [questNFTContract, setQuestNFTContract] = useState({})
 
-  console.log(discoveryMergeNFTContract, questNFTContract)
+  console.log({ discoveryMergeNFTContract, questNFTContract })
   useEffect(() => {
     void fetchUser()
   }, [])
@@ -151,6 +167,9 @@ const Paths = (props: Cards) => {
     setQuestNFTContract(questNFTContract)
   }
 
+  const GRAY_DARK = useColorModeValue('gray.500', 'gray.200')
+  const GRAY_DARKER = useColorModeValue('gray.500', 'gray.500')
+  const GRAY_LIGHT = useColorModeValue('gray.100', 'gray.800')
   return (
     <PageTransition>
       <VStack spacing={8}>
@@ -186,58 +205,26 @@ const Paths = (props: Cards) => {
         <Section>
           <Tabs variant="soft-rounded" colorScheme="blue" align="center" w="100%">
             <TabList display="flex" flexWrap="wrap">
-              <Tab
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.500', 'gray.500')}
-                _selected={{
-                  color: useColorModeValue('gray.100', 'gray.800'),
-                  bg: useColorModeValue('gray.900', 'gray.100'),
-                }}
-                mr={2}
-                mt={2}>
-                <HStack spacing={1}>
-                  <Text>Polygon</Text>
-                </HStack>
-              </Tab>
-              <Tab
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.600', 'gray.500')}
-                _selected={{
-                  color: 'green.800',
-                  bg: 'green.100',
-                }}
-                mr={2}
-                mt={2}>
-                <HStack spacing={1}>
-                  <Text>Ethereum</Text>
-                </HStack>
-              </Tab>
-              <Tab
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.600', 'gray.500')}
-                _selected={{
-                  color: 'red.800',
-                  bg: 'red.100',
-                }}
-                mr={2}
-                mt={2}>
-                <HStack spacing={1}>
-                  <Text>The Graph</Text>
-                </HStack>
-              </Tab>
-              <Tab
-                bg={useColorModeValue('gray.100', 'gray.800')}
-                color={useColorModeValue('gray.600', 'gray.500')}
-                _selected={{
-                  color: 'blue.800',
-                  bg: 'blue.100',
-                }}
-                mr={2}
-                mt={2}>
-                <HStack spacing={1}>
-                  <Text>Bitcoin</Text>
-                </HStack>
-              </Tab>
+              {props.projects &&
+                props.projects.length > 0 &&
+                props.projects.map((project) => {
+                  return (
+                    <Tab
+                      key={project.name}
+                      bg={GRAY_LIGHT}
+                      color={GRAY_DARKER}
+                      _selected={{
+                        color: `${project.color}.800`,
+                        bg: `${project.color}.100`,
+                      }}
+                      mr={2}
+                      mt={2}>
+                      <HStack spacing={1}>
+                        <Text>{project.name}</Text>
+                      </HStack>
+                    </Tab>
+                  )
+                })}
             </TabList>
             <TabPanels>
               <TabPanel px={0}>

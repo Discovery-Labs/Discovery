@@ -5,7 +5,13 @@ export type CeramicStreamId = string;
 @ObjectType()
 export class Project {
   @Field()
+  id: string;
+
+  @Field()
   name: string;
+
+  @Field()
+  color?: string;
 
   @Field()
   whitepaper?: string;

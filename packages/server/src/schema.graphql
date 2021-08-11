@@ -3,6 +3,7 @@
 # ------------------------------------------------------
 
 input CreateProjectInput {
+  color: String!
   description: String!
   github: String!
   name: String!
@@ -15,10 +16,12 @@ type Mutation {
 
 type Project {
   categories: [String!]
+  color: String
   contract_address: String
   description: String!
   discord: String
   github: String!
+  id: String!
   is_featured: Boolean
   logo: String
   name: String!

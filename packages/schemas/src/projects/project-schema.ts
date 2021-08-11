@@ -3,6 +3,9 @@ export const ProjectSchema = {
   title: 'Project',
   type: 'object',
   properties: {
+    color: {
+      type: "string"
+    },
     whitepaper: {
       type: "string"
     },
