@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react'
 import { useEnvState, useKnownDIDsData } from '../hooks'
 import axios from 'axios'
 import { FiExternalLink } from 'react-icons/fi'
-import { jsx } from '@emotion/react'
 type Item = {
   contract_decimals: number
   contract_ticker_symbol: string

@@ -38,10 +38,10 @@ const projects = [
     id: '1',
     name: 'Course How to Do X',
     description: 'For 1 cup of uncooked quinoa,',
-    categories: ['polygon','bsc'],
+    categories: ['polygon', 'bsc'],
     logo: '/abstract.png',
     website: 'https://google.com',
-    isFeatured: true
+    isFeatured: true,
   },
   {
     id: '2',
@@ -58,7 +58,7 @@ const projects = [
     categories: ['solana'],
     logo: '/abstract.png',
     website: 'https://google.com',
-    github: 'https://github.com'
+    github: 'https://github.com',
   },
 ]
 
@@ -169,14 +169,8 @@ export default function Dashboard() {
       </Flex>
 
       {/* Column 3 */}
-      <Flex
-        w={['100%', '100%', '30%']}
-        bgColor="#F5F5F5"
-        p="3%"
-        flexDir="column"
-        overflow="auto"
-        rounded="3xl"
-        minW={[null, null, '300px', '300px', '400px']}>
+
+      <Flex w={['100%', '100%', '30%']} borderWidth="1px" p="3%" flexDir="column" rounded="3xl">
         <Heading letterSpacing="tight">My Progress</Heading>
         <Box align="center" py="6">
           <CircularProgress value={40} color="green.400" size="200px">
@@ -231,6 +225,7 @@ export default function Dashboard() {
           Start streaming
         </Button>
       </Flex>
+      <Box p={4}></Box>
     </Flex>
   )
 }
