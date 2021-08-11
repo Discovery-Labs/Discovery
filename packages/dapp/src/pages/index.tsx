@@ -11,12 +11,14 @@ import {
   TabPanel,
   useColorModeValue,
   SimpleGrid,
-  Button,
   InputGroup,
   InputLeftElement,
   Input,
+  useBreakpointValue,
+  IconProps,
+  Icon,
 } from '@chakra-ui/react'
-import { Search2Icon } from '@chakra-ui/icons'
+import { FiSearch, FiInfo } from 'react-icons/fi'
 
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
@@ -30,9 +32,7 @@ import NFTStore from '../../abis/NFTStore.json'
 import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
 import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
-import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
-
 import { addApolloState, initializeApollo } from '../../lib/apolloClient'
 import { ALL_PROJECTS_QUERY } from '../graphql/projects'
 
@@ -115,9 +115,8 @@ const Paths = (props: Cards) => {
 
   const PROJECTS_POPOVER_TEXT = (
     <span>
-      Click on the projects to see more details about it.
-      <br /> Also, there are filters to explore projects according to certain titles and
-      technologies.
+      Click on the courses to see more details about it.
+      <br />
     </span>
   )
 
@@ -161,10 +160,6 @@ const Paths = (props: Cards) => {
     setQuestNFTContract(questNFTContract)
   }
 
-  function getOwner() {
-    return storeContract
-  }
-
   const GRAY_DARK = useColorModeValue('gray.500', 'gray.200')
   const GRAY_DARKER = useColorModeValue('gray.500', 'gray.500')
   const GRAY_LIGHT = useColorModeValue('gray.100', 'gray.800')
@@ -173,33 +168,28 @@ const Paths = (props: Cards) => {
       <VStack spacing={8}>
         <Section>
           <VStack>
-            <InputGroup flex={1} css={inputGroupCss}>
-              <InputLeftElement pointerEvents="none">
-                <Search2Icon color="gray.300" />
-              </InputLeftElement>
-              <Input
-                css={inputCss}
-                type="text"
-                onChange={handleTitleInputChange}
-                placeholder="Search for project title"
+            <HStack align="start" my={6}>
+              <Heading
+                fontWeight="bold"
+                fontSize="6xl"
+                // bgGradient="linear(to-l, #7928CA, #FF0080)"
+                // bgClip="text"
+              >
+                Paths
+              </Heading>
+              <Popover
+                popoverTextElement={PROJECTS_POPOVER_TEXT}
+                buttonContent={<FiInfo size={12} />}
               />
-            </InputGroup>
-          </VStack>
-        </Section>
-        <Section>
-          <VStack>
-            <Heading fontSize="10vw" bgGradient="linear(to-l, #7928CA, #FF0080)" bgClip="text">
-              Paths
-            </Heading>
-            <Popover
-              popoverTextElement={PROJECTS_POPOVER_TEXT}
-              buttonContent={<InfoIcon boxSize={5} color="green.400" />}
-            />
-            <Text fontSize={['xl', '2xl']} color={GRAY_DARK} maxW="lg" textAlign="center">
+            </HStack>
+            <Text
+              fontSize={['xl', '2xl']}
+              color={useColorModeValue('gray.700', 'gray.200')}
+              maxW="lg"
+              textAlign="center">
               Discovery paths categories: social entertainment, video, virtual reality, art &
               collectibles
             </Text>
-            <Button onClick={getOwner}>Click</Button>
           </VStack>
         </Section>
         <Section>
@@ -245,9 +235,45 @@ const Paths = (props: Cards) => {
             </TabPanels>
           </Tabs>
         </Section>
+        <Section>
+          <VStack>
+            <InputGroup flex={1} css={inputGroupCss}>
+              <InputLeftElement pointerEvents="none">
+                <FiSearch color="gray.300" />
+              </InputLeftElement>
+              <Input
+                css={inputCss}
+                type="text"
+                onChange={handleTitleInputChange}
+                placeholder="Search for project title"
+              />
+            </InputGroup>
+          </VStack>
+        </Section>
+        <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
       </VStack>
     </PageTransition>
   )
 }
 
+export const Blur = (props: IconProps) => {
+  return (
+    <Icon
+      width={useBreakpointValue({ base: '100%', md: '70vw', lg: '60vw' })}
+      zIndex={useBreakpointValue({ base: -1, md: -1, lg: -1 })}
+      height="560px"
+      viewBox="0 0 528 560"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}>
+      <circle cx="71" cy="61" r="111" fill="#F56565" />
+      <circle cx="244" cy="106" r="139" fill="#ED64A6" />
+      <circle cy="291" r="139" fill="#ED64A6" />
+      <circle cx="80.5" cy="189.5" r="101.5" fill="#ED8936" />
+      <circle cx="196.5" cy="317.5" r="101.5" fill="#ECC94B" />
+      <circle cx="70.5" cy="458.5" r="101.5" fill="#48BB78" />
+      <circle cx="426.5" cy="-0.5" r="101.5" fill="#4299E1" />
+    </Icon>
+  )
+}
 export default Paths

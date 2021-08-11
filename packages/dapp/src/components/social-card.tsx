@@ -1,11 +1,12 @@
 import React from 'react'
 import { HStack, VStack, Text, useColorModeValue, Box, Link } from '@chakra-ui/react'
-import Image from './image'
-import { usePalette } from 'react-palette'
 
-const SocialCard = ({ name, image, link }) => {
-  const { data, loading, error } = usePalette(image)
-
+interface Card {
+  name: string
+  image: JSX.Element | null
+  link: string
+}
+const SocialCard = ({ name, image, link }: Card) => {
   return (
     <Link href={link} isExternal>
       <HStack
@@ -27,21 +28,20 @@ const SocialCard = ({ name, image, link }) => {
           position="relative"
           overflow="hidden"
           lineHeight={0}
-          rounded="lg"
           boxShadow="inset 0 0 1px 1px rgba(0, 0, 0, 0.015)">
           <Box
-            bg={data.lightVibrant}
+            bg="whiteAlpha.50"
             position="absolute"
             top={0}
             bottom={0}
             left={0}
             right={0}
             opacity={0.25}></Box>
-            {image}
+          {image}
         </Box>
 
         <VStack align="start" justify="flex-start" spacing={1} maxW="lg" h="100%">
-          <VStack spacing={0} align="start" flexGrow="1">
+          <VStack spacing={0} align="start">
             <Text fontWeight="bold" fontSize="md" noOfLines={2}>
               {name}
             </Text>

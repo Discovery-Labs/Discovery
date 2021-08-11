@@ -13,15 +13,12 @@ import {
   Icon,
 } from '@chakra-ui/react'
 import NextLink from 'next/link'
-import Container from './container'
 import { useRouter } from 'next/router'
 import ThemeToggle from './theme-toggle'
-import { UserGroup, Code, ChevronDown, LightningBolt } from 'heroicons-react'
+import { UserGroup, Code, ChevronDown, LightningBolt, ViewBoards } from 'heroicons-react'
 import Link from 'next/link'
-import AvatarNavigation from './avatar-navigation'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import logo from '../images/logo.svg'
 import discovery from '../images/discovery.png'
 
 const AccountButton = dynamic(() => import('../client/components/AccountButton'), {
@@ -75,10 +72,12 @@ const Header = () => {
         <VStack align="start" spacing={0}>
           <HStack justify="space-between" w="100%" h={16}>
             <HStack>
+              <Box pl={2}>
               <Link href="/">
                 {/* <Image src={logo as StaticImageData} alt="Self.ID" /> */}
                 <Image src={discovery} alt="Discovery" width={133} height={27}/>
               </Link>
+              </Box>
               <NavLink href="/paths" name="Paths" />
               <NavLink href="/getstarted" name="Get Started" />
               <Menu>
@@ -88,7 +87,7 @@ const Header = () => {
                   size="md"
                   px={4}
                   rightIcon={<ChevronDown size={18} />}>
-                  Links
+                  More
                 </MenuButton>
                 <MenuList>
                   <a href="http://google.com/">
@@ -127,11 +126,23 @@ const Header = () => {
                       </HStack>
                     </MenuItem>
                   </Link>
+                  <Link href="/dashboard">
+                    <MenuItem>
+                      <HStack>
+                        <Icon
+                          as={ViewBoards}
+                          size={18}
+                          color={useColorModeValue('blue.500', 'blue.200')}
+                        />
+                        <Text>Dashboard</Text>
+                      </HStack>
+                    </MenuItem>
+                  </Link>
                 </MenuList>
               </Menu>
             </HStack>
             <HStack>
-              <ThemeToggle mobile={false} />
+              <ThemeToggle />
               <AccountButton />
             </HStack>
           </HStack>
