@@ -11,7 +11,6 @@ import {
   TabPanel,
   useColorModeValue,
   SimpleGrid,
-  Button,
   InputGroup,
   InputLeftElement,
   Input,
@@ -19,7 +18,7 @@ import {
   IconProps,
   Icon,
 } from '@chakra-ui/react'
-import { Search2Icon } from '@chakra-ui/icons'
+import { FiSearch, FiInfo } from 'react-icons/fi'
 
 import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
@@ -33,7 +32,6 @@ import NFTStore from '../../abis/NFTStore.json'
 import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
 import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
-import { InfoIcon } from '@chakra-ui/icons'
 import { Popover } from '../components/Popover'
 import { addApolloState, initializeApollo } from '../../lib/apolloClient'
 import { ALL_PROJECTS_QUERY } from '../graphql/projects'
@@ -169,13 +167,11 @@ const Paths = (props: Cards) => {
   return (
     <PageTransition>
       <VStack spacing={8}>
-
         <Section>
           <VStack>
-            <HStack align="start">
+            <HStack align="start" my={6}>
               <Heading
                 fontWeight="bold"
-                mb={4}
                 fontSize="6xl"
                 // bgGradient="linear(to-l, #7928CA, #FF0080)"
                 // bgClip="text"
@@ -184,10 +180,9 @@ const Paths = (props: Cards) => {
               </Heading>
               <Popover
                 popoverTextElement={PROJECTS_POPOVER_TEXT}
-                buttonContent={<InfoIcon boxSize={3} color="green.400" />}
+                buttonContent={<FiInfo size={12} />}
               />
             </HStack>
-
             <Text
               fontSize={['xl', '2xl']}
               color={useColorModeValue('gray.700', 'gray.200')}
@@ -245,7 +240,7 @@ const Paths = (props: Cards) => {
           <VStack>
             <InputGroup flex={1} css={inputGroupCss}>
               <InputLeftElement pointerEvents="none">
-                <Search2Icon color="gray.300" />
+                <FiSearch color="gray.300" />
               </InputLeftElement>
               <Input
                 css={inputCss}
