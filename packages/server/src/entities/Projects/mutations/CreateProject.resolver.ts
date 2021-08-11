@@ -20,37 +20,32 @@ export class CreateProjectResolver {
   })
   async createProject(
     @UseCeramicClient() ceramicClient: Ceramic,
-    @Args('input') { name, description, github }: CreateProjectInput,
+    @Args('input') project: CreateProjectInput,
   ): Promise<Project | null | undefined> {
     const createdProject = await createCeramicDocument(ceramicClient, {
-      data: { name, description, github },
+      data: project,
       family: 'project',
       schema: ceramicClient.schemasCommitId['project'],
     });
     if (!createdProject) {
       return null;
     }
-    console.log('PROJECT CREATED');
-
-    await ceramicClient.idx.set('project', createdProject.doc.content);
-    console.log('INDEX PROJECT SET');
 
     const existingProjects = await ceramicClient.idx.get<ProjectsList>(
       'projects',
     );
-    console.log('existingProjects', existingProjects);
 
     const projects = existingProjects?.projects ?? [];
     await ceramicClient.idx.set('projects', {
-      projects: [{ id: createdProject.doc.id.toUrl(), name }, ...projects],
+      projects: [
+        { id: createdProject.doc.id.toUrl(), name: project.name },
+        ...projects,
+      ],
     });
-    console.log('PROJECTS IDX SET');
 
-    // const createdProjects = await createCeramicDocument(ceramicClient, {
-    //   data: { references: [createdProject.streamId] },
-    //   family: 'projects',
-    //   schema: ceramicClient.schemasCommitId['projects'],
-    // });
+    const allProjects = await ceramicClient.idx.get<ProjectsList>('projects');
+    console.log(allProjects);
+
     return createdProject.doc.content;
   }
 }

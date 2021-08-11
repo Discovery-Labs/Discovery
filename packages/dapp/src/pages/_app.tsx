@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Provider as MultiauthProvider } from '@ceramicstudio/multiauth'
 import { Grommet } from 'grommet'
 import { Provider as StateProvider } from 'jotai'
-import NextApp, { AppInitialProps } from 'next/app'
 import Head from 'next/head'
 import { Toaster } from 'react-hot-toast'
 import { createGlobalStyle } from 'styled-components'
-import { Box, ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from '@chakra-ui/react'
 import Header from '../components/header'
+import { ApolloProvider } from '@apollo/client'
+import { useApollo } from '../../lib/apolloClient'
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
@@ -47,12 +49,13 @@ const GlobalStyle = createGlobalStyle`
 
 import { connectors } from '../auth'
 import { theme } from '../theme'
+import { AppProps } from 'next/app'
 
-export default class App extends NextApp<AppInitialProps> {
-  render() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { Component, pageProps } = this.props
-    return (
+export default function App({ Component, pageProps }: AppProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const apolloClient = useApollo(pageProps)
+  return (
+    <ApolloProvider client={apolloClient}>
       <MultiauthProvider providers={[{ key: 'ethereum', connectors }]} theme={theme}>
         <StateProvider>
           <ChakraProvider>
@@ -72,6 +75,6 @@ export default class App extends NextApp<AppInitialProps> {
           </ChakraProvider>
         </StateProvider>
       </MultiauthProvider>
-    )
-  }
+    </ApolloProvider>
+  )
 }

@@ -16,6 +16,8 @@ import config from './core/configs/config';
 import { GraphqlConfig } from './core/configs/config.interface';
 import { UserModule } from './entities/User/User.module';
 import { ProjectModule } from './entities/Projects/Project.module';
+import { KnowsisController } from './core/controllers/knowsis.controller';
+import { DefinitionsController } from './core/controllers/definitions.controller';
 
 @Module({
   imports: [
@@ -51,7 +53,12 @@ import { ProjectModule } from './entities/Projects/Project.module';
     UserModule,
     ProjectModule,
   ],
-  controllers: [AppController, HealthController],
+  controllers: [
+    AppController,
+    HealthController,
+    KnowsisController,
+    DefinitionsController,
+  ],
   providers: [AppService, ConfigService],
 })
 export class AppModule {}
