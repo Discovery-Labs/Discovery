@@ -18,6 +18,8 @@ import {
   IconProps,
   Icon,
 } from '@chakra-ui/react'
+import Image from 'next/image'
+
 import { FiSearch, FiInfo } from 'react-icons/fi'
 
 import PageTransition from '../components/page-transitions'
@@ -27,6 +29,7 @@ import { useEffect, useState, ChangeEvent, useCallback } from 'react'
 // import Web3Modal from 'web3modal'
 
 import ContentCard from '../components/content-card'
+import discoverySimple from '../images/discovery-simple.png'
 
 // import NFTStore from '../../abis/NFTStore.json'
 // import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
@@ -115,7 +118,7 @@ const Paths = (props: Cards) => {
 
   const PROJECTS_POPOVER_TEXT = (
     <span>
-      Click on the courses to see more details about it.
+      Click on the projects to see more details about it.
       <br />
     </span>
   )
@@ -167,6 +170,7 @@ const Paths = (props: Cards) => {
       <VStack spacing={8}>
         <Section>
           <VStack>
+            <Image src={discoverySimple} alt="Discovery" width={200} height={200} />
             <HStack align="start" my={6}>
               <Heading
                 fontWeight="bold"
@@ -174,7 +178,7 @@ const Paths = (props: Cards) => {
                 // bgGradient="linear(to-l, #7928CA, #FF0080)"
                 // bgClip="text"
               >
-                Paths
+                Discovery Pathways
               </Heading>
               <Popover
                 popoverTextElement={PROJECTS_POPOVER_TEXT}
@@ -186,8 +190,8 @@ const Paths = (props: Cards) => {
               color={useColorModeValue('gray.700', 'gray.200')}
               maxW="lg"
               textAlign="center">
-              Discovery paths categories: social entertainment, video, virtual reality, art &
-              collectibles
+              Discover topics such as finance, governance, social entertainment, video streaming,
+              gaming, art & collectibles in the Web3 space.
             </Text>
           </VStack>
         </Section>

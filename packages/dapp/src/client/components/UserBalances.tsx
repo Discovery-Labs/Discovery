@@ -40,28 +40,30 @@ export default function UserBalances(props: API) {
   const currentUser = knownDids && auth.id ? knownDids[auth.id] : null
 
   function div18(balance: number) {
-    let decBalance = utils.formatUnits(balance, 18)
+    const decBalance = utils.formatUnits(balance, 18)
     return Number.parseFloat(decBalance).toFixed(2)
   }
 
   useEffect(() => {
     // Update the document title using the browser API
     console.log('Getting balances for: ', currentUser?.accounts[0].address)
-    instance
-      .get(
-        `/${ChainID.MumbaiTestnet}/address/${currentUser?.accounts[0].address}/balances_v2/?nft=true&key=${props?.api}`
-      )
-      .then(function (response) {
-        // handle success
-        const { data } = response
-        setBalances(data.data.items)
-        console.log(data.data.items)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error)
-      })
-  }, [currentUser])
+    currentUser &&
+      props?.api &&
+      instance
+        .get(
+          `/${ChainID.Ethereum}/address/${currentUser.accounts[0].address}/balances_v2/?nft=true&key=${props.api}`
+        )
+        .then(function (response) {
+          // handle success
+          const { data } = response
+          setBalances(data.data.items)
+          console.log(data.data.items)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+  }, [currentUser, props.api])
 
   return (
     <>

@@ -2,6 +2,38 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Course {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  description: String!
+  gitbook: String!
+  id: String!
+  projects: [Project!]
+  quests: [Quest!]!
+  title: String!
+  type: CourseEnum!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+"""
+Branched = theorical lessons and Decrypted = technical hands on lessons
+"""
+enum CourseEnum {
+  BRANCHED
+  DECRYPTED
+}
+
+input CreateCourseInput {
+  description: String!
+  gitbook: String!
+  level: String!
+  preRequisiteCourses: [String!]!
+  projects: [String!]!
+  title: String!
+}
+
 input CreateProjectInput {
   color: String!
   description: String!
@@ -9,9 +41,29 @@ input CreateProjectInput {
   name: String!
 }
 
+input CreateQuestInput {
+  courseId: String!
+  description: String!
+  gitbook: String!
+  level: String!
+  preRequisites: [String!]!
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
+  """Create a new Course in Discovery"""
+  createCourse(input: CreateCourseInput!): Course
+
   """Create a new Project in Discovery"""
   createProject(input: CreateProjectInput!): Project
+
+  """Create a new Quest in Discovery"""
+  createQuest(input: CreateQuestInput!): Quest
 }
 
 type Project {
@@ -36,14 +88,28 @@ type Query {
   """Checks if a user confirmation token is valid"""
   confirmationTokenStatus(input: TokenInput!): Int
 
+  """Gets all the courses in Discovery"""
+  getAllCourses: [Course!]
+
   """Gets all the projects in Discovery"""
   getAllProjects: [Project!]
+
+  """Gets all the quests in Discovery"""
+  getAllQuests: [Quest!]
 
   """Gets a user by ID and returns its informations"""
   getUserById(input: UserDIDInput!): User
 
   """Gets the currently logged in user"""
   me: User
+}
+
+type Quest {
+  completedBy: [String!]
+  courseId: String!
+  description: String!
+  id: String!
+  title: String!
 }
 
 input TokenInput {

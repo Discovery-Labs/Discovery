@@ -19,7 +19,7 @@ import { UserGroup, Code, ChevronDown, LightningBolt, ViewBoards } from 'heroico
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
-import discovery from '../images/discovery.png'
+import discoverySimple from '../images/discovery-simple.png'
 
 const AccountButton = dynamic(() => import('../client/components/AccountButton'), {
   ssr: false,
@@ -27,7 +27,7 @@ const AccountButton = dynamic(() => import('../client/components/AccountButton')
 
 function NavLink(props: any) {
   const { href, name, ...rest } = props
-  var isActive = false
+  let isActive = false
   const { pathname } = useRouter()
 
   if (href !== '/') {
@@ -73,10 +73,9 @@ const Header = () => {
           <HStack justify="space-between" w="100%" h={16}>
             <HStack>
               <Box pl={2}>
-              <Link href="/">
-                {/* <Image src={logo as StaticImageData} alt="Self.ID" /> */}
-                <Image src={discovery} alt="Discovery" width={133} height={27}/>
-              </Link>
+                <Link href="/" passHref>
+                  <Image src={discoverySimple} alt="Discovery" width={45} height={45} />
+                </Link>
               </Box>
               <NavLink href="/paths" name="Paths" />
               <NavLink href="/getstarted" name="Get Started" />
@@ -114,7 +113,7 @@ const Header = () => {
                       </HStack>
                     </MenuItem>
                   </a>
-                  <Link href="/getinvolved">
+                  <Link href="/getinvolved" passHref>
                     <MenuItem>
                       <HStack>
                         <Icon
@@ -126,7 +125,7 @@ const Header = () => {
                       </HStack>
                     </MenuItem>
                   </Link>
-                  <Link href="/dashboard">
+                  <Link href="/dashboard" passHref>
                     <MenuItem>
                       <HStack>
                         <Icon

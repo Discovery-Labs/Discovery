@@ -18,6 +18,8 @@ import { UserModule } from './entities/User/User.module';
 import { ProjectModule } from './entities/Projects/Project.module';
 import { KnowsisController } from './core/controllers/knowsis.controller';
 import { DefinitionsController } from './core/controllers/definitions.controller';
+import { CourseModule } from './entities/Courses/Course.module';
+import { QuestModule } from './entities/Quests/Quest.module';
 
 @Module({
   imports: [
@@ -52,6 +54,8 @@ import { DefinitionsController } from './core/controllers/definitions.controller
     TerminusModule,
     UserModule,
     ProjectModule,
+    CourseModule,
+    QuestModule,
   ],
   controllers: [
     AppController,

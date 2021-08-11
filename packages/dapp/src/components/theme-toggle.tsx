@@ -1,7 +1,7 @@
 import React from 'react'
 import { IconButton, useColorMode, ScaleFade, Tooltip } from '@chakra-ui/react'
 import useSound from 'use-sound'
-import { FiSun, FiMoon } from "react-icons/fi";
+import { FiSun, FiMoon } from 'react-icons/fi'
 
 const ThemeToggle = () => {
   const { colorMode, toggleColorMode } = useColorMode()
