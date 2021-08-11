@@ -14,7 +14,7 @@ type Item = {
   quote_rate: number
   type: string
   contract_name: string
-  nft_data: NFTData[]
+  nft_data: Array<NFTData>
 }
 
 type NFTData = {
@@ -58,21 +58,22 @@ export default function UserNFTs(props: API) {
   useEffect(() => {
     // Update the document title using the browser API
     console.log('Getting balances for: ', currentUser?.accounts[0].address)
-    instance
-      .get(
-        `/1/address/0x75750d0bba74ecb961fa588873a0ef69c54361c1/balances_v2/?nft=true&key=${props?.api}` // Random wallet Used to show 2 NFTs as example
-        // `/${ChainID.MumbaiTestnet}/address/${currentUser?.accounts[0].address}/balances_v2/?nft=true&key=${props?.api}`
-      )
-      .then(function (response) {
-        // handle success
-        const { data } = response
-        setBalances(data.data.items)
-        console.log(data.data.items)
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error)
-      })
+    props?.api &&
+      instance
+        .get(
+          `/1/address/0x75750d0bba74ecb961fa588873a0ef69c54361c1/balances_v2/?nft=true&key=${props.api}` // Random wallet Used to show 2 NFTs as example
+          // `/${ChainID.MumbaiTestnet}/address/${currentUser?.accounts[0].address}/balances_v2/?nft=true&key=${props?.api}`
+        )
+        .then(function (response) {
+          // handle success
+          const { data } = response
+          setBalances(data.data.items)
+          console.log(data.data.items)
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
   }, [currentUser])
 
   return (
@@ -87,7 +88,7 @@ export default function UserNFTs(props: API) {
           balances
             .filter((el: Item) => el.type === 'nft' && el.balance > 0)
             .map((el: Item, i: number) => (
-              <Link href={el.nft_data[0].external_data.image} isExternal>
+              <Link key={el.contract_address} href={el.nft_data[0].external_data.image} isExternal>
                 <HStack spacing="6" py="2" key={i}>
                   {JSON.stringify(el)}
                   <FiExternalLink />

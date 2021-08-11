@@ -69,7 +69,7 @@ export default function Dashboard() {
 
   const API = process.env.NEXT_PUBLIC_COV_API
 
-  function createProject() {}
+  // function createProject() {}
 
   return (
     <PageTransition>
@@ -157,6 +157,7 @@ export default function Dashboard() {
           <SimpleGrid columns={[1, 1]} spacing={4} mt={8}>
             {projects.map((el) => (
               <ProjectCard
+                key={el.id}
                 id={el.id}
                 name={el.name}
                 description={el.description}
@@ -206,21 +207,27 @@ export default function Dashboard() {
             Sponsor a instructor/project
           </Text>
           <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<FiActivity color="gray.700" />} />
+            <InputLeftElement pointerEvents="none">
+              <FiActivity color="gray.700" />
+            </InputLeftElement>
             <Input type="number" placeholder="Address" />
           </InputGroup>
           <Text color="gray" mt={4} mb={2}>
             Sum
           </Text>
           <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<FiDollarSign color="gray.700" />} />
+            <InputLeftElement pointerEvents="none">
+              <FiDollarSign color="gray.700" />
+            </InputLeftElement>
             <Input type="number" placeholder="1 ETH" />
           </InputGroup>
           <Text color="gray" mt={4} mb={2}>
             Time
           </Text>
           <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<FiClock color="gray.700" />} />
+            <InputLeftElement pointerEvents="none">
+              <FiClock color="gray.700" />
+            </InputLeftElement>
             <Input type="number" placeholder="00 20 00" />
           </InputGroup>
           <Button mt={4} bgColor="blackAlpha.900" color="#fff" p={7} borderRadius={15}>
