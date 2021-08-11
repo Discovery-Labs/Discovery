@@ -1,7 +1,5 @@
 import React from 'react'
 import { HStack, VStack, Text, useColorModeValue, Box, Link } from '@chakra-ui/react'
-import Image from './image'
-import { usePalette } from 'react-palette'
 
 interface Card {
   name: string

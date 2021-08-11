@@ -142,7 +142,7 @@ const Header = () => {
               </Menu>
             </HStack>
             <HStack>
-              <ThemeToggle mobile={false} />
+              <ThemeToggle />
               <AccountButton />
             </HStack>
           </HStack>
