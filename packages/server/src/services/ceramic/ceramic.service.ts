@@ -1,6 +1,7 @@
 import CeramicClient from '@ceramicnetwork/http-client';
 import KeyDidResolver from 'key-did-resolver';
 import ThreeIdResolver from '@ceramicnetwork/3id-did-resolver';
+import { promises } from 'fs';
 import { TileDocument } from '@ceramicnetwork/stream-tile';
 import { Ed25519Provider } from 'key-did-provider-ed25519';
 import { DID } from 'dids';
@@ -11,7 +12,7 @@ import { randomBytes } from '@stablelib/random';
 import { schemas } from '@discovery-decrypted/schemas';
 import { CreateCeramicDocumentInput } from './types';
 import { Logger } from '@nestjs/common';
-
+import ceramicConfigJson from './config.json';
 export interface CeramicInstanceDependency {
   ceramic: CeramicClient;
   idx: IDX;
@@ -41,28 +42,45 @@ export async function makeCeramicClient() {
   await did.authenticate();
   await ceramic.setDID(did);
 
-  // Publish all the schemas and create their definitions referenced by an alias
-  const aliases = {} as Record<string, string>;
-  const schemasCommitId = {} as Record<string, string>;
+  if (
+    Object.keys(ceramicConfigJson.schemas).length === 0 ||
+    Object.keys(ceramicConfigJson.definitions).length === 0
+  ) {
+    // Publish all the schemas and create their definitions referenced by an alias
+    const aliases = {} as Record<string, string>;
+    const schemasCommitId = {} as Record<string, string>;
 
-  for (const [schemaName, schema] of Object.entries(schemas.discovery)) {
-    const publishedSchema = await publishSchema(ceramic, {
-      content: schema,
-      name: schemaName,
-    });
-    const publishedSchemaCommitId = publishedSchema.commitId.toUrl();
-    schemasCommitId[schemaName] = publishedSchemaCommitId;
+    for (const [schemaName, schema] of Object.entries(schemas.discovery)) {
+      const publishedSchema = await publishSchema(ceramic, {
+        content: schema,
+        name: schemaName,
+      });
+      const publishedSchemaCommitId = publishedSchema.commitId.toUrl();
+      schemasCommitId[schemaName] = publishedSchemaCommitId;
 
-    const createdDefinition = await createDefinition(ceramic, {
-      name: schemaName,
-      description: `Discovery schema for ${schemaName}`,
-      schema: publishedSchemaCommitId,
-    });
-    aliases[schemaName] = createdDefinition.id.toString();
+      const createdDefinition = await createDefinition(ceramic, {
+        name: schemaName,
+        description: `Discovery schema for ${schemaName}`,
+        schema: publishedSchemaCommitId,
+      });
+      aliases[schemaName] = createdDefinition.id.toString();
+    }
+
+    // Write config to JSON file
+    const config = {
+      definitions: aliases,
+      schemas: schemasCommitId,
+    };
+    await promises.writeFile(
+      './src/services/ceramic/config.json',
+      JSON.stringify(config),
+    );
+    const idx = new IDX({ ceramic, aliases });
+    return { ceramic, idx, schemasCommitId };
   }
 
-  const idx = new IDX({ ceramic, aliases });
-  return { ceramic, idx, schemasCommitId };
+  const idx = new IDX({ ceramic, aliases: ceramicConfigJson.definitions });
+  return { ceramic, idx, schemasCommitId: ceramicConfigJson.schemas };
 }
 
 export async function createCeramicDocument(

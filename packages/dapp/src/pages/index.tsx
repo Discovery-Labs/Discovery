@@ -49,10 +49,9 @@ export async function getStaticProps() {
 
   const categories = [
     {
-      category: 'polygon',
       id: '1',
-      title: 'Course How to Do X',
-      description: 'For 1 cup of uncooked quinoa,',
+      name: 'Ethereum scaling solutions',
+      description: 'All the ethereum scaling solutions',
       image: '/abstract.png',
       link: 'https://google.com',
     },
