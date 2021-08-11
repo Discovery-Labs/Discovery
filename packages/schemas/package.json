@@ -1,6 +1,6 @@
 {
   "name": "@discovery-decrypted/schemas",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "JSON Schema definitions for Discovery",
   "main": "lib/schemas.js",
   "author": "Cali93 <armut.cumaali@gmail.com>",
