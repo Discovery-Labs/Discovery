@@ -64,25 +64,30 @@ export default function UserBalances(props: API) {
   }, [currentUser])
 
   return (
-    <Text fontWeight="bold" fontSize="2xl">
-      {balances.length === 0 ? (
-        <p>Loading..</p>
-      ) : (
-        balances
-          .filter((el: Item) => el.type === 'cryptocurrency')
-          .map((el: Item, i: number) => (
-            <HStack spacing="6" py="2" key={i}>
-              <Wrap>
-                <WrapItem>
-                  <Avatar bg="whiteAlpha.50" size="xs" name="logo" src={el.logo_url} />{' '}
-                </WrapItem>
-              </Wrap>
-              <Text >
-                {div18(el.balance)} {el.contract_ticker_symbol}
-              </Text>
-            </HStack>
-          ))
-      )}
-    </Text>
+    <>
+      <Text pt="4" color="gray" fontSize="lg">
+        Balances
+      </Text>
+      <Text fontWeight="bold" fontSize="2xl">
+        {balances.length === 0 ? (
+          <p>Loading..</p>
+        ) : (
+          balances
+            .filter((el: Item) => el.type === 'cryptocurrency')
+            .map((el: Item, i: number) => (
+              <HStack spacing="6" py="2" key={i}>
+                <Wrap>
+                  <WrapItem>
+                    <Avatar bg="whiteAlpha.50" size="xs" name="logo" src={el.logo_url} />{' '}
+                  </WrapItem>
+                </Wrap>
+                <Text>
+                  {div18(el.balance)} {el.contract_ticker_symbol}
+                </Text>
+              </HStack>
+            ))
+        )}
+      </Text>
+    </>
   )
 }

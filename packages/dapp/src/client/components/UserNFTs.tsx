@@ -77,24 +77,29 @@ export default function UserNFTs(props: API) {
   }, [currentUser])
 
   return (
-    <Text fontWeight="bold" fontSize="2xl">
-      {balances.length === 0 ? (
-        <p>Loading..</p>
-      ) : (
-        balances
-          .filter((el: Item) => el.type === 'nft' && el.balance > 0)
-          .map((el: Item, i: number) => (
-            <Link href={el.nft_data[0].external_data.image} isExternal>
-              <HStack spacing="6" py="2" key={i}>
-                {JSON.stringify(el)}
-                <FiExternalLink />
-                <Text>
-                  {el.balance} {el.contract_name}
-                </Text>
-              </HStack>
-            </Link>
-          ))
-      )}
-    </Text>
+    <>
+      <Text pt="4" color="gray" fontSize="lg">
+        NFTs
+      </Text>
+      <Text fontWeight="bold" fontSize="2xl">
+        {balances.length === 0 ? (
+          <p>Loading..</p>
+        ) : (
+          balances
+            .filter((el: Item) => el.type === 'nft' && el.balance > 0)
+            .map((el: Item, i: number) => (
+              <Link href={el.nft_data[0].external_data.image} isExternal>
+                <HStack spacing="6" py="2" key={i}>
+                  {JSON.stringify(el)}
+                  <FiExternalLink />
+                  <Text>
+                    {el.balance} {el.contract_name}
+                  </Text>
+                </HStack>
+              </Link>
+            ))
+        )}
+      </Text>
+    </>
   )
 }
