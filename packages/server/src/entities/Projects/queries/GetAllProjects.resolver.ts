@@ -1,6 +1,7 @@
 import { Resolver, Query } from '@nestjs/graphql';
 import { UseCeramicClient } from '../../../core/decorators/UseCeramicClient.decorator';
 import { Ceramic } from '../../../core/utils/security/types';
+import { ProjectsList } from '../mutations/CreateProject.resolver';
 import { Project } from '../Project.entity';
 
 @Resolver(() => [Project])
@@ -13,9 +14,25 @@ export class GetAllProjectsResolver {
   async getAllProjects(
     @UseCeramicClient() ceramicClient: Ceramic,
   ): Promise<Project[] | null | undefined> {
-    const allDiscoveryProjects = await ceramicClient.idx.get('projects');
-    console.log(allDiscoveryProjects);
-    // const projectsOfUser = ceramicClient.idx.get('project', 'project-1');
+    const allDiscoveryProjects = await ceramicClient.idx.get<ProjectsList>(
+      'projects',
+    );
+    if (allDiscoveryProjects) {
+      const mergedProjects = await Promise.all(
+        allDiscoveryProjects?.projects.map(async (project) => {
+          const record = await ceramicClient.ceramic.loadStream(project.id);
+          if (!record) {
+            return null;
+          }
+          return {
+            id: project.id,
+            name: project.name,
+            ...record.state.content,
+          };
+        }),
+      );
+      return mergedProjects;
+    }
     return undefined;
   }
 }

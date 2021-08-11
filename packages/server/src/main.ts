@@ -28,7 +28,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     bodyParser: true,
   });
-  const ceramicClient = await makeCeramicClient();
 
   app.enableCors(corsOptions);
   app.disable('x-powered-by');
@@ -36,6 +35,9 @@ async function bootstrap() {
   // if we add cloudflare on a proxy
   // app.set('trust proxy', 1); // trust first proxy
   app.enableShutdownHooks(['SIGINT', 'SIGTERM']);
+
+  const ceramicClient = await makeCeramicClient();
+
   // app.use(helmet());
   app.use(cookieParser(sessionOptions.secret));
   app.use(sessionMiddleware);

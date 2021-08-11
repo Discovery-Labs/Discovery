@@ -1,6 +1,6 @@
-import { useColorModeValue, Box, Button } from '@chakra-ui/react'
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { useColorModeValue, Box, Image } from '@chakra-ui/react'
 import React from 'react'
-import { HiPencilAlt } from 'react-icons/hi'
 import { Card } from '../../components/card/card'
 import { CardContent } from '../../components/card/card-content'
 import { CardHeader } from '../../components/card/card-header'
@@ -51,21 +51,19 @@ export default function DisplayCurrentUserInfos() {
       px={{ md: '8' }}
       mb={{ md: '12' }}>
       <Card maxW="3xl" mx="auto">
-        {auth.id && (
-          <CardHeader
-            title="Member Info"
-            action={
-              <Button variant="outline" minW="20" leftIcon={<HiPencilAlt />}>
-                Edit
-              </Button>
-            }
-          />
-        )}
+        {auth.id && <CardHeader title="Member Info" />}
         <CardContent>
-          {cryptoAccounts}
-          <Property label="Name" value={name || text} />
-          <Property label="Member since" value="August, 2021" />
+          <Image
+            borderRadius="full"
+            boxSize="150px"
+            margin="auto"
+            src="/super-shadowy-coder.png"
+            alt={name || text}
+          />
           <Property label="Rank" value="Super Shadowy Coder" />
+          <Property label="Name" value={name || text} />
+          {cryptoAccounts}
+          <Property label="Member since" value="August, 2021" />
         </CardContent>
       </Card>
     </Box>
