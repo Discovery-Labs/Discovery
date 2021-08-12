@@ -20,7 +20,7 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import discoverySimple from '../images/discovery-simple.png'
-
+import Section from './section'
 const AccountButton = dynamic(() => import('../client/components/AccountButton'), {
   ssr: false,
 })
@@ -68,7 +68,7 @@ const Header = () => {
       borderBottomWidth="2px"
       borderBottomColor={useColorModeValue('gray.100', 'gray.700')}
       shadow="0 0 10px 0 rgba(0,0,0, 0.035);">
-      <Box maxW="6xl" mx="auto">
+      <Section>
         <VStack align="start" spacing={0}>
           <HStack justify="space-between" w="100%" h={16}>
             <HStack>
@@ -146,7 +146,7 @@ const Header = () => {
             </HStack>
           </HStack>
         </VStack>
-      </Box>
+      </Section>
     </Box>
   )
 }

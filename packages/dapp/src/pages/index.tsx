@@ -17,6 +17,8 @@ import {
   useBreakpointValue,
   IconProps,
   Icon,
+  Button,
+  Box,
 } from '@chakra-ui/react'
 import Image from 'next/image'
 
@@ -31,24 +33,32 @@ import { useEffect, useState, ChangeEvent, useCallback } from 'react'
 import ContentCard from '../components/content-card'
 import discoverySimple from '../images/discovery-simple.png'
 
+import web3Logo01 from '../images/partners/web3logos01.png'
+import web3Logo02 from '../images/partners/web3logos02.png'
+import web3Logo03 from '../images/partners/web3logos03.png'
+import web3Logo04 from '../images/partners/web3logos04.png'
+import web3Logo05 from '../images/partners/web3logos05.png'
+import web3Logo06 from '../images/partners/web3logos06.png'
+import pathwaysImage from '../images/pathways.png'
+
 // import NFTStore from '../../abis/NFTStore.json'
 // import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
 // import QuestCompleteNFT from '../../abis/QuestCompleteNFT.json'
 
 import { Popover } from '../components/Popover'
-import { addApolloState, initializeApollo } from '../../lib/apolloClient'
-import { ALL_PROJECTS_QUERY } from '../graphql/projects'
+// import { addApolloState, initializeApollo } from '../../lib/apolloClient'
+// import { ALL_PROJECTS_QUERY } from '../graphql/projects'
 
 // const NFTStoreAddress = '0xe429c3885baa6b5b5ab2b2795467c803a04e6cb4'
 // const DiscoveryMergeNFTAddress = '0x7bfae155fa6a54f6fc09519652e681c2e1ba54b6'
 // const QuestCompleteNFTAddress = '0xa75b2928457a78a9beb9e0abd447554d11798a10'
 
 export async function getStaticProps() {
-  const apolloClient = initializeApollo()
+  // const apolloClient = initializeApollo()
 
-  const projects = await apolloClient.query({
-    query: ALL_PROJECTS_QUERY,
-  })
+  // const projects = await apolloClient.query({
+  //   query: ALL_PROJECTS_QUERY,
+  // })
 
   const categories = [
     {
@@ -76,13 +86,18 @@ export async function getStaticProps() {
     },
   ]
 
-  return addApolloState(apolloClient, {
+  return {
     props: {
       categories,
-      projects: projects.data.getAllProjects,
     },
-    revalidate: 600,
-  })
+  }
+  // return addApolloState(apolloClient, {
+  //   props: {
+  //     categories,
+  //     projects: projects.data.getAllProjects,
+  //   },
+  //   revalidate: 600,
+  // })
 }
 
 interface Cards {
@@ -106,7 +121,7 @@ interface Cards {
   ]
 }
 
-const Paths = (props: Cards) => {
+const Home = (props: Cards) => {
   // const [storeContract, setStoreContract] = useState({})
   // const [discoveryMergeNFTContract, setDiscoveryMergeNFTContract] = useState({})
   // const [questNFTContract, setQuestNFTContract] = useState({})
@@ -193,64 +208,61 @@ const Paths = (props: Cards) => {
               Discover topics such as finance, governance, social entertainment, video streaming,
               gaming, art & collectibles in the Web3 space.
             </Text>
+            <HStack spacing="2" p="6">
+              <Button
+                borderRadius="full"
+                color="white"
+                bg="black"
+                _hover={{
+                  bgGradient: 'linear(to-r, red.500, yellow.500)',
+                }}>
+                GO TO PATHS
+              </Button>
+              <Button borderRadius="full">GITHUB</Button>
+            </HStack>
           </VStack>
         </Section>
         <Section>
-          <Tabs variant="soft-rounded" colorScheme="blue" align="center" w="100%">
-            <TabList display="flex" flexWrap="wrap">
-              {props.projects &&
-                props.projects.length > 0 &&
-                props.projects.map((project) => {
-                  return (
-                    <Tab
-                      key={project.name}
-                      bg={GRAY_LIGHT}
-                      color={GRAY_DARKER}
-                      _selected={{
-                        color: `${project.color}.800`,
-                        bg: `${project.color}.100`,
-                      }}
-                      mr={2}
-                      mt={2}>
-                      <HStack spacing={1}>
-                        <Text>{project.name}</Text>
-                      </HStack>
-                    </Tab>
-                  )
-                })}
-            </TabList>
-            <TabPanels>
-              <TabPanel px={0}>
-                <SimpleGrid columns={[1, 2]} spacing={4} mt={8}>
-                  {props.categories
-                    .filter((el) => el.category === 'polygon')
-                    .map((el) => (
-                      <ContentCard
-                        key={el.id}
-                        name={el.title}
-                        description={el.description}
-                        image={el.image}
-                        link={el.link}
-                      />
-                    ))}
-                </SimpleGrid>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Section>
-        <Section>
           <VStack>
-            <InputGroup flex={1} css={inputGroupCss}>
-              <InputLeftElement pointerEvents="none">
-                <FiSearch color="gray.300" />
-              </InputLeftElement>
-              <Input
-                css={inputCss}
-                type="text"
-                onChange={handleTitleInputChange}
-                placeholder="Search for project title"
-              />
-            </InputGroup>
+            <Text
+              fontSize={['md', 'l']}
+              color={useColorModeValue('gray.700', 'gray.200')}
+              maxW="lg"
+              textAlign="center">
+              Start your journey with courses from the following platforms
+            </Text>
+            <HStack spacing={8} p="6">
+              <Box>
+                <Image src={web3Logo01} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+              <Box>
+                <Image src={web3Logo02} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+              <Box>
+                <Image src={web3Logo03} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+              <Box>
+                <Image src={web3Logo04} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+              <Box>
+                <Image src={web3Logo05} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+              <Box>
+                <Image src={web3Logo06} alt="ethereum" width={50} height={50}></Image>
+              </Box>
+            </HStack>
+            <Image src={pathwaysImage} alt="pathways"></Image>
+            <Button
+                borderRadius="full"
+                px="10"
+                fontSize="xl"
+                color="white"
+                bg="black"
+                _hover={{
+                  bgGradient: 'linear(to-r, red.500, yellow.500)',
+                }}>
+                GO TO PATHS
+              </Button>
           </VStack>
         </Section>
         <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
@@ -279,4 +291,4 @@ export const Blur = (props: IconProps) => {
     </Icon>
   )
 }
-export default Paths
+export default Home
