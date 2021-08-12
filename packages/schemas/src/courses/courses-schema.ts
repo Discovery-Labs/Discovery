@@ -18,6 +18,10 @@ export const CoursesSchema = {
             title: 'title',
             maxLength: 100,
           },
+          isBranched: {
+            type: 'boolean',
+            title: 'isBranched',
+          },
           projects: {
             type: 'array',
             title: 'projects',
@@ -46,9 +50,9 @@ export const CoursesSchema = {
                 id: {
                   $ref: '#/definitions/CeramicStreamId',
                 },
-                title: {
+                name: {
                   type: 'string',
-                  title: 'title',
+                  title: 'name',
                   maxLength: 100,
                 },
               },

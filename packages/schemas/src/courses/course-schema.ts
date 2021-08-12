@@ -51,5 +51,12 @@ export const CourseSchema = {
         type: 'string',
       }
     },
+    authors: {
+      type: 'array',
+      // minItems: 1,
+      items: {
+        type: 'string',
+      }
+    },
   },
 }

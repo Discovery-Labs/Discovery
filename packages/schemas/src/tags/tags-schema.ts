@@ -1,14 +1,14 @@
-export const QuestsSchema = {
+export const TagsSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'QuestsList',
+  title: 'TagsList',
   type: 'object',
   properties: {
-    quests: {
+    tags: {
       type: 'array',
-      title: 'quests',
+      title: 'tags',
       items: {
         type: 'object',
-        title: 'QuestItem',
+        title: 'tagItem',
         properties: {
           id: {
             $ref: '#/definitions/CeramicStreamId',
@@ -16,17 +16,8 @@ export const QuestsSchema = {
           name: {
             type: 'string',
             title: 'name',
-            maxLength: 100,
-          },
-          courseId: {
-            $ref: '#/definitions/CeramicStreamId',
-          },
-          completedBy: {
-            type: 'array',
-            items: {
-              $ref: '#/definitions/CeramicStreamId',
-            }
-          },
+            maxLength: 100
+          }
         },
       },
     },
