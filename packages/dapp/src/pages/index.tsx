@@ -28,6 +28,8 @@ import PageTransition from '../components/page-transitions'
 import Section from '../components/section'
 // import { ethers } from 'ethers'
 import { useEffect, useState, ChangeEvent, useCallback } from 'react'
+import { useRouter } from 'next/router'
+
 // import Web3Modal from 'web3modal'
 
 import ContentCard from '../components/content-card'
@@ -39,7 +41,7 @@ import web3Logo03 from '../images/partners/web3logos03.png'
 import web3Logo04 from '../images/partners/web3logos04.png'
 import web3Logo05 from '../images/partners/web3logos05.png'
 import web3Logo06 from '../images/partners/web3logos06.png'
-import pathwaysImage from '../images/pathways.png'
+import pathwaysImage from '../images/pathways2.png'
 
 // import NFTStore from '../../abis/NFTStore.json'
 // import DiscoveryMergeNFT from '../../abis/DiscoveryMergeNFT.json'
@@ -130,10 +132,10 @@ const Home = (props: Cards) => {
   // useEffect(() => {
   //   void fetchUser()
   // }, [])
-
+  const router = useRouter()
   const PROJECTS_POPOVER_TEXT = (
     <span>
-      Click on the projects to see more details about it.
+      Get started with projects from Pathways. Click on the projects to see more details about it.
       <br />
     </span>
   )
@@ -210,6 +212,7 @@ const Home = (props: Cards) => {
             </Text>
             <HStack spacing="2" p="6">
               <Button
+                onClick={() => router.push('/paths')}
                 borderRadius="full"
                 color="white"
                 bg="black"
@@ -253,16 +256,17 @@ const Home = (props: Cards) => {
             </HStack>
             <Image src={pathwaysImage} alt="pathways"></Image>
             <Button
-                borderRadius="full"
-                px="10"
-                fontSize="xl"
-                color="white"
-                bg="black"
-                _hover={{
-                  bgGradient: 'linear(to-r, red.500, yellow.500)',
-                }}>
-                GO TO PATHS
-              </Button>
+              onClick={() => router.push('/paths')}
+              borderRadius="full"
+              px="10"
+              fontSize="xl"
+              color="white"
+              bg="black"
+              _hover={{
+                bgGradient: 'linear(to-r, red.500, yellow.500)',
+              }}>
+              GO TO PATHS
+            </Button>
           </VStack>
         </Section>
         <Blur position={'absolute'} top={-10} left={-10} style={{ filter: 'blur(70px)' }} />
