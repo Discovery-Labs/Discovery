@@ -35,6 +35,24 @@ export const CoursesSchema = {
                 },
               },
             },
+          },
+          quests: {
+            type: 'array',
+            title: 'quests',
+            items: {
+              type: 'object',
+              title: 'QuestItem',
+              properties: {
+                id: {
+                  $ref: '#/definitions/CeramicStreamId',
+                },
+                title: {
+                  type: 'string',
+                  title: 'title',
+                  maxLength: 100,
+                },
+              },
+            },
           }
         },
       },

@@ -2,9 +2,7 @@ import { RedisOptions } from 'ioredis';
 
 export interface Config {
   nest: NestConfig;
-  everest: EverestConfig;
-  uniswap: UniswapConfig;
-  brandfetch: BrandFetchConfig;
+  ceramic: CeramicConfig;
   cors: CorsConfig;
   swagger: SwaggerConfig;
   graphql: GraphqlConfig;
@@ -22,10 +20,7 @@ export interface Config {
       credentials: boolean;
       origin: (origin: any, callback: any) => void;
     };
-    rateLimits: {
-      sendUserConfirmationEmail: number;
-      sendContactConfirmationEmail: number;
-      wrongLogin: number;
+    rateLimits?: {
       register: number;
     };
   };
@@ -59,19 +54,6 @@ export interface NestConfig {
   port: number;
 }
 
-export interface EverestConfig {
-  apiUrl: string;
-}
-export interface BrandFetchConfig {
-  apiUrl: string;
-  apiKey: string;
-}
-export interface UniswapConfig {
-  apiUrl: {
-    v2: string;
-  };
-}
-
 export interface CorsConfig {
   enabled: boolean;
 }
@@ -89,6 +71,12 @@ export interface GraphqlConfig {
   debug: boolean;
   schemaDestination: string;
   sortSchema: boolean;
+}
+
+export interface CeramicConfig {
+  apiUrl: string;
+  seed: string;
+  forceSync: boolean;
 }
 
 export interface SecurityConfig {

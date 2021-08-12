@@ -4,10 +4,16 @@ import { Ceramic } from '../../../core/utils/security/types';
 import { createCeramicDocument } from '../../../services/ceramic/ceramic.service';
 import { CreateCourseInput } from '../dto/CreateCourse.input';
 import { Course } from '../Course.entity';
+import { ProjectsList } from '../../Projects/mutations/CreateProject.resolver';
+import { TileDocument } from '@ceramicnetwork/stream-tile';
 
 export type CourseItem = {
   id: string;
   title: string;
+  projects: {
+    id: string;
+    name: string;
+  }[];
 };
 
 export type CoursesList = { courses: Array<CourseItem> };
@@ -32,8 +38,35 @@ export class CreateCourseResolver {
     }
 
     const existingCourses = await ceramicClient.idx.get<CoursesList>('courses');
-
+    const allProjects = await ceramicClient.idx.get<ProjectsList>('projects');
     const courses = existingCourses?.courses ?? [];
+    const projects = allProjects?.projects ?? [];
+
+    const existingCoursesForProject = projects
+      .filter((project) =>
+        course.projects.map((pj) => pj.id).includes(project.id),
+      )
+      .flatMap((proj) => proj.courses);
+
+    const projectIds = course.projects.map((courseProject) => courseProject.id);
+    const projectsRelatedToCourse = projects.filter((project) =>
+      projectIds.includes(project.id),
+    );
+
+    for (const project of projectsRelatedToCourse) {
+      const projectDoc = await TileDocument.load(
+        ceramicClient.ceramic,
+        project.id,
+      );
+      await projectDoc.update({
+        courses: [course, ...(existingCoursesForProject || [])],
+      });
+      await ceramicClient.idx.merge('projects', {
+        id: project.id,
+        courses: [course, ...(existingCoursesForProject || [])],
+      });
+    }
+
     await ceramicClient.idx.set('courses', {
       courses: [
         {

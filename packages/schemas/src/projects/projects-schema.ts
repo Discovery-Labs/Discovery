@@ -18,6 +18,24 @@ export const ProjectsSchema = {
             title: 'name',
             maxLength: 100,
           },
+          courses: {
+            type: 'array',
+            title: 'courses',
+            items: {
+              type: 'object',
+              title: 'CourseItem',
+              properties: {
+                id: {
+                  $ref: '#/definitions/CeramicStreamId',
+                },
+                title: {
+                  type: 'string',
+                  title: 'title',
+                  maxLength: 100,
+                },
+              },
+            },
+          }
         },
       },
     },

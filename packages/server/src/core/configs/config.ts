@@ -5,17 +5,10 @@ const config: Config = {
   nest: {
     port: 5000,
   },
-  everest: {
-    apiUrl: process.env.EVEREST_SUBGRAPH_API_URL!,
-  },
-  brandfetch: {
-    apiUrl: process.env.BRAND_FETCH_API_URL!,
-    apiKey: process.env.BRAND_FETCH_API_KEY!,
-  },
-  uniswap: {
-    apiUrl: {
-      v2: process.env.UNISWAP_V2_SUBGRAPH_API_URL!,
-    },
+  ceramic: {
+    apiUrl: process.env.CERAMIC_API_URL!,
+    seed: process.env.CERAMIC_SEED!,
+    forceSync: JSON.parse(process.env.CERAMIC_FORCE_SYNC!),
   },
   cors: {
     enabled: true,
@@ -67,12 +60,9 @@ const config: Config = {
         }
       },
     },
-    rateLimits: {
-      sendUserConfirmationEmail: 25,
-      sendContactConfirmationEmail: 25,
-      wrongLogin: 10,
-      register: 25,
-    },
+    // rateLimits: {
+    //   register: 1,
+    // },
   },
   apolloServerOptions: {
     tracing: true,
@@ -107,7 +97,7 @@ const config: Config = {
     saveUninitialized: false,
     unset: 'destroy',
     cookie: {
-      secure: Boolean(process.env.IS_SECURE_COOKIE),
+      secure: JSON.parse(process.env.IS_SECURE_COOKIE!),
       httpOnly: true,
       sameSite: 'lax',
       path: '/',

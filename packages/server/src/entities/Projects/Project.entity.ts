@@ -1,4 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { Course } from '../Courses/Course.entity';
 import { Website } from './dto/WebSite';
 
 export type CeramicStreamId = string;
@@ -42,6 +43,9 @@ export class Project {
 
   @Field(() => [String])
   categories?: CeramicStreamId[];
+
+  @Field(() => [Course])
+  courses?: Course[];
 
   @Field(() => [String])
   repos?: CeramicStreamId[];

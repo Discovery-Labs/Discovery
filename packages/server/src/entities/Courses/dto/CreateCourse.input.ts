@@ -1,5 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsString, IsDefined, IsNotEmpty, IsArray } from 'class-validator';
+import { CourseProjectInput } from './CourseProjectInput';
 
 @InputType()
 export class CreateCourseInput {
@@ -33,9 +34,9 @@ export class CreateCourseInput {
   @IsNotEmpty({ message: 'not.empty' })
   preRequisiteCourses: string[];
 
-  @Field(() => [String])
+  @Field(() => [CourseProjectInput])
   @IsArray({ message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })
-  projects: string[];
+  projects: CourseProjectInput[];
 }

@@ -24,6 +24,7 @@ export class GetAllProjectsResolver {
           if (!record) {
             return null;
           }
+          console.log(record.state.content);
           return {
             id: project.id,
             name: project.name,

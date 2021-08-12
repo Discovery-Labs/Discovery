@@ -25,12 +25,17 @@ enum CourseEnum {
   DECRYPTED
 }
 
+input CourseProjectInput {
+  id: String!
+  name: String!
+}
+
 input CreateCourseInput {
   description: String!
   gitbook: String!
   level: String!
   preRequisiteCourses: [String!]!
-  projects: [String!]!
+  projects: [CourseProjectInput!]!
   title: String!
 }
 
@@ -70,6 +75,7 @@ type Project {
   categories: [String!]
   color: String
   contract_address: String
+  courses: [Course!]
   description: String!
   discord: String
   github: String!

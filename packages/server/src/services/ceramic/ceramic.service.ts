@@ -12,20 +12,22 @@ import { randomBytes } from '@stablelib/random';
 import { schemas } from '@discovery-decrypted/schemas';
 import { CreateCeramicDocumentInput } from './types';
 import { Logger } from '@nestjs/common';
-import ceramicConfigJson from './config.json';
+import config from '../../core/configs/config';
 export interface CeramicInstanceDependency {
   ceramic: CeramicClient;
   idx: IDX;
   schemasCommitId: Record<string, string>;
 }
 export async function makeCeramicClient() {
+  const ceramicConfigJson = await promises.readFile('./src/config.json');
+  const ceramicConfig = JSON.parse(ceramicConfigJson.toString());
   // The seed must be provided as an environment variable
   if (!process.env.CERAMIC_SEED) {
     Logger.warn('NO CERAMIC SEED, A NEW ONE WILL BE GENERATED');
     process.env.CERAMIC_SEED = toString(randomBytes(32), 'base16');
   }
   // Connect to the local Ceramic node
-  const ceramic = new CeramicClient(process.env.CERAMIC_API_URL);
+  const ceramic = new CeramicClient(config().ceramic.apiUrl);
   // Authenticate the Ceramic instance with the provider
   const keyDidResolver = KeyDidResolver.getResolver();
   const threeIdResolver = ThreeIdResolver.getResolver(ceramic);
@@ -34,18 +36,18 @@ export async function makeCeramicClient() {
     ...keyDidResolver,
   };
   const did = new DID({
-    provider: new Ed25519Provider(
-      fromString(process.env.CERAMIC_SEED, 'base16'),
-    ),
+    provider: new Ed25519Provider(fromString(config().ceramic.seed, 'base16')),
     resolver: resolverRegistry,
   });
   await did.authenticate();
   await ceramic.setDID(did);
 
   if (
-    Object.keys(ceramicConfigJson.schemas).length === 0 ||
-    Object.keys(ceramicConfigJson.definitions).length === 0
+    config().ceramic.forceSync ||
+    Object.keys(ceramicConfig.schemas).length === 0 ||
+    Object.keys(ceramicConfig.definitions).length === 0
   ) {
+    process.env.CERAMIC_FORCE_SYNC = 'false';
     // Publish all the schemas and create their definitions referenced by an alias
     const aliases = {} as Record<string, string>;
     const schemasCommitId = {} as Record<string, string>;
@@ -71,16 +73,13 @@ export async function makeCeramicClient() {
       definitions: aliases,
       schemas: schemasCommitId,
     };
-    await promises.writeFile(
-      './src/services/ceramic/config.json',
-      JSON.stringify(config),
-    );
+    await promises.writeFile('./src/config.json', JSON.stringify(config));
     const idx = new IDX({ ceramic, aliases });
     return { ceramic, idx, schemasCommitId };
   }
 
-  const idx = new IDX({ ceramic, aliases: ceramicConfigJson.definitions });
-  return { ceramic, idx, schemasCommitId: ceramicConfigJson.schemas };
+  const idx = new IDX({ ceramic, aliases: ceramicConfig.definitions });
+  return { ceramic, idx, schemasCommitId: ceramicConfig.schemas };
 }
 
 export async function createCeramicDocument(

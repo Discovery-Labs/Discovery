@@ -15,7 +15,7 @@ import {
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import ThemeToggle from './theme-toggle'
-import { FiUsers, FiCode, FiChevronDown, FiZap, FiTablet} from 'react-icons/fi'
+import { FiUsers, FiCode, FiChevronDown, FiZap, FiTablet } from 'react-icons/fi'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'

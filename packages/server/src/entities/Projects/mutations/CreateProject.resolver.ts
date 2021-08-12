@@ -8,6 +8,10 @@ import { Project } from '../Project.entity';
 export type ProjectItem = {
   id: string;
   name: string;
+  courses: {
+    id: string;
+    title: string;
+  }[];
 };
 
 export type ProjectsList = { projects: Array<ProjectItem> };
