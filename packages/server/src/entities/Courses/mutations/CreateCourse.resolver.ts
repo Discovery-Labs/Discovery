@@ -4,7 +4,6 @@ import { Ceramic } from '../../../core/utils/security/types';
 import { createCeramicDocument } from '../../../services/ceramic/ceramic.service';
 import { CreateCourseInput } from '../dto/CreateCourse.input';
 import { Course } from '../Course.entity';
-import { ProjectsList } from '../../Projects/mutations/CreateProject.resolver';
 import { TileDocument } from '@ceramicnetwork/stream-tile';
 
 export type CourseItem = {
@@ -38,48 +37,37 @@ export class CreateCourseResolver {
     }
 
     const existingCourses = await ceramicClient.idx.get<CoursesList>('courses');
-    const allProjects = await ceramicClient.idx.get<ProjectsList>('projects');
     const courses = existingCourses?.courses ?? [];
-    const projects = allProjects?.projects ?? [];
-
-    const existingCoursesForProject = projects
-      .filter((project) =>
-        course.projects.map((pj) => pj.id).includes(project.id),
-      )
-      .flatMap((proj) => proj.courses);
-
-    const projectIds = course.projects.map((courseProject) => courseProject.id);
-    const projectsRelatedToCourse = projects.filter((project) =>
-      projectIds.includes(project.id),
-    );
-
-    for (const project of projectsRelatedToCourse) {
-      const projectDoc = await TileDocument.load(
-        ceramicClient.ceramic,
-        project.id,
-      );
-      await projectDoc.update({
-        courses: [course, ...(existingCoursesForProject || [])],
-      });
-      await ceramicClient.idx.merge('projects', {
-        id: project.id,
-        courses: [course, ...(existingCoursesForProject || [])],
-      });
-    }
 
     await ceramicClient.idx.set('courses', {
       courses: [
         {
           id: createdCourse.doc.id.toUrl(),
-          title: course.title,
-          projects: course.projects,
+          ...createdCourse.doc.content,
         },
         ...courses,
       ],
     });
 
-    const allCourses = await ceramicClient.idx.get<CoursesList>('courses');
-    console.log(allCourses);
+    const projectToUpdateStreamIds = course.projects.map((p) => p.id);
+    for (const projectStreamId of projectToUpdateStreamIds) {
+      const projectDoc = await TileDocument.load(
+        ceramicClient.ceramic,
+        projectStreamId,
+      );
+
+      const existingProjectCourses = existingCourses?.courses.filter((c) =>
+        c.projects.every((p) => projectToUpdateStreamIds.includes(p.id)),
+      );
+
+      await projectDoc.update({
+        ...(projectDoc.content as Record<string, any>),
+        courses: [
+          { id: createdCourse.doc.id.toUrl(), title: course.title },
+          ...(existingProjectCourses || []),
+        ],
+      });
+    }
 
     return {
       id: createdCourse.doc.id.toUrl(),
