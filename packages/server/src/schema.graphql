@@ -44,6 +44,7 @@ input CreateProjectInput {
   description: String!
   github: String!
   name: String!
+  tags: [ProjectTagInput!]!
 }
 
 input CreateQuestInput {
@@ -51,8 +52,14 @@ input CreateQuestInput {
   description: String!
   gitbook: String!
   level: String!
+  name: String!
   preRequisites: [String!]!
-  title: String!
+}
+
+input CreateTagInput {
+  color: String!
+  description: String!
+  name: String!
 }
 
 """
@@ -69,13 +76,18 @@ type Mutation {
 
   """Create a new Quest in Discovery"""
   createQuest(input: CreateQuestInput!): Quest
+
+  """Create a new Tag in Discovery"""
+  createTag(input: CreateTagInput!): Tag
 }
 
 type Project {
-  categories: [String!]
   color: String
   contract_address: String
   courses: [Course!]
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
   description: String!
   discord: String
   github: String!
@@ -85,9 +97,18 @@ type Project {
   name: String!
   peerProjects: [String!]
   repos: [String!]
+  tags: [Tag!]
   twitter: String
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
   websites: [Website!]
   whitepaper: String
+}
+
+input ProjectTagInput {
+  id: String!
+  name: String!
 }
 
 type Query {
@@ -103,6 +124,9 @@ type Query {
   """Gets all the quests in Discovery"""
   getAllQuests: [Quest!]
 
+  """Gets all the tags in Discovery"""
+  getAllTags: [Tag!]
+
   """Gets a user by ID and returns its informations"""
   getUserById(input: UserDIDInput!): User
 
@@ -113,9 +137,36 @@ type Query {
 type Quest {
   completedBy: [String!]
   courseId: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
   description: String!
   id: String!
-  title: String!
+  name: String!
+  nfts: [QuestNFT!]
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+type QuestNFT {
+  cid: String!
+  name: String!
+  rarityTreshold: Int!
+  url: String!
+}
+
+type Tag {
+  color: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  description: String!
+  id: String!
+  name: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
 }
 
 input TokenInput {
@@ -124,9 +175,15 @@ input TokenInput {
 
 type User {
   confirmed: Boolean!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
   did: String!
   ethAddresses: [String!]!
   restricted: Boolean!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
 }
 
 input UserDIDInput {

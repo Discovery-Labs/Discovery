@@ -18,9 +18,15 @@ export const CoursesSchema = {
             title: 'title',
             maxLength: 100,
           },
-          isBranched: {
-            type: 'boolean',
-            title: 'isBranched',
+          courseType: {
+            type: {
+              enum: ["branched", "decrypted"]
+            },
+          },
+          difficulty: {
+            type: {
+              enum: ["beginner", "intermediate", "advanced", "expert", "wizard"]
+            },
           },
           projects: {
             type: 'array',

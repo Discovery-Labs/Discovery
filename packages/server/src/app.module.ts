@@ -20,6 +20,7 @@ import { KnowsisController } from './core/controllers/knowsis.controller';
 import { DefinitionsController } from './core/controllers/definitions.controller';
 import { CourseModule } from './entities/Courses/Course.module';
 import { QuestModule } from './entities/Quests/Quest.module';
+import { TagModule } from './entities/Tags/Tag.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { QuestModule } from './entities/Quests/Quest.module';
     ProjectModule,
     CourseModule,
     QuestModule,
+    TagModule,
   ],
   controllers: [
     AppController,

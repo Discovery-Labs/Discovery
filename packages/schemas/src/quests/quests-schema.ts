@@ -23,8 +23,9 @@ export const QuestsSchema = {
           },
           completedBy: {
             type: 'array',
+            title: 'completedBy',
             items: {
-              $ref: '#/definitions/CeramicStreamId',
+              type: 'string',
             }
           },
         },

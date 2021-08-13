@@ -26,7 +26,7 @@ export class GetAllQuestsResolver {
           }
           return {
             id: quest.id,
-            title: quest.title,
+            name: quest.name,
             ...record.state.content,
           };
         }),
