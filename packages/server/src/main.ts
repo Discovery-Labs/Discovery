@@ -51,7 +51,6 @@ async function bootstrap() {
   });
 
   app.use((req: Context['req'], _res: Context['res'], next: NextFunction) => {
-    console.log(req.path);
     req.ceramicClient = ceramicClient;
     next();
   });

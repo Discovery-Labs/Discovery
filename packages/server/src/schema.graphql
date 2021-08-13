@@ -92,6 +92,9 @@ type Mutation {
 
   """Create a new Tag in Discovery"""
   createTag(input: CreateTagInput!): Tag
+
+  """Submits quest answers"""
+  submitQuestAnswers(input: QuestAnswersSubmitionInput!): Boolean!
 }
 
 type Project {
@@ -140,6 +143,15 @@ type Query {
   """Gets all the tags in Discovery"""
   getAllTags: [Tag!]
 
+  """Gets a course by its Stream ID"""
+  getCourseById(courseId: String!): Course
+
+  """Gets a project by its Stream ID"""
+  getProjectById(projectId: String!): Project
+
+  """Gets a quest by its Stream ID"""
+  getQuestById(questId: String!): Quest
+
   """Gets a user by ID and returns its informations"""
   getUserById(input: UserDIDInput!): User
 
@@ -149,6 +161,7 @@ type Query {
 
 type Quest {
   completedBy: [String!]
+  course: Course!
   courseId: String!
 
   """Identifies the date and time when the object was created."""
@@ -163,11 +176,21 @@ type Quest {
   updatedAt: DateTime!
 }
 
+input QuestAnswersSubmitionInput {
+  questId: String!
+  questionAnswers: [QuestQuestionAnswerInput!]!
+}
+
 type QuestNFT {
   claimedBy: [String!]!
   name: String!
   rarity: RarityEnum!
   url: String!
+}
+
+input QuestQuestionAnswerInput {
+  answer: String!
+  question: String!
 }
 
 input QuestQuestionInput {

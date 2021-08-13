@@ -1,23 +1,12 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsDefined, IsNotEmpty, IsArray } from 'class-validator';
+import { IsDefined, IsNotEmpty, IsArray } from 'class-validator';
+import { QuestQuestionAnswerInput } from './QuestQuestionAnswer.input';
 
 @InputType()
-export class QuestQuestionInput {
-  @Field()
-  @IsString({ message: 'wrong.type' })
-  @IsDefined({ message: 'not.defined' })
-  @IsNotEmpty({ message: 'not.empty' })
-  question: string;
-
+export class QuestQuestionInput extends QuestQuestionAnswerInput {
   @Field(() => [String])
   @IsArray({ message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })
   choices: string[];
-
-  @Field()
-  @IsString({ message: 'wrong.type' })
-  @IsDefined({ message: 'not.defined' })
-  @IsNotEmpty({ message: 'not.empty' })
-  answer: string;
 }

@@ -27,10 +27,12 @@ export class CreateQuestResolver {
     @Args('input') quest: CreateQuestInput,
   ): Promise<Quest | null | undefined> {
     const questionsWithHashedAnswer = await Promise.all(
-      quest.questions.map(async (question) => generateHash(question.answer)),
+      quest.questions.map(async (question) => ({
+        ...question,
+        answer: await generateHash(question.answer),
+      })),
     );
 
-    console.log({ questionsWithHashedAnswer });
     const createdQuest = await createCeramicDocument(ceramicClient, {
       data: {
         ...quest,

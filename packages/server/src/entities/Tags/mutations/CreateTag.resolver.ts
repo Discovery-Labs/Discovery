@@ -29,14 +29,12 @@ export class CreateTagResolver {
       family: 'tag',
       schema: ceramicClient.schemasCommitId['tag'],
     });
-    console.log({ createdTag });
     if (!createdTag) {
       return null;
     }
 
     const existingTags = await ceramicClient.idx.get<TagsList>('tags');
     const tags = existingTags?.tags ?? [];
-    console.log({ existingTags });
 
     await ceramicClient.idx.set('tags', {
       tags: [
