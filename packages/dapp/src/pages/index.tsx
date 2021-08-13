@@ -195,7 +195,10 @@ const Home = (props: Cards) => {
                 // bgGradient="linear(to-l, #7928CA, #FF0080)"
                 // bgClip="text"
               >
-                Discovery Pathways
+                Discovery {' '}
+                <Box as="span" bgGradient="linear(to-l, pink.200, purple.900)" bgClip="text">
+                  Pathways
+                </Box>
               </Heading>
               <Popover
                 popoverTextElement={PROJECTS_POPOVER_TEXT}
@@ -217,9 +220,9 @@ const Home = (props: Cards) => {
                 color="white"
                 bg="black"
                 _hover={{
-                  bgGradient: 'linear(to-r, red.500, yellow.500)',
+                  bgGradient: 'linear(to-r, blue.700, pink.100)',
                 }}>
-                GO TO PATHS
+                USE PATHWAYS
               </Button>
               <Button borderRadius="full">GITHUB</Button>
             </HStack>
@@ -263,7 +266,7 @@ const Home = (props: Cards) => {
               color="white"
               bg="black"
               _hover={{
-                bgGradient: 'linear(to-r, red.500, yellow.500)',
+                bgGradient: 'linear(to-r, blue.700, pink.100)',
               }}>
               GO TO PATHS
             </Button>
