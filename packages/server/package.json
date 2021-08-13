@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Server for services such as Ceramic and Web3 & NFT Storage",
   "author": "Cali93 <armut.cumaali@gmail.com>",
   "private": true,
@@ -27,7 +27,7 @@
     "@ceramicnetwork/streamid": "^1.0.2",
     "@ceramicstudio/idx": "^0.12.1",
     "@ceramicstudio/idx-tools": "^0.11.0",
-    "@discovery-decrypted/schemas": "^0.1.19",
+    "@discovery-decrypted/schemas": "^0.1.20",
     "@nestjs/axios": "^0.0.1",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^1.0.1",
