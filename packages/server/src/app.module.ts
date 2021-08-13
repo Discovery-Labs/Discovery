@@ -21,6 +21,7 @@ import { DefinitionsController } from './core/controllers/definitions.controller
 import { CourseModule } from './entities/Courses/Course.module';
 import { QuestModule } from './entities/Quests/Quest.module';
 import { TagModule } from './entities/Tags/Tag.module';
+import { CeramicController } from './core/controllers/validate-quest-completion.controller';
 
 @Module({
   imports: [
@@ -64,6 +65,7 @@ import { TagModule } from './entities/Tags/Tag.module';
     HealthController,
     KnowsisController,
     DefinitionsController,
+    CeramicController,
   ],
   providers: [AppService, ConfigService],
 })

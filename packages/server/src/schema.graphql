@@ -3,26 +3,31 @@
 # ------------------------------------------------------
 
 type Course {
+  courseType: CourseTypeEnum!
+
   """Identifies the date and time when the object was created."""
   createdAt: DateTime!
   description: String!
+  difficulty: CourseDifficultyEnum!
   gitbook: String!
   id: String!
-  projects: [Project!]
+  projects: [Project!]!
   quests: [Quest!]!
   title: String!
-  type: CourseEnum!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
 }
 
 """
-Branched = theorical lessons and Decrypted = technical hands on lessons
+The difficulty of a course, from beginner to wizard where wizard is the most difficult mode
 """
-enum CourseEnum {
-  BRANCHED
-  DECRYPTED
+enum CourseDifficultyEnum {
+  ADVANCED
+  BEGINNER
+  EXPERT
+  INTERMEDIATE
+  WIZARD
 }
 
 input CourseProjectInput {
@@ -30,11 +35,20 @@ input CourseProjectInput {
   name: String!
 }
 
+"""
+Branched = theorical lessons and Decrypted = technical hands on lessons
+"""
+enum CourseTypeEnum {
+  BRANCHED
+  DECRYPTED
+}
+
 input CreateCourseInput {
+  courseType: String!
   description: String!
+  difficulty: String!
   gitbook: String!
-  level: String!
-  preRequisiteCourses: [String!]!
+  preRequisiteCourses: [String!]
   projects: [CourseProjectInput!]!
   title: String!
 }
@@ -50,10 +64,9 @@ input CreateProjectInput {
 input CreateQuestInput {
   courseId: String!
   description: String!
-  gitbook: String!
-  level: String!
   name: String!
-  preRequisites: [String!]!
+  preRequisites: [String!]
+  questions: [QuestQuestionInput!]!
 }
 
 input CreateTagInput {
@@ -144,16 +157,39 @@ type Quest {
   id: String!
   name: String!
   nfts: [QuestNFT!]
+  questions: [Question!]!
 
   """Identifies the date and time when the object was last updated."""
   updatedAt: DateTime!
 }
 
 type QuestNFT {
-  cid: String!
+  claimedBy: [String!]!
   name: String!
-  rarityTreshold: Int!
+  rarity: RarityEnum!
   url: String!
+}
+
+input QuestQuestionInput {
+  answer: String!
+  choices: [String!]!
+  question: String!
+}
+
+type Question {
+  answer: String!
+  choices: [String!]!
+  question: String!
+}
+
+"""
+Rarity of the NFT, from lowest to highest rarity: common, uncommon, epic, legendary
+"""
+enum RarityEnum {
+  COMMON
+  EPIC
+  LEGENDARY
+  UNCOMMON
 }
 
 type Tag {

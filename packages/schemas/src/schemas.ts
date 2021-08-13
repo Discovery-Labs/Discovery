@@ -9,6 +9,8 @@ import { QuestSchema } from './quests/quest-schema';
 import { QuestsSchema } from './quests/quests-schema';
 import { RepoSchema } from './repos/repo-schema';
 import { ReposSchema } from './repos/repos-schema';
+import { TagSchema } from './tags/tag-schema';
+import { TagsSchema } from './tags/tags-schema';
 
 export const schemas = {
     discovery: {
@@ -22,5 +24,7 @@ export const schemas = {
         learners: Learners,
         repos: ReposSchema,
         repo: RepoSchema,
+        tags: TagsSchema,
+        tag: TagSchema,
     }
 };

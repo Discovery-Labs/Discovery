@@ -1,68 +1,67 @@
 export const QuestSchema = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'Quest',
-  description: 'A quest is a challenge that certifies the knowledge aquired during a course',
-  type: 'object',
+  $schema: "http://json-schema.org/draft-07/schema#",
+  title: "Quest",
+  description: "A quest is a challenge that certifies the knowledge aquired during a course",
+  type: "object",
   properties: {
     createdAt: {
-      type: 'string',
-      format: 'date-time',
+      type: "string",
+      format: "date-time",
       maxLength: 30,
     },
     updatedAt: {
-      type: 'string',
-      format: 'date-time',
+      type: "string",
+      format: "date-time",
       maxLength: 30,
     },
     questions: {
-      type: 'array',
-      title: 'questions',
+      type: "array",
+      title: "questions",
       minItems: 3,
       items: {
-        type: 'object',
-        title: 'questionItem',
+        type: "object",
+        title: "questionItem",
         properties: {
           choices: {
-            type: 'array',
-            title: 'choices',
+            type: "array",
+            title: "choices",
             minItems: 2,
             maxItems: 10,
             items: {
-              type: 'string',
+              type: "string",
               maxLength: 500
             }
           },
           question: {
-            type: 'string',
+            type: "string",
             maxLength: 500
           },
           answer: {
-            type: 'string',
+            type: "string",
             maxLength: 200
           }
         },
       }
     },
     nfts: {
-      type: 'array',
+      type: "array",
       minItems: 1,
       items: {
-        type: 'object',
+        type: "object",
         properties: {
           claimedBy: {
-            type: 'array',
-            title: 'claimedBy',
+            type: "array",
+            title: "claimedBy",
             items: {
-              type: 'string',
+              type: "string",
             }
           },
           rarity: {
-            type: {
-              enum: ["common", "uncommon", "epic", "legendary"]
-            },
+            type: "string",
+            enum: ["common", "uncommon", "epic", "legendary"]
           },
           name: {
-            type: 'string',
+            type: "string",
             maxLength: 200
           },
           url: {

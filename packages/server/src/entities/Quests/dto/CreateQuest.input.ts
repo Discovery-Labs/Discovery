@@ -1,6 +1,13 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsDefined, IsNotEmpty, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsDefined,
+  IsNotEmpty,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
 import { Question } from './Question';
+import { QuestQuestionInput } from './QuestQuestion.input';
 
 @InputType()
 export class CreateQuestInput {
@@ -22,13 +29,14 @@ export class CreateQuestInput {
   @IsNotEmpty({ message: 'not.empty' })
   description: string;
 
-  @Field(() => [Question])
+  @Field(() => [QuestQuestionInput])
   @IsArray({ message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })
   questions: Question[];
 
-  @Field(() => [String])
+  @Field(() => [String], { nullable: true })
   @IsArray({ message: 'wrong.type' })
+  @IsOptional()
   preRequisites?: string[];
 }

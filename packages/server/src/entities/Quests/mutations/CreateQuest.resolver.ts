@@ -1,6 +1,7 @@
 import { TileDocument } from '@ceramicnetwork/stream-tile';
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UseCeramicClient } from '../../../core/decorators/UseCeramicClient.decorator';
+import { generateHash } from '../../../core/utils/security/hash';
 import { Ceramic } from '../../../core/utils/security/types';
 import { createCeramicDocument } from '../../../services/ceramic/ceramic.service';
 import { CreateQuestInput } from '../dto/CreateQuest.input';
@@ -25,8 +26,16 @@ export class CreateQuestResolver {
     @UseCeramicClient() ceramicClient: Ceramic,
     @Args('input') quest: CreateQuestInput,
   ): Promise<Quest | null | undefined> {
+    const questionsWithHashedAnswer = await Promise.all(
+      quest.questions.map(async (question) => generateHash(question.answer)),
+    );
+
+    console.log({ questionsWithHashedAnswer });
     const createdQuest = await createCeramicDocument(ceramicClient, {
-      data: quest,
+      data: {
+        ...quest,
+        questions: questionsWithHashedAnswer,
+      },
       family: 'quest',
       schema: ceramicClient.schemasCommitId['quest'],
     });

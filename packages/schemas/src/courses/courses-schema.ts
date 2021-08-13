@@ -1,64 +1,62 @@
 export const CoursesSchema = {
-  $schema: 'http://json-schema.org/draft-07/schema#',
-  title: 'CoursesList',
-  type: 'object',
+  $schema: "http://json-schema.org/draft-07/schema#",
+  title: "CoursesList",
+  type: "object",
   properties: {
     courses: {
-      type: 'array',
-      title: 'courses',
+      type: "array",
+      title: "courses",
       items: {
-        type: 'object',
-        title: 'CourseItem',
+        type: "object",
+        title: "CourseItem",
         properties: {
           id: {
-            $ref: '#/definitions/CeramicStreamId',
+            $ref: "#/definitions/CeramicStreamId",
           },
           title: {
-            type: 'string',
-            title: 'title',
+            type: "string",
+            title: "title",
             maxLength: 100,
           },
           courseType: {
-            type: {
-              enum: ["branched", "decrypted"]
-            },
+            type: "string",
+            enum: ["branched", "decrypted"]
           },
           difficulty: {
-            type: {
-              enum: ["beginner", "intermediate", "advanced", "expert", "wizard"]
-            },
+            type: "string",
+            enum: ["beginner", "intermediate", "advanced", "expert", "wizard"]
           },
           projects: {
-            type: 'array',
-            title: 'projects',
+            type: "array",
+            title: "projects",
             items: {
-              type: 'object',
-              title: 'ProjectItem',
+              type: "object",
+              title: "ProjectItem",
               properties: {
                 id: {
-                  $ref: '#/definitions/CeramicStreamId',
+                  $ref: "#/definitions/CeramicStreamId",
                 },
                 title: {
-                  type: 'string',
-                  title: 'title',
+                  type: "string",
+                  title: "title",
                   maxLength: 100,
                 },
               },
             },
           },
           quests: {
-            type: 'array',
-            title: 'quests',
+            type: "array",
+            title: "quests",
             items: {
-              type: 'object',
-              title: 'QuestItem',
+              type: "object",
+              title: "QuestItem",
               properties: {
                 id: {
-                  $ref: '#/definitions/CeramicStreamId',
+                  $ref: "#/definitions/CeramicStreamId",
                 },
                 name: {
-                  type: 'string',
-                  title: 'name',
+                  type: "string",
+                  title: "name",
                   maxLength: 100,
                 },
               },
@@ -70,8 +68,8 @@ export const CoursesSchema = {
   },
   definitions: {
     CeramicStreamId: {
-      type: 'string',
-      pattern: '^ceramic://.+(\\\\?version=.+)?',
+      type: "string",
+      pattern: "^ceramic://.+(\\\\?version=.+)?",
       maxLength: 150,
     },
   },
