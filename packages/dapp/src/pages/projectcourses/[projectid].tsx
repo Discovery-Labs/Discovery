@@ -16,9 +16,11 @@ import {
   AccordionPanel,
   AccordionIcon,
   Button,
+  SimpleGrid,
 } from '@chakra-ui/react'
 
 import { FiExternalLink } from 'react-icons/fi'
+import GridCard from '../../components/grid-card'
 
 import PageTransition from '../../components/page-transitions'
 import Container from '../../components/container'
@@ -71,10 +73,11 @@ const ProjectPage = () => {
                     <Divider orientation="horizontal" />
                   </VStack>
                 ))}
-                <VStack w="100%" align="stretch">
-
-              <Button colorScheme="blackAlpha" isDisabled>Mint NFT</Button>
-                </VStack>
+              <VStack w="100%" align="stretch">
+                <Button colorScheme="blackAlpha" isDisabled>
+                  Mint NFT
+                </Button>
+              </VStack>
             </Box>
             <Box w="250px" />
           </VStack>
@@ -147,7 +150,25 @@ const ProjectPage = () => {
                 </Accordion>
               </>
             ) : (
-              <Text>Select a course to get started</Text>
+              <VStack>
+                <Heading as="h2" size="xl">
+                  Select a course to get started
+                </Heading>
+                <SimpleGrid columns={[2, null, 3]} spacing={4}>
+                  {project &&
+                    project.courses.map((course) => (
+                      <Box as="button" alignContent="start" onClick={() => setCourse(course)}>
+                        <GridCard
+                          bgColor="yellow"
+                          tags={[{ id: 'bsc ', name: 'BSC', color: 'yellow' }]}
+                          key={course.id}
+                          name={course.title}
+                          description={course.description}
+                        />
+                      </Box>
+                    ))}
+                </SimpleGrid>
+              </VStack>
             )}
           </VStack>
         </HStack>

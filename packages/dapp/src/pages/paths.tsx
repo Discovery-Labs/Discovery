@@ -148,22 +148,26 @@ const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> 
             <SimpleGrid columns={[2, null, 3]} spacing={4}>
               {sortedProjects.length !== 0
                 ? sortedProjects.map((el) => (
-                    <GridCard
-                      bgColor={el.color}
-                      tags={el.tags}
-                      key={el.name}
-                      name={el.name}
-                      description={el.description}
-                    />
+                    <a href={'/projectcourses/example'}>
+                      <GridCard
+                        bgColor={el.color}
+                        tags={el.tags}
+                        key={el.name}
+                        name={el.name}
+                        description={el.description}
+                      />
+                    </a>
                   ))
                 : projects.map((el) => (
-                    <GridCard
-                      bgColor={el.color}
-                      tags={el.tags}
-                      key={el.name}
-                      name={el.name}
-                      description={el.description}
-                    />
+                    <a href={'/projectcourses/example'}>
+                      <GridCard
+                        bgColor={el.color}
+                        tags={el.tags}
+                        key={el.name}
+                        name={el.name}
+                        description={el.description}
+                      />
+                    </a>
                   ))}
             </SimpleGrid>
           </VStack>
