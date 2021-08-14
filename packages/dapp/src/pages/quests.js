@@ -229,8 +229,6 @@ storeIPFS = async () => {
   alert(hash);
   this.state.counter++;
   this.setState({dbText : ""});*/
-
-
 }
 
 returnData = async () => {
