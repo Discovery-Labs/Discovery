@@ -1,22 +1,14 @@
 import React from 'react'
-import {
-  HStack,
-  VStack,
-  Text,
-  useColorModeValue,
-  Box,
-  Heading,
-  Badge,
-  Link,
-} from '@chakra-ui/react'
-import Image from './image'
+import { HStack, VStack, Text, useColorModeValue, Heading, Badge } from '@chakra-ui/react'
 import { FiUser, FiThumbsUp } from 'react-icons/fi'
+import { Tag } from '../pages/paths'
 interface Card {
   name: string
   description: string
+  tags: Array<Tag>
 }
 
-const GridCard = ({ name, description }: Card) => {
+const GridCard = ({ name, description, tags }: Card) => {
   return (
     <a href="/">
       <VStack
@@ -36,13 +28,19 @@ const GridCard = ({ name, description }: Card) => {
         overflow="hidden"
         align="start"
         spacing={0}>
-        <Badge fontSize="8px" colorScheme="green">
-          Wallet
-        </Badge>
+        {tags &&
+          tags.length > 0 &&
+          tags.map((tag) => (
+            <Badge key={tag.id} fontSize="8px" colorScheme="green">
+              {tag.name}
+            </Badge>
+          ))}
         <Heading as="h4" size="sm">
-        {name}
+          {name}
         </Heading>
-        <Text fontSize="sm" color={useColorModeValue('gray.700', 'gray.100')}>{description}</Text>
+        <Text fontSize="sm" color={useColorModeValue('gray.700', 'gray.100')}>
+          {description}
+        </Text>
         <HStack>
           <FiUser />
           <Text fontSize="sm">2354</Text>

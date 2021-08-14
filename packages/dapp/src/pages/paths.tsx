@@ -5,7 +5,6 @@ import {
   Text,
   Heading,
   SimpleGrid,
-  Button,
   Box,
   Divider,
   Checkbox,
@@ -19,93 +18,58 @@ import PageTransition from '../components/page-transitions'
 import Container from '../components/container'
 import { useEffect, useState } from 'react'
 
-import { Popover } from '../components/Popover'
 import banner from '../images/banner.png'
 import GridCard from '../components/grid-card'
 
-// import { addApolloState, initializeApollo } from '../../lib/apolloClient'
-// import { ALL_PROJECTS_QUERY } from '../graphql/projects'
+import { addApolloState, initializeApollo } from '../../lib/apolloClient'
+import { ALL_PROJECTS_QUERY } from '../graphql/projects'
+import { ALL_TAGS_QUERY } from '../graphql/tags'
 
-// export async function getStaticProps() {
-// const apolloClient = initializeApollo()
-// const projects = await apolloClient.query({
-//   query: ALL_PROJECTS_QUERY,
-// })
-// return addApolloState(apolloClient, {
-//   props: {
-//     projects: projects.data.getAllProjects,
-//   },
-//   revalidate: 600,
-// })
-// }
+export async function getStaticProps() {
+  const apolloClient = initializeApollo()
+  const projects = await apolloClient.query({
+    query: ALL_PROJECTS_QUERY,
+  })
+  const tags = await apolloClient.query({
+    query: ALL_TAGS_QUERY,
+  })
 
-// interface Cards {
-//   projects: [
-//     {
-//       name: string
-//       description: string
-//       categories: string[]
-//       github: string
-//       color: string
-//     }
-//   ]
-// }
+  console.log({
+    projects: projects.data.getAllProjects,
+    pjTags: projects.data.getAllProjects[0].tags,
+  })
+  return addApolloState(apolloClient, {
+    props: {
+      projects: projects.data.getAllProjects,
+      tags: tags.data.getAllTags,
+    },
+    revalidate: 600,
+  })
+}
+
+export interface Tag {
+  id: string
+  name: string
+  color: string
+}
 
 interface Project {
   name: string
   description: string
-  categories: string[]
+  tags: Array<Tag>
   github: string
 }
 
-// const Paths = (props: Cards) => {
-const Paths = () => {
-  const [sortedProjects, setSortedProjects] = useState<Project[]>([])
-
+const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> }) => {
+  const [sortedProjects, setSortedProjects] = useState<Array<Project>>([])
+  const [filter] = useState(() => tags.map((tag) => tag.name))
   useEffect(() => {
     console.log(sortedProjects)
   })
-  const projects = [
-    {
-      id: '1',
-      name: 'Metamask',
-      description: 'All the ethereum scaling solutions',
-      categories: ['wallets'],
-      github: 'https://google.com',
-    },
-    {
-      id: '2',
-      name: 'Chainlink',
-      description: 'All the ethereum scaling solutions',
-      categories: ['defi'],
-      github: 'https://google.com',
-    },
-    {
-      id: '3',
-      name: 'Polygon',
-      description: 'All the ethereum scaling solutions',
-      categories: ['derivatives', 'defi'],
-      github: 'https://google.com',
-    },
-    {
-      id: '4',
-      name: 'Polygon',
-      description: 'All the ethereum scaling solutions',
-      categories: ['security'],
-      github: 'https://google.com',
-    },
-    {
-      id: '5',
-      name: 'Polygon',
-      description: 'All the ethereum scaling solutions',
-      categories: ['privacy'],
-      github: 'https://google.com',
-    },
-  ]
 
-  function handleCheckbox(e: string[]) {
-    const newSortedProjects = projects.filter(function (el) {
-      return el.categories.some((category) => e.includes(category))
+  function handleCheckbox(e: Array<string>) {
+    const newSortedProjects = projects.filter((el: Project) => {
+      return el.tags && el.tags.some((tag) => e.includes(tag.name))
     })
     setSortedProjects(newSortedProjects)
     console.log(newSortedProjects)
@@ -121,28 +85,24 @@ const Paths = () => {
                 CATEGORIES
               </Heading>
               <Divider orientation="horizontal" />
-              <CheckboxGroup
-                onChange={(e: string[]) => handleCheckbox(e)}
-                colorScheme="green"
-                defaultValue={['wallets', 'derivatives', 'defi', 'security', 'privacy']}>
-                <VStack align="start" pt="12px">
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="wallets">
-                    Wallets
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="derivatives">
-                    Derivatives
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="defi">
-                    DeFi
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="security">
-                    Security
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="privacy">
-                    Privacy
-                  </Checkbox>
-                </VStack>
-              </CheckboxGroup>
+              {tags && tags.length > 0 && (
+                <CheckboxGroup
+                  onChange={(e: Array<string>) => handleCheckbox(e)}
+                  colorScheme="green"
+                  defaultValue={filter}>
+                  <VStack align="start" pt="12px">
+                    {tags.map((tag) => (
+                      <Checkbox
+                        key={tag.id}
+                        icon={<FiCircle />}
+                        colorScheme={tag.color}
+                        value={tag.name}>
+                        {tag.name}
+                      </Checkbox>
+                    ))}
+                  </VStack>
+                </CheckboxGroup>
+              )}
               {/* Difficuty */}
               <Heading as="h4" size="md" pt="24px" pb="6px">
                 Difficulty
@@ -158,6 +118,12 @@ const Paths = () => {
                   </Checkbox>
                   <Checkbox icon={<FiCircle />} colorScheme="cyan" value="advanced">
                     Advanced
+                  </Checkbox>
+                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="expert">
+                    Expert
+                  </Checkbox>
+                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="wizar">
+                    Wizard
                   </Checkbox>
                 </VStack>
               </CheckboxGroup>
@@ -182,9 +148,21 @@ const Paths = () => {
               {/* Need a new solution here, I am going to sleep */}
               {sortedProjects.length !== 0
                 ? sortedProjects.map((el) => (
-                    <GridCard name={el.name} description={el.description} />
+                    <GridCard
+                      tags={el.tags}
+                      key={el.name}
+                      name={el.name}
+                      description={el.description}
+                    />
                   ))
-                : projects.map((el) => <GridCard name={el.name} description={el.description} />)}
+                : projects.map((el) => (
+                    <GridCard
+                      tags={el.tags}
+                      key={el.name}
+                      name={el.name}
+                      description={el.description}
+                    />
+                  ))}
             </SimpleGrid>
           </VStack>
         </HStack>
