@@ -2,13 +2,15 @@ import React from 'react'
 import { HStack, VStack, Text, useColorModeValue, Heading, Badge } from '@chakra-ui/react'
 import { FiUser, FiThumbsUp } from 'react-icons/fi'
 import { Tag } from '../pages/paths'
+import Image from 'next/image'
 interface Card {
   name: string
+  bgColor: string
   description: string
   tags: Array<Tag>
 }
 
-const GridCard = ({ name, description, tags }: Card) => {
+const GridCard = ({ name, description, tags, bgColor }: Card) => {
   return (
     <a href="/">
       <VStack
@@ -16,7 +18,7 @@ const GridCard = ({ name, description, tags }: Card) => {
         py="12px"
         rounded="xl"
         borderWidth="1px"
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={useColorModeValue(`${bgColor}.100`, `${bgColor}.800`)}
         borderColor={useColorModeValue('gray.100', 'gray.700')}
         transition="all 0.25s"
         transition-timing-function="spring(1 100 10 10)"
@@ -35,10 +37,19 @@ const GridCard = ({ name, description, tags }: Card) => {
               {tag.name}
             </Badge>
           ))}
-        <Heading as="h4" size="sm">
-          {name}
-        </Heading>
-        <Text fontSize="sm" color={useColorModeValue('gray.700', 'gray.100')}>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Heading as="h2" size="lg" mr="5">
+            {name}
+          </Heading>
+          <Image alt="" src={`/${name.toLowerCase()}-logo.png`} width="65" height="65" />
+        </div>
+        <Text fontSize="md" fontWeight="semibold" color={useColorModeValue('gray.700', 'gray.100')}>
           {description}
         </Text>
         <HStack>

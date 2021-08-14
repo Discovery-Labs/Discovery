@@ -56,6 +56,7 @@ export interface Tag {
 interface Project {
   name: string
   description: string
+  color: string
   tags: Array<Tag>
   github: string
 }
@@ -149,6 +150,7 @@ const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> 
               {sortedProjects.length !== 0
                 ? sortedProjects.map((el) => (
                     <GridCard
+                      bgColor={el.color}
                       tags={el.tags}
                       key={el.name}
                       name={el.name}
@@ -157,6 +159,7 @@ const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> 
                   ))
                 : projects.map((el) => (
                     <GridCard
+                      bgColor={el.color}
                       tags={el.tags}
                       key={el.name}
                       name={el.name}
