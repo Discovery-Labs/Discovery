@@ -1,4 +1,4 @@
-![discovery-simple](https://user-images.githubusercontent.com/32299095/129428669-2201fd4a-d1e3-496a-b54d-4ab1e4703e4e.png)
+![discovery-simple-small](https://user-images.githubusercontent.com/32299095/129428743-302d37de-8d5e-478e-8003-f043c5a7c97c.png)
 
 # Discovery
 
