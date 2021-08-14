@@ -9,7 +9,7 @@ import { Box, ChakraProvider } from '@chakra-ui/react'
 import Header from '../components/header'
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../../lib/apolloClient'
-
+import './App.css'
 const GlobalStyle = createGlobalStyle`
   @font-face {
     font-family: Segment;
