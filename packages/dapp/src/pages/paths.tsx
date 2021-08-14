@@ -145,7 +145,6 @@ const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> 
               </Box>
             </HStack>
             <SimpleGrid columns={[2, null, 3]} spacing={4}>
-              {/* Need a new solution here, I am going to sleep */}
               {sortedProjects.length !== 0
                 ? sortedProjects.map((el) => (
                     <GridCard
