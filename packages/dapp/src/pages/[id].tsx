@@ -22,7 +22,7 @@ import twitterIcon from '../images/icons/social-twitter.svg'
 import { BRAND_COLOR, PLACEHOLDER_COLOR } from '../theme'
 import { isEthereumAddress, isSupportedDid } from '../utils'
 
-import { Box, Heading, HStack, Link, Text, VStack } from '@chakra-ui/react'
+import { Box, Heading, HStack, Link, Text, VStack, useColorModeValue } from '@chakra-ui/react'
 import SocialCard from '../components/social-card'
 const ETH_CHAIN_ID = `@eip155:1`
 
@@ -34,9 +34,7 @@ export function getImageURL(
   sources: ImageSources | undefined,
   dimensions: Dimensions
 ): string | undefined {
-  return sources
-    ? getImageSrc(sources, dimensions)
-    : 'https://images.unsplash.com/photo-1579546929662-711aa81148cf?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JhZGllbnR8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=60'
+  return sources ? getImageSrc(sources, dimensions) : '/super-shadowy-coder.png'
 }
 
 const ConnectSettingsButton = dynamic(() => import('../client/components/ConnectSettingsButton'), {
@@ -206,7 +204,7 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
     return <NoProfile id={id} support={support} />
   }
 
-  const name = profile.name ?? '(no name)'
+  const name = profile.name ?? 'Super Shadowy Coder'
 
   const description = profile.description ? <Text>{profile.description}</Text> : null
 
@@ -295,17 +293,15 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
       )
     })
     socialContainer = (
-      <>
-        <VStack justify="center" p="6">
-          <Box d="flex" alignItems="baseline">
-            <Heading as="h2" size="xl" px="2">
-              Social
-            </Heading>
-            <ConnectEditSocialAccountsButton did={id} />
-          </Box>
-        </VStack>
-        {socialItems}
-      </>
+      <VStack w="100%" align="center" py="6">
+        <Box d="flex" alignItems="baseline">
+          <Heading as="h2" size="xl" px="2">
+            Social
+          </Heading>
+          <ConnectEditSocialAccountsButton did={id} />
+        </Box>
+        <Box minW={{ base: '440px', md: '500px', lg: '560px' }}>{socialItems}</Box>
+      </VStack>
     )
   }
 
@@ -320,41 +316,38 @@ export default function ProfilePage({ id, loadedProfile, socialAccounts, support
         {metaImage}
       </Head>
 
-      <VStack spacing={8} alignItems="center">
-        <Section>
-          {/* <Box pos="absolute">
-            <Header url={getImageURL(profile.background, { height: 310, width: 2000 })}></Header>
-          </Box> */}
-          <HStack spacing={8} justify="center" pt="-20">
+      <Section>
+        <DisplayDID>
+          <HStack>
             <Box bg="white" color="gray.900" rounded="full" p={1}>
               {avatar}
             </Box>
+            <VStack align="start">
+              <Heading
+                as="h2"
+                size="xl"
+                bgGradient={useColorModeValue(
+                  'linear(to-l, pink.700, purple.900)',
+                  'linear(to-l, pink.200, purple.700)'
+                )}
+                bgClip="text">
+                {name}
+                {profile.emoji ? ` ${profile.emoji}` : null}
+              </Heading>
+              <Text fontSize="sm" color={useColorModeValue('gray.600', 'gray.200')}>
+                {id}
+              </Text>
+              <ConnectSettingsButton did={id} />
+            </VStack>
           </HStack>
-          <Box align="center" pt="6">
-            <Heading as="h2" size="xl" color="pink.400">
-              {name}
-              {profile.emoji ? ` ${profile.emoji}` : null}
-            </Heading>
-          </Box>
-          <DisplayDID />
-          <Box align="center" pt="2" fontSize="md" color="gray.500">
-            <Text color="neutral-4" align="center">
-              {id}
-            </Text>
-          </Box>
-          <Box align="center" pt="6">
-            <ConnectSettingsButton did={id} />
-          </Box>
-          <Box align="center" pt="2">
-            {description}
-            <HStack justify="space-between" p="8">
-              {linksContainer}
-              {locationContainer}
-            </HStack>
-            {socialContainer}
-          </Box>
-        </Section>
-      </VStack>
+          <Text>{description}</Text>
+          {/* <HStack justify="space-between" p="8">
+            {linksContainer}
+            {locationContainer}
+          </HStack> */}
+          {socialContainer}
+        </DisplayDID>
+      </Section>
     </PageTransition>
   )
 }
