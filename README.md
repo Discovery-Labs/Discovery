@@ -1,3 +1,5 @@
+![discovery-simple](https://user-images.githubusercontent.com/32299095/129428669-2201fd4a-d1e3-496a-b54d-4ab1e4703e4e.png)
+
 # Discovery
 
 Discovery - a gamified learning platform where members of the official protocols team collaborate with content creators and researchers, developers or security experts to create high-quality courses that are built around open source trustable and verifiable content. These communities allow learners to take courses in groups or individually, at their own pace, to spread their knowledge and goodwill by becoming mentors, to take charge of their own learning by voting on community proposals or building on the protocols.
