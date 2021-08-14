@@ -35,6 +35,24 @@ export const ProjectsSchema = {
                 },
               },
             },
+          },
+          tags: {
+            type: 'array',
+            title: 'tags',
+            items: {
+              type: 'object',
+              title: 'TagItem',
+              properties: {
+                id: {
+                  $ref: '#/definitions/CeramicStreamId',
+                },
+                name: {
+                  type: 'string',
+                  title: 'name',
+                  maxLength: 100,
+                },
+              },
+            },
           }
         },
       },

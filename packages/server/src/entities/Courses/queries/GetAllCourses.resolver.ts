@@ -28,6 +28,7 @@ export class GetAllCoursesResolver {
             id: course.id,
             title: course.title,
             ...record.state.content,
+            quests: record.state.next?.content.quests,
           };
         }),
       );

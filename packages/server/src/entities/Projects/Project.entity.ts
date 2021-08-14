@@ -1,10 +1,12 @@
 import { ObjectType, Field } from '@nestjs/graphql';
+import { BaseEntity } from '../../core/entities/BaseEntity';
 import { Course } from '../Courses/Course.entity';
+import { Tag } from '../Tags/Tag.entity';
 import { Website } from './dto/WebSite';
 
 export type CeramicStreamId = string;
 @ObjectType()
-export class Project {
+export class Project extends BaseEntity {
   @Field()
   id: string;
 
@@ -41,8 +43,8 @@ export class Project {
   @Field(() => Boolean)
   is_featured?: boolean;
 
-  @Field(() => [String])
-  categories?: CeramicStreamId[];
+  @Field(() => [Tag])
+  tags?: Tag[];
 
   @Field(() => [Course])
   courses?: Course[];

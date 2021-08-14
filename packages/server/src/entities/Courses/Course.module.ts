@@ -5,6 +5,7 @@ import { RedisModule } from '../../core/resources/Redis/Redis.module';
 
 import { GetAllCoursesResolver } from './queries/GetAllCourses.resolver';
 import { CreateCourseResolver } from './mutations/CreateCourse.resolver';
+import { GetCourseByIdResolver } from './queries/GetCourseById.resolver';
 
 @Module({
   imports: [
@@ -14,7 +15,11 @@ import { CreateCourseResolver } from './mutations/CreateCourse.resolver';
       maxRedirects: 10,
     }),
   ],
-  providers: [GetAllCoursesResolver, CreateCourseResolver],
+  providers: [
+    GetAllCoursesResolver,
+    CreateCourseResolver,
+    GetCourseByIdResolver,
+  ],
   exports: [],
 })
 export class CourseModule {}

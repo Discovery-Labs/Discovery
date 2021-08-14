@@ -33,12 +33,6 @@ export const ProjectSchema = {
     is_featured: {
       type: "boolean"
     },
-    categories: {
-      type: "array",
-      items: {
-        $ref: "#/definitions/CeramicStreamId"
-      }
-    },
     repos: {
       type: "array",
       items: {

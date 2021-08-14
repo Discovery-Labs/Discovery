@@ -1,5 +1,12 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsString, IsDefined, IsNotEmpty, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsDefined,
+  IsNotEmpty,
+  IsArray,
+  IsEnum,
+} from 'class-validator';
+import { CourseDifficultyEnum, CourseTypeEnum } from '../Course.entity';
 import { CourseProjectInput } from './CourseProjectInput';
 
 @InputType()
@@ -23,16 +30,20 @@ export class CreateCourseInput {
   gitbook: string;
 
   @Field()
-  @IsString({ message: 'wrong.type' })
+  @IsEnum(CourseDifficultyEnum, { message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })
-  level: string;
+  difficulty: CourseDifficultyEnum;
+
+  @Field()
+  @IsEnum(CourseTypeEnum, { message: 'wrong.type' })
+  @IsDefined({ message: 'not.defined' })
+  @IsNotEmpty({ message: 'not.empty' })
+  courseType: CourseTypeEnum;
 
   @Field(() => [String])
   @IsArray({ message: 'wrong.type' })
-  @IsDefined({ message: 'not.defined' })
-  @IsNotEmpty({ message: 'not.empty' })
-  preRequisiteCourses: string[];
+  preRequisiteCourses?: string[];
 
   @Field(() => [CourseProjectInput])
   @IsArray({ message: 'wrong.type' })

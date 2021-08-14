@@ -3,15 +3,29 @@ import { BaseEntity } from '../../core/entities/BaseEntity';
 import { Project } from '../Projects/Project.entity';
 import { Quest } from '../Quests/Quest.entity';
 
-export enum CourseEnum {
-  BRANCHED = 'BRANCHED',
-  DECRYPTED = 'DECRYPTED',
+export enum CourseTypeEnum {
+  BRANCHED = 'branched',
+  DECRYPTED = 'decrypted',
 }
 
-registerEnumType(CourseEnum, {
-  name: 'CourseEnum',
+export enum CourseDifficultyEnum {
+  BEGINNER = 'beginner',
+  INTERMEDIATE = 'intermediate',
+  ADVANCED = 'advanced',
+  EXPERT = 'expert',
+  WIZARD = 'wizard',
+}
+
+registerEnumType(CourseTypeEnum, {
+  name: 'CourseTypeEnum',
   description:
     'Branched = theorical lessons and Decrypted = technical hands on lessons',
+});
+
+registerEnumType(CourseDifficultyEnum, {
+  name: 'CourseDifficultyEnum',
+  description:
+    'The difficulty of a course, from beginner to wizard where wizard is the most difficult mode',
 });
 
 export type CeramicStreamId = string;
@@ -29,12 +43,15 @@ export class Course extends BaseEntity {
   @Field()
   description: string;
 
-  @Field(() => CourseEnum)
-  type: CourseEnum;
+  @Field(() => CourseTypeEnum)
+  courseType: CourseTypeEnum;
+
+  @Field(() => CourseDifficultyEnum)
+  difficulty: CourseDifficultyEnum;
 
   @Field(() => [Quest])
   quests: Quest[];
 
   @Field(() => [Project])
-  projects?: Project[];
+  projects: Project[];
 }
