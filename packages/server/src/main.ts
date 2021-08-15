@@ -55,17 +55,6 @@ async function bootstrap() {
     next();
   });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      validationError: {
-        target: false,
-        value: true,
-      },
-      exceptionFactory: (errors: ValidationError[]) =>
-        new BadRequestException(errors),
-      forbidNonWhitelisted: true,
-    }),
-  );
   const configService = app.get(ConfigService);
   const corsConfig = configService.get<CorsConfig>('cors');
   const swaggerConfig = configService.get<SwaggerConfig>('swagger');
@@ -86,6 +75,18 @@ async function bootstrap() {
   if (corsConfig?.enabled) {
     app.enableCors();
   }
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      validationError: {
+        target: false,
+        value: true,
+      },
+      exceptionFactory: (errors: ValidationError[]) =>
+        new BadRequestException(errors),
+      forbidNonWhitelisted: true,
+    }),
+  );
   await app.listen(port, () => {
     Logger.log(`${protocol()}://${hostname}/health`, 'REST API');
     Logger.log(`${protocol()}://${hostname}/graphql`, 'GraphQL API');

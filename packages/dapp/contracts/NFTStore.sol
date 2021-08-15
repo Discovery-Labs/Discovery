@@ -14,13 +14,20 @@ contract NFTStore is Ownable{
         mapping (address => bool) public childNFTs;
         mapping (address => bool) public whiteList;
         mapping (address => bool) private blackList;
+        mapping (string => bool) public approvedQuests;
+        string[] public allQuests;
 
         event NFTAdded(address indexed added, uint indexed timeAdded);
+        event QuestApproved(string indexed questName);
 
         constructor(address[] memory _admins) public{
             for (uint i = 0; i<_admins.length; i++){
                 admins[_admins[i]] = true;
             }
+        }
+
+        receive() external payable {
+
         }
 
         modifier onlyNFTContract(){
@@ -52,6 +59,16 @@ contract NFTStore is Ownable{
             whiteList[_address] = false;
             //possibly emit event
         }
+
+        function addApprovedQuest(string memory _quest) public onlyAdmins{
+            require(!approvedQuests[_quest], "quest already approved");
+            approvedQuests[_quest] = true;
+            allQuests.push(_quest);
+            emit QuestApproved(_quest);
+        }
         
+        function getQuests() public view returns(string[] memory){
+            return allQuests;
+        }
         
 }

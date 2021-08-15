@@ -12,7 +12,7 @@ type Course {
   gitbook: String!
   id: String!
   projects: [Project!]!
-  quests: [Quest!]!
+  quests: [Quest!]
   title: String!
 
   """Identifies the date and time when the object was last updated."""

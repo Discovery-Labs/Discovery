@@ -15,3 +15,32 @@ export const ALL_PROJECTS_QUERY = gql`
     }
   }
 `
+
+export const PROJECT_BY_ID_QUERY = gql`
+  query GetProjectById($projectId: String!) {
+    getProjectById(projectId: $projectId) {
+      id
+      name
+      description
+      color
+      tags {
+        id
+        name
+      }
+      courses {
+        id
+        title
+        description
+        courseType
+        difficulty
+        quests {
+          questions {
+            answer
+            question
+            choices
+          }
+        }
+      }
+    }
+  }
+`
