@@ -85,7 +85,7 @@ const ProjectPage = ({ project }: any) => {
                 Overview
               </Heading>
               <Divider orientation="horizontal" />
-              {project &&
+              {project?.courses &&
                 project.courses.map((course, i) => (
                   <VStack align="start" pt="12px" spacing={0} p="2">
                     <Box as="button" alignContent="start" onClick={() => setCourse(course)}>

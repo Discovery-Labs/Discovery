@@ -17,14 +17,13 @@ export class SubmitQuestAnswersResolver {
     @UseCeramicClient() ceramicClient: Ceramic,
     @Args('input') answerSubmition: QuestAnswersSubmitionInput,
   ): Promise<boolean> {
-    const questDoc = (await TileDocument.load(
-      ceramicClient.ceramic,
+    const questDetails = await ceramicClient.ceramic.loadStream(
       answerSubmition.questId,
-    )) as any;
-    if (!questDoc) {
+    );
+    if (!questDetails) {
       return false;
     }
-    const questions = questDoc.content.questions;
+    const questions = questDetails.state.content.questions;
     const submittedHashedAnswers = await Promise.all(
       answerSubmition.questionAnswers.map(async (qa) => {
         const rightHashedAnswer = questions.find(
@@ -36,15 +35,22 @@ export class SubmitQuestAnswersResolver {
     );
     const isSuccess = submittedHashedAnswers.every((result) => result);
     if (isSuccess) {
-      const alreadyCompletedBy = questDoc.content.completedBy ?? [];
-      const isAlreadyCompletedByUser = questDoc.content.completedBy.some(
+      const alreadyCompletedBy =
+        questDetails.state.next?.content.completedBy ?? [];
+      console.log(alreadyCompletedBy);
+      const isAlreadyCompletedByUser = alreadyCompletedBy.some(
         (user: string) => user === answerSubmition.did,
       );
       if (isAlreadyCompletedByUser) return false;
+      const questDoc = await TileDocument.load(
+        ceramicClient.ceramic,
+        answerSubmition.questId,
+      );
       await questDoc.update({
-        id: questDoc.id.toUrl(),
-        ...questDoc.content,
-        completedBy: new Set([...alreadyCompletedBy, answerSubmition.did]),
+        completedBy:
+          alreadyCompletedBy && alreadyCompletedBy.length > 0
+            ? new Set([alreadyCompletedBy, answerSubmition.did])
+            : [answerSubmition.did],
       });
     }
     return isSuccess;
