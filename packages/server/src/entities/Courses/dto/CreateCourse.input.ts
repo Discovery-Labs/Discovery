@@ -29,13 +29,13 @@ export class CreateCourseInput {
   @IsNotEmpty({ message: 'not.empty' })
   gitbook: string;
 
-  @Field()
+  @Field(() => CourseDifficultyEnum)
   @IsEnum(CourseDifficultyEnum, { message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })
   difficulty: CourseDifficultyEnum;
 
-  @Field()
+  @Field(() => CourseTypeEnum)
   @IsEnum(CourseTypeEnum, { message: 'wrong.type' })
   @IsDefined({ message: 'not.defined' })
   @IsNotEmpty({ message: 'not.empty' })

@@ -44,9 +44,9 @@ enum CourseTypeEnum {
 }
 
 input CreateCourseInput {
-  courseType: String!
+  courseType: CourseTypeEnum!
   description: String!
-  difficulty: String!
+  difficulty: CourseDifficultyEnum!
   gitbook: String!
   preRequisiteCourses: [String!]
   projects: [CourseProjectInput!]!
