@@ -34,11 +34,13 @@ export const PROJECT_BY_ID_QUERY = gql`
         courseType
         difficulty
         quests {
+          id
           questions {
             answer
             question
             choices
           }
+          completedBy
         }
       }
     }

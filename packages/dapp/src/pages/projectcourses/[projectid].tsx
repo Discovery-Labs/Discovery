@@ -41,10 +41,6 @@ const ProjectPage = () => {
     console.log(router.query.projectid)
   }
 
-  useEffect(() => {
-    setProject(requestedProject)
-  })
-
   return (
     <PageTransition>
       <Container>
@@ -71,10 +67,11 @@ const ProjectPage = () => {
                     <Divider orientation="horizontal" />
                   </VStack>
                 ))}
-                <VStack w="100%" align="stretch">
-
-              <Button colorScheme="blackAlpha" isDisabled>Mint NFT</Button>
-                </VStack>
+              <VStack w="100%" align="stretch">
+                <Button colorScheme="blackAlpha" isDisabled>
+                  Mint NFT
+                </Button>
+              </VStack>
             </Box>
             <Box w="250px" />
           </VStack>

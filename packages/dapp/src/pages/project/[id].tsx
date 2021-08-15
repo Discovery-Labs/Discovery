@@ -1,26 +1,40 @@
+import React from 'react'
 import {
-  Box,
-  Checkbox,
-  CheckboxGroup,
-  Divider,
-  Heading,
-  HStack,
-  SimpleGrid,
-  Text,
   VStack,
+  HStack,
+  Text,
+  Heading,
+  Box,
+  Divider,
+  useColorModeValue,
+  Badge,
+  AvatarGroup,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Button,
+  AvatarBadge,
 } from '@chakra-ui/react'
-import Head from 'next/head'
-import Image from 'next/image'
-import { FiChevronsRight, FiCircle } from 'react-icons/fi'
-import { addApolloState, initializeApollo } from '../../../lib/apolloClient'
-import OpenGraphMeta from '../../components/OpenGraphMeta'
-import PageTransition from '../../components/page-transitions'
-import Section from '../../components/section'
-import { ALL_PROJECTS_QUERY, PROJECT_BY_ID_QUERY } from '../../graphql/projects'
-import banner from '../../images/banner.png'
-import CourseGridCard from '../../components/course-grid-card'
-import Container from '../../components/container'
+import dynamic from 'next/dynamic'
+import { FiExternalLink } from 'react-icons/fi'
 
+import PageTransition from '../../components/page-transitions'
+import Container from '../../components/container'
+import RadioButtons from '../../components/radio-buttons'
+import { useState } from 'react'
+
+import { Course } from './interfaces'
+import { addApolloState, initializeApollo } from '../../../lib/apolloClient'
+import { ALL_PROJECTS_QUERY, PROJECT_BY_ID_QUERY } from '../../graphql/projects'
+
+const SubmitQuestAnswersButton = dynamic(
+  () => import('../../client/components/SubmitQuestAnswersButton'),
+  {
+    ssr: false,
+  }
+)
 // This function gets called at build time
 export async function getStaticPaths() {
   // Call an external API endpoint to get projects
@@ -50,8 +64,6 @@ export async function getStaticProps({ params }: { params: Record<string, string
     },
   })
 
-  console.log(project.data.getProjectById.courses)
-
   return addApolloState(apolloClient, {
     props: {
       project: project.data.getProjectById,
@@ -59,101 +71,125 @@ export async function getStaticProps({ params }: { params: Record<string, string
     revalidate: 600,
   })
 }
-const Project = ({ project }: any) => {
+const ProjectPage = ({ project }: any) => {
+  const [course, setCourse] = useState<Course>()
+  const [questionAnswers, setQuestionAnswer] = useState<Array<Record<string, string>>>()
+
   return (
     <PageTransition>
-      <Head>
-        <title>Discovery | {project.name}</title>
-        <OpenGraphMeta />
-      </Head>
-      <VStack spacing={8} mb={10}>
-        <Section>
-          <Heading size="xl" margin={{ horizontal: 'none', vertical: 'small' }}>
-            {project.name}
-          </Heading>
-          <Heading size="md" margin={{ horizontal: 'none', vertical: 'small' }}>
-            {project.description}
-          </Heading>
-        </Section>
-      </VStack>
       <Container>
         <HStack spacing={6} align="start">
           <VStack>
             <Box position="fixed" w="250px">
-              {/* Categories */}
               <Heading as="h4" size="md" pt="24px" pb="6px">
-                PATH
+                Overview
               </Heading>
               <Divider orientation="horizontal" />
-              <CheckboxGroup
-                colorScheme="green"
-                // onChange={(e: Array<string>) => handleCheckbox(e)}
-                // defaultValue={filter}
-              >
-                <VStack align="start" pt="12px">
-                  <Checkbox icon={<FiCircle />} colorScheme="blue" value="branched">
-                    Branch&apos;ed
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="blue" value="decrypted">
-                    Decrypt&apos;ed
-                  </Checkbox>
-                </VStack>
-              </CheckboxGroup>
-              {/* Difficuty */}
-              <Heading as="h4" size="md" pt="24px" pb="6px">
-                Difficulty
-              </Heading>
-              <Divider orientation="horizontal" />
-              <CheckboxGroup colorScheme="green" defaultValue={['beginner']}>
-                <VStack align="start" pt="12px">
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="beginner">
-                    Beginner
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="intermediate">
-                    Intermediate
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="advanced">
-                    Advanced
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="expert">
-                    Expert
-                  </Checkbox>
-                  <Checkbox icon={<FiCircle />} colorScheme="cyan" value="wizar">
-                    Wizard
-                  </Checkbox>
-                </VStack>
-              </CheckboxGroup>
+              {project &&
+                project.courses.map((course, i) => (
+                  <VStack align="start" pt="12px" spacing={0} p="2">
+                    <Box as="button" alignContent="start" onClick={() => setCourse(course)}>
+                      <VStack align="start" spacing={0}>
+                        <Text fontWeight="bold" fontSize="md">
+                          Course {i + 1}
+                        </Text>
+                        <Text fontSize="md"> {course.title} </Text>
+                        <Text fontSize="sm"> {course.difficulty} </Text>
+                      </VStack>
+                    </Box>
+                    <Divider orientation="horizontal" />
+                  </VStack>
+                ))}
+              <VStack w="100%" align="stretch">
+                <Button colorScheme="blackAlpha" isDisabled>
+                  Mint NFT
+                </Button>
+              </VStack>
             </Box>
-            {/* Space for fixed filter bar */}
             <Box w="250px" />
           </VStack>
           <VStack w="100%" align="stretch">
-            <Image src={banner} alt="ethereum"></Image>
-            <HStack w="100%" align="baseline" justify="space-between">
-              <Heading as="h2" size="xl">
-                All courses
-              </Heading>
-              <Box d="flex">
-                <Text fontSize="sm" color="gray.500">
-                  SELL ALL
-                </Text>
-                <FiChevronsRight size={24} />
-              </Box>
-            </HStack>
-            <SimpleGrid columns={[2, null, 3]} spacing={4}>
-              {project.courses &&
-                project.courses.length > 0 &&
-                project.courses.map((el: any) => (
-                  <CourseGridCard
-                    id={el.id.split('//')[1]}
-                    key={el.id}
-                    title={el.title}
-                    difficulty={el.difficulty}
-                    courseType={el.courseType}
-                    description={el.description}
-                  />
-                ))}
-            </SimpleGrid>
+            {course ? (
+              <>
+                <VStack
+                  align="center"
+                  rounded="xl"
+                  borderWidth="1px"
+                  py="6"
+                  spacing={0}
+                  color={useColorModeValue('white', 'black')}
+                  bgGradient={useColorModeValue(
+                    'linear(to-l, pink.700, purple.900)',
+                    'linear(to-l, pink.200, purple.700)'
+                  )}>
+                  <Badge fontSize="8px" colorScheme="gray">
+                    {course.difficulty}
+                  </Badge>
+                  <Heading as="h2" size="3xl" p={4}>
+                    {course.title}
+                  </Heading>
+                  <Heading as="h3" size="l">
+                    Description
+                  </Heading>
+                  <Text>{course.description}</Text>
+                  <HStack align="baseline" spacing="2" pt={6}>
+                    <a href={course.gitbook}>GitBook</a> <FiExternalLink />
+                  </HStack>
+                </VStack>
+                <VStack align="start">
+                  <Heading as="h2" size="xl">
+                    Course Content
+                  </Heading>
+                  <Box d="flex">
+                    <Text fontSize="sm" color="gray.500">
+                      {course?.quests.length} Quests
+                    </Text>
+                  </Box>
+                </VStack>
+                <Accordion allowToggle>
+                  {course &&
+                    course.quests.map((quest: any, i: number) => (
+                      <AccordionItem key={quest.id}>
+                        <AccordionButton>
+                          <Box flex="1" textAlign="left">
+                            <Text fontWeight="bold" fontSize="md">
+                              Quest {i + 1} {' : '}
+                            </Text>
+                            <Text fontSize="lg"> {quest.name} </Text>
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                        <AccordionPanel pb={4}>
+                          <Text fontSize="md"> {quest.description} </Text>
+                          {quest.questions.map((quiz: any, i: number) => (
+                            <RadioButtons
+                              key={i}
+                              quiz={quiz}
+                              setQuestionAnswer={setQuestionAnswer}
+                            />
+                          ))}
+
+                          <SubmitQuestAnswersButton
+                            setQuestionAnswer={setQuestionAnswer}
+                            questionAnswers={questionAnswers}
+                            questId={quest.id}
+                          />
+
+                          <Text fontSize="md"> Completed by </Text>
+                          <AvatarGroup size="sm" max={2} p="2">
+                            {quest.completedBy &&
+                              quest.completedBy.map((user: string) => (
+                                <AvatarBadge key={user} name={user} />
+                              ))}
+                          </AvatarGroup>
+                        </AccordionPanel>
+                      </AccordionItem>
+                    ))}
+                </Accordion>
+              </>
+            ) : (
+              <Text>Select a course to get started</Text>
+            )}
           </VStack>
         </HStack>
       </Container>
@@ -161,4 +197,4 @@ const Project = ({ project }: any) => {
   )
 }
 
-export default Project
+export default ProjectPage

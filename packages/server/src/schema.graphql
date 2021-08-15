@@ -177,6 +177,7 @@ type Quest {
 }
 
 input QuestAnswersSubmitionInput {
+  did: String!
   questId: String!
   questionAnswers: [QuestQuestionAnswerInput!]!
 }
