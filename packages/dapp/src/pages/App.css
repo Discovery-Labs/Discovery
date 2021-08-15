@@ -1,0 +1,45 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(16px);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.columns {
+  display:flex; 
+  justify-content:flex-start; 
+  margin-top:1em;
+  align-items:center
+}
+
+.mini-container{
+  width : 100%;
+}
+
+.mini-columns {
+  display:flex; 
+  justify-content:flex-start; 
+  margin-top:0.5em;
+  align-items:center
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,3 +1,4 @@
+import { TileDocument } from '@ceramicnetwork/stream-tile';
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UseCeramicClient } from '../../../core/decorators/UseCeramicClient.decorator';
 import { compareHash } from '../../../core/utils/security/hash';
@@ -16,10 +17,14 @@ export class SubmitQuestAnswersResolver {
     @UseCeramicClient() ceramicClient: Ceramic,
     @Args('input') answerSubmition: QuestAnswersSubmitionInput,
   ): Promise<boolean> {
-    const quest = await ceramicClient.ceramic.loadStream(
+    const questDoc = (await TileDocument.load(
+      ceramicClient.ceramic,
       answerSubmition.questId,
-    );
-    const questions = quest.state.content.questions;
+    )) as any;
+    if (!questDoc) {
+      return false;
+    }
+    const questions = questDoc.content.questions;
     const submittedHashedAnswers = await Promise.all(
       answerSubmition.questionAnswers.map(async (qa) => {
         const rightHashedAnswer = questions.find(
@@ -30,6 +35,18 @@ export class SubmitQuestAnswersResolver {
       }),
     );
     const isSuccess = submittedHashedAnswers.every((result) => result);
+    if (isSuccess) {
+      const alreadyCompletedBy = questDoc.content.completedBy ?? [];
+      const isAlreadyCompletedByUser = questDoc.content.completedBy.some(
+        (user: string) => user === answerSubmition.did,
+      );
+      if (isAlreadyCompletedByUser) return false;
+      await questDoc.update({
+        id: questDoc.id.toUrl(),
+        ...questDoc.content,
+        completedBy: new Set([...alreadyCompletedBy, answerSubmition.did]),
+      });
+    }
     return isSuccess;
   }
 }

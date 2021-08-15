@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Divider, VStack, useRadioGroup, useToast, Text, Button } from '@chakra-ui/react'
 import RadioCard from './radio-card'
 
-const RadioButtons = ({ quiz }: any) => {
+const RadioButtons = ({ quiz, setQuestionAnswer }: any) => {
   const toast = useToast()
   const [chosen, setChosen] = useState('')
   const { getRootProps, getRadioProps } = useRadioGroup({
@@ -10,6 +10,11 @@ const RadioButtons = ({ quiz }: any) => {
     defaultValue: 'default',
     onChange: (nextValue: string) => {
       setChosen(nextValue)
+      setQuestionAnswer((currentState: any) => {
+        return currentState
+          ? [...currentState, { question: quiz.question, answer: nextValue }]
+          : [{ question: quiz.question, answer: nextValue }]
+      })
       console.log(nextValue)
     },
   })
@@ -20,7 +25,7 @@ const RadioButtons = ({ quiz }: any) => {
       console.log('Correct')
       toast({
         title: `Correct!`,
-        status: "success",
+        status: 'success',
         isClosable: true,
       })
     } else {
@@ -31,17 +36,20 @@ const RadioButtons = ({ quiz }: any) => {
   return (
     <VStack {...group} py="6">
       <Text>{quiz.question}</Text>
-      {quiz.choices.map((choice: string) => {
-        const radio = getRadioProps({ value: choice })
-        return (
-          <RadioCard key={choice} {...radio}>
-            {choice}
-          </RadioCard>
-        )
-      })}
-      <Button colorScheme="pink" onClick={verifyResult}>
-        Verify
-      </Button>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}>
+        {quiz.choices.map((choice: string) => {
+          const radio = getRadioProps({ value: choice })
+          return (
+            <RadioCard key={choice} {...radio}>
+              {choice}
+            </RadioCard>
+          )
+        })}
+      </div>
       <Divider orientation="horizontal" />
     </VStack>
   )

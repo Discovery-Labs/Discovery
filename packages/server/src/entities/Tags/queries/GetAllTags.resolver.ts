@@ -15,7 +15,7 @@ export class GetAllTagsResolver {
     @UseCeramicClient() ceramicClient: Ceramic,
   ): Promise<Tag[] | null | undefined> {
     const allDiscoveryTags = await ceramicClient.idx.get<TagsList>('tags');
-    if (allDiscoveryTags) {
+    if (allDiscoveryTags?.tags && allDiscoveryTags.tags.length > 0) {
       const mergedTags = await Promise.all(
         allDiscoveryTags?.tags.map(async (tag) => {
           const record = await ceramicClient.ceramic.loadStream(tag.id);

@@ -19,7 +19,7 @@ import Container from '../components/container'
 import { useEffect, useState } from 'react'
 
 import banner from '../images/banner.png'
-import GridCard from '../components/grid-card'
+import ProjectGridCard from '../components/project-grid-card'
 
 import { addApolloState, initializeApollo } from '../../lib/apolloClient'
 import { ALL_PROJECTS_QUERY } from '../graphql/projects'
@@ -36,7 +36,7 @@ export async function getStaticProps() {
 
   console.log({
     projects: projects.data.getAllProjects,
-    pjTags: projects.data.getAllProjects[0].tags,
+    tags: tags.data.getAllTags,
   })
   return addApolloState(apolloClient, {
     props: {
@@ -54,6 +54,7 @@ export interface Tag {
 }
 
 interface Project {
+  id: string
   name: string
   description: string
   color: string
@@ -63,7 +64,7 @@ interface Project {
 
 const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> }) => {
   const [sortedProjects, setSortedProjects] = useState<Array<Project>>([])
-  const [filter] = useState(() => tags.map((tag) => tag.name))
+  const [filter] = useState(() => (tags && tags.length > 0 ? tags.map((tag) => tag.name) : []))
   useEffect(() => {
     console.log(sortedProjects)
   })
@@ -148,26 +149,24 @@ const Paths = ({ projects, tags }: { projects: Array<Project>; tags: Array<Tag> 
             <SimpleGrid columns={[2, null, 3]} spacing={4}>
               {sortedProjects.length !== 0
                 ? sortedProjects.map((el) => (
-                    <a href={'/projectcourses/example'}>
-                      <GridCard
-                        bgColor={el.color}
-                        tags={el.tags}
-                        key={el.name}
-                        name={el.name}
-                        description={el.description}
-                      />
-                    </a>
+                    <ProjectGridCard
+                      id={el.id.split('//')[1]}
+                      bgColor={el.color}
+                      tags={el.tags}
+                      key={el.name}
+                      name={el.name}
+                      description={el.description}
+                    />
                   ))
                 : projects.map((el) => (
-                    <a href={'/projectcourses/example'}>
-                      <GridCard
-                        bgColor={el.color}
-                        tags={el.tags}
-                        key={el.name}
-                        name={el.name}
-                        description={el.description}
-                      />
-                    </a>
+                    <ProjectGridCard
+                      id={el.id.split('//')[1]}
+                      bgColor={el.color}
+                      tags={el.tags}
+                      key={el.name}
+                      name={el.name}
+                      description={el.description}
+                    />
                   ))}
             </SimpleGrid>
           </VStack>

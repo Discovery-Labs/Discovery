@@ -50,7 +50,7 @@ export class Course extends BaseEntity {
   difficulty: CourseDifficultyEnum;
 
   @Field(() => [Quest])
-  quests: Quest[];
+  quests?: Quest[];
 
   @Field(() => [Project])
   projects: Project[];

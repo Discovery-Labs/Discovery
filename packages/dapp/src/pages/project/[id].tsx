@@ -9,39 +9,71 @@ import {
   useColorModeValue,
   Badge,
   AvatarGroup,
-  Avatar,
   Accordion,
   AccordionItem,
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
   Button,
-  SimpleGrid,
+  AvatarBadge,
 } from '@chakra-ui/react'
-
+import dynamic from 'next/dynamic'
 import { FiExternalLink } from 'react-icons/fi'
-import GridCard from '../../components/grid-card'
 
 import PageTransition from '../../components/page-transitions'
 import Container from '../../components/container'
-import RadioCard from '../../components/radio-card'
 import RadioButtons from '../../components/radio-buttons'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { useRouter } from 'next/router'
+import { Course } from './interfaces'
+import { addApolloState, initializeApollo } from '../../../lib/apolloClient'
+import { ALL_PROJECTS_QUERY, PROJECT_BY_ID_QUERY } from '../../graphql/projects'
 
-import { Project, Course, CourseDifficultyEnum, RarityEnum } from './interfaces'
-import { requestedProject } from './requestDataExample'
-
-const ProjectPage = () => {
-  const router = useRouter()
-  const [project, setProject] = useState<Project>()
-  const [course, setCourse] = useState<Course>()
-
-  // Get Project ID for getProjectById
-  function getProjectId() {
-    console.log(router.query.projectid)
+const SubmitQuestAnswersButton = dynamic(
+  () => import('../../client/components/SubmitQuestAnswersButton'),
+  {
+    ssr: false,
   }
+)
+// This function gets called at build time
+export async function getStaticPaths() {
+  // Call an external API endpoint to get projects
+  const apolloClient = initializeApollo()
+  const projects = await apolloClient.query({
+    query: ALL_PROJECTS_QUERY,
+  })
+
+  // Get the paths we want to pre-render based on projects
+  const paths = projects.data.getAllProjects.map((project: any) => ({
+    params: { id: project.id.split('//')[1] },
+  }))
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false }
+}
+
+// This also gets called at build time
+export async function getStaticProps({ params }: { params: Record<string, string> }) {
+  const apolloClient = initializeApollo()
+  const projectId = `ceramic://${params.id}`
+  const project = await apolloClient.query({
+    query: PROJECT_BY_ID_QUERY,
+    variables: {
+      projectId,
+    },
+  })
+
+  return addApolloState(apolloClient, {
+    props: {
+      project: project.data.getProjectById,
+    },
+    revalidate: 600,
+  })
+}
+const ProjectPage = ({ project }: any) => {
+  const [course, setCourse] = useState<Course>()
+  const [questionAnswers, setQuestionAnswer] = useState<Array<Record<string, string>>>()
 
   return (
     <PageTransition>
@@ -49,7 +81,6 @@ const ProjectPage = () => {
         <HStack spacing={6} align="start">
           <VStack>
             <Box position="fixed" w="250px">
-              {/* Categories */}
               <Heading as="h4" size="md" pt="24px" pb="6px">
                 Overview
               </Heading>
@@ -117,7 +148,7 @@ const ProjectPage = () => {
                 </VStack>
                 <Accordion allowToggle>
                   {course &&
-                    course.quests.map((quest, i) => (
+                    course.quests.map((quest: any, i: number) => (
                       <AccordionItem key={quest.id}>
                         <AccordionButton>
                           <Box flex="1" textAlign="left">
@@ -130,15 +161,26 @@ const ProjectPage = () => {
                         </AccordionButton>
                         <AccordionPanel pb={4}>
                           <Text fontSize="md"> {quest.description} </Text>
-                          {quest.questions.map((quiz) => (
-                            <RadioButtons quiz={quiz}></RadioButtons>
+                          {quest.questions.map((quiz: any, i: number) => (
+                            <RadioButtons
+                              key={i}
+                              quiz={quiz}
+                              setQuestionAnswer={setQuestionAnswer}
+                            />
                           ))}
+
+                          <SubmitQuestAnswersButton
+                            setQuestionAnswer={setQuestionAnswer}
+                            questionAnswers={questionAnswers}
+                            questId={quest.id}
+                          />
 
                           <Text fontSize="md"> Completed by </Text>
                           <AvatarGroup size="sm" max={2} p="2">
-                            {quest.completedBy.map((user) => (
-                              <Avatar name={user} />
-                            ))}
+                            {quest.completedBy &&
+                              quest.completedBy.map((user: string) => (
+                                <AvatarBadge key={user} name={user} />
+                              ))}
                           </AvatarGroup>
                         </AccordionPanel>
                       </AccordionItem>
@@ -146,25 +188,7 @@ const ProjectPage = () => {
                 </Accordion>
               </>
             ) : (
-              <VStack>
-                <Heading as="h2" size="xl">
-                  Select a course to get started
-                </Heading>
-                <SimpleGrid columns={[2, null, 3]} spacing={4}>
-                  {project &&
-                    project.courses.map((course) => (
-                      <Box as="button" alignContent="start" onClick={() => setCourse(course)}>
-                        <GridCard
-                          bgColor="yellow"
-                          tags={[{ id: 'bsc ', name: 'BSC', color: 'yellow' }]}
-                          key={course.id}
-                          name={course.title}
-                          description={course.description}
-                        />
-                      </Box>
-                    ))}
-                </SimpleGrid>
-              </VStack>
+              <Text>Select a course to get started</Text>
             )}
           </VStack>
         </HStack>
@@ -172,4 +196,5 @@ const ProjectPage = () => {
     </PageTransition>
   )
 }
+
 export default ProjectPage

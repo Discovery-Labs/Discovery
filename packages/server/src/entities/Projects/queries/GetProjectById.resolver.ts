@@ -26,6 +26,12 @@ export class GetProjectByIdResolver {
         projectCourses.map(async (course: CourseItem) => {
           const fullCourse = await ceramicClient.ceramic.loadStream(course.id);
           const fullCourseQuests = fullCourse.state.next?.content.quests;
+          if (!fullCourseQuests) {
+            return {
+              id: course.id,
+              ...fullCourse.state.content,
+            };
+          }
           const fullQuests = await Promise.all(
             fullCourseQuests.map(async (quest: QuestItem) => {
               const fullQuest = await ceramicClient.ceramic.loadStream(
